@@ -9,12 +9,15 @@ export default class HomeScreen extends React.Component {
   }
 
   componentDidMount(){
-    return fetch('http://67.205.163.230:5000')
+    return fetch('http://67.205.163.230', {header: {
+      'Content-Type': 'application/json'}
+    })
       .then((response) => response.json())
       .then((responseJson) => {
 
         this.setState({
-          data: data
+          quality: responseJson.quality,
+          val: responseJson.val
         }, function(){
 
         });
@@ -26,7 +29,7 @@ export default class HomeScreen extends React.Component {
   }
     render() {
       return (
-        <Text> {this.state.data} </Text>
+        <Text> Quality: {this.state.quality} Val: {this.state.val}</Text>
       );
     }
   }
