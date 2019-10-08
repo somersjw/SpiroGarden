@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, ScrollView, FlatList } from 'react-native';
-
+import { Button, Text, View, FlatList } from 'react-native';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 
 export default class HomeScreen extends React.Component {
   constructor() {
@@ -29,7 +30,13 @@ export default class HomeScreen extends React.Component {
   }
     render() {
       return (
-        <Text> Quality: {this.state.quality} Val: {this.state.val}</Text>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        {/* <Text> Quality: {this.state.quality} Val: {this.state.val}</Text> */}
+        <Button
+        title="Hamburger Menu"
+        onPress={() => this.props.navigation.toggleDrawer()}
+      />
+      </View>
       );
     }
   }

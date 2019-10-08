@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React from 'react';
 import {
   SafeAreaView,
@@ -27,20 +19,17 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import HomeScreen from './components/HomeScreen';
 import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import { createDrawerNavigator } from 'react-navigation-drawer';
+import progress from './components/progress';
 
-// const App: () => React$Node = () => {
-//   return (
-//     <>
-//     <HomeScreen></HomeScreen>
-//     </>
-//   );
-// };
 
-const AppNavigator = createStackNavigator({
+const AppNavigator = createDrawerNavigator({
   Home: {
-    screen: HomeScreen,
+    screen: HomeScreen
   },
+  stats: {
+    screen: progress
+  }
 });
 
 
