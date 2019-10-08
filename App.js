@@ -26,14 +26,23 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import HomeScreen from './components/HomeScreen';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 
-const App: () => React$Node = () => {
-  return (
-    <>
-    <HomeScreen></HomeScreen>
-    </>
-  );
-};
+// const App: () => React$Node = () => {
+//   return (
+//     <>
+//     <HomeScreen></HomeScreen>
+//     </>
+//   );
+// };
+
+const AppNavigator = createStackNavigator({
+  Home: {
+    screen: HomeScreen,
+  },
+});
+
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -74,4 +83,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+const AppContainer = createAppContainer(AppNavigator);
+export default class App extends React.Component {
+  render() {
+    return <AppContainer />;
+  }
+}
+
