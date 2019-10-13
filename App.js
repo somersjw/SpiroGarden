@@ -27,7 +27,7 @@ const AppNavigator = createDrawerNavigator({
   Home: {
     screen: HomeScreen
   },
-  stats: {
+  Progress: {
     screen: progress
   }
 });
