@@ -2,6 +2,7 @@ import React from 'react';
 import { Image, Text, View, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import MyHeader from './MyHeader';
+import Countdown from './Countdown';
 
 export default class HomeScreen extends React.Component {
   constructor() {
@@ -45,7 +46,8 @@ export default class HomeScreen extends React.Component {
       val: json.val
     })
   }
-  Alert.alert("Done!");
+  // need to toggle the countdown "running" prop to true here
+  Alert.alert("finished")
 }
     render() {
       return (
@@ -54,6 +56,7 @@ export default class HomeScreen extends React.Component {
         <Text> Current Spriometer Values</Text>
         <Text> Quality: {this.state.quality} Val: {this.state.val}</Text>
         <Image source={require('./plant_1.png')} />
+        <Countdown/>
         <Button 
         title="Start Game"
         onPress={this.playGame}
