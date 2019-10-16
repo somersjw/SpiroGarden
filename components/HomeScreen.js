@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Text, View, Alert } from 'react-native';
+import { Image, Text, View, Alert, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 import MyHeader from './MyHeader';
 import Countdown from './Countdown';
@@ -51,17 +51,30 @@ export default class HomeScreen extends React.Component {
 }
     render() {
       return (
-        <View>
-        <MyHeader navigation={this.props.navigation} title="Home" />
-        <Text> Current Spriometer Values</Text>
-        <Text> Quality: {this.state.quality} Val: {this.state.val}</Text>
-        <Image source={require('./plant_1.png')} />
-        <Countdown/>
-        <Button 
-        title="Start Game"
-        onPress={this.playGame}
-        />
+        <View style={styles.container}>
+          <MyHeader navigation={this.props.navigation} title="Home"/>
+          <Text> Current Spriometer Values</Text>
+          <Text> Quality: {this.state.quality} Val: {this.state.val}</Text>
+          <Image source={require('./plant_1.png')} />
+          <Countdown/>
+          <Button 
+            buttonStyle={styles.startButton}
+            title="Start Game"
+            onPress={this.playGame}
+          />
       </View>
       );
     }
   }
+
+  const styles = StyleSheet.create({
+    startButton: {
+      textAlign: 'center',
+      backgroundColor: '#229637',
+      width: 125
+    },
+    container: {
+      alignItems: 'center',
+    }
+  });
+  

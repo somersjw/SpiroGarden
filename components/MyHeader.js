@@ -12,6 +12,10 @@ const MyHeader = props => {
         style: { color: "#fff", fontWeight: "bold" }
       }}
       statusBarProps={{ barStyle: "light-content" }}
+      containerStyle={{
+        backgroundColor: '#229637',
+        justifyContent: 'space-around',
+      }}
     />
   );
 };
