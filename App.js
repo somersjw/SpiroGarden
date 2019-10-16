@@ -21,6 +21,7 @@ import HomeScreen from './components/HomeScreen';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import progress from './components/progress';
+import Settings from './components/Settings';
 
 
 const AppNavigator = createDrawerNavigator({
@@ -29,6 +30,9 @@ const AppNavigator = createDrawerNavigator({
   },
   Progress: {
     screen: progress
+  },
+  Settings: {
+    screen: Settings
   }
 });
 

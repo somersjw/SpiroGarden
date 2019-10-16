@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Text, View, Alert } from 'react-native';
+import { Image, Text, View, Alert, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 import MyHeader from './MyHeader';
 import CountDown from 'react-native-countdown-component';
@@ -111,7 +111,7 @@ export default class HomeScreen extends React.Component {
   }
     render() {
       return (
-        <View>
+        <View style={styles.container}>
         <MyHeader navigation={this.props.navigation} title="Home" />
         <Text> Round: {this.state.round} </Text>
         { this.state.showPlant && <>
@@ -133,9 +133,22 @@ export default class HomeScreen extends React.Component {
             /> }
         {this.state.showButton && <Button 
         title="Start Game"
+        buttonStyle={styles.startButton}
         onPress={this.play10Times}
         />}
       </View>
       );
     }
   }
+
+  const styles = StyleSheet.create({
+    startButton: {
+      textAlign: 'center',
+      backgroundColor: '#229637',
+      width: 125
+    },
+    container: {
+      alignItems: 'center',
+    }
+  });
+  
