@@ -1,20 +1,27 @@
 import React from 'react';
-import { Image, Text, View, Alert, StyleSheet } from 'react-native';
+import { Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import MyHeader from './MyHeader';
 import CountDown from 'react-native-countdown-component';
 import styles from './styles';
 import Plant from './Plant';
+import { AsyncAlert, fetchSpiroData, getData, changePlant} from './gameFunctions';
 
 export default class HomeScreen extends React.Component {
   constructor() {
     super();
     this.state = {showPlant: true,showButton: true, timer: 6, round: 1};
     this.playGame = this.playGame.bind(this);
-    this.fetchSpiroData = this.fetchSpiroData.bind(this);
     this.intermission = this.intermission.bind(this);
     this.play10Times = this.play10Times.bind(this);
-    this.AsyncAlert = this.AsyncAlert.bind(this);
+  }
+
+  async componentDidMount() {
+    let plantLevel = parseInt(await getData('@plant_level'));
+    this.setState({
+      plantLevel: plantLevel
+    });
+    console.log(this.state.plantLevel);
   }
 
    async intermission() {
@@ -26,32 +33,7 @@ export default class HomeScreen extends React.Component {
       )
     );
   }
-
-  AsyncAlert(title, message) {
-    return new Promise((resolve, reject) => {
-        Alert.alert(
-            title,
-            message,
-            [
-                {text: "OK", onPress: () => { resolve('YES') }}
-            ],
-            { cancelable: false }
-        )
-    })
-  }
   
-  async fetchSpiroData(){
-    return new Promise(function(resolve, reject) {
-        fetch('http://67.205.163.230', {header: {
-          'Content-Type': 'application/json'}
-        })
-          .then((response) => resolve(response.json()))
-          .catch((error) =>{
-            console.error(error);
-          });
-    })
-}
-
   async resetGame() {
     this.setState({
       quality: 0,
@@ -71,9 +53,9 @@ export default class HomeScreen extends React.Component {
     let maxFlow = 67;
     let badCount = 0;
     let prevQuantity = 0;
-    let json = await this.fetchSpiroData();
+    let json = await fetchSpiroData();
     while (json.val < 97) {
-      json = await this.fetchSpiroData();
+      json = await fetchSpiroData();
       this.setState({
         quality: json.quality,
         val: json.val
@@ -97,25 +79,28 @@ export default class HomeScreen extends React.Component {
 }
   async play10Times() {
     this.setState({showButton: false})
-    while (this.state.round <= 10) {
-      let message = 'Bad Flow';
+    while (this.state.round <= 2) {
       await this.resetGame();
       if(await this.playGame()) {
-        this.setState({round: this.state.round + 1});
         await this.intermission();
-        await this.AsyncAlert("Success", "Move onto the next round.");
+        await AsyncAlert("Success", "Move onto the next round.");
+        this.setState({round: this.state.round + 1});
       }
       else {
-        await this.AsyncAlert("Try Again", "Make sure to keep within the good range");
+        await AsyncAlert("Try Again", "Make sure to keep within the good range");
       }
     }
-    this.setState({showButton: true})
+    this.setState({
+      showButton: true,
+      plantLevel: this.state.plantLevel + 1
+    })
+    changePlant(1);
   }
     render() {
       return (
         <View style={styles.container}>
         <MyHeader navigation={this.props.navigation} title="Home" />
-        <Text> Round: {this.state.round} </Text>
+        <Text> Round: {this.state.round} / 10</Text>
         { this.state.showPlant && <>
         <Text> Current Spriometer Values</Text>
         <Text> Quality: {this.state.quality} Val: {this.state.val}</Text>

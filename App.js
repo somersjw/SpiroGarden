@@ -1,27 +1,17 @@
 import React from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  Button,
-  Alert,
 } from 'react-native';
 
 import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
+  Colors
 } from 'react-native/Libraries/NewAppScreen';
 import HomeScreen from './components/HomeScreen';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import progress from './components/progress';
 import Settings from './components/Settings';
+import { changePlant } from './components/gameFunctions';
 
 
 const AppNavigator = createDrawerNavigator({
@@ -77,6 +67,7 @@ const styles = StyleSheet.create({
 });
 
 const AppContainer = createAppContainer(AppNavigator);
+console.disableYellowBox = true;
 export default class App extends React.Component {
   render() {
     return <AppContainer />;
