@@ -3,6 +3,8 @@ import { Image, Text, View, Alert, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 import MyHeader from './MyHeader';
 import CountDown from 'react-native-countdown-component';
+import styles from './styles';
+import Plant from './Plant';
 
 export default class HomeScreen extends React.Component {
   constructor() {
@@ -117,7 +119,7 @@ export default class HomeScreen extends React.Component {
         { this.state.showPlant && <>
         <Text> Current Spriometer Values</Text>
         <Text> Quality: {this.state.quality} Val: {this.state.val}</Text>
-        <Image source={require('./plant_1.png')} />
+        <Plant />
         </>
         }
         { !this.state.showPlant && 
@@ -140,16 +142,4 @@ export default class HomeScreen extends React.Component {
       );
     }
   }
-
-  const styles = StyleSheet.create({
-    startButton: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#229637',
-      width: 125
-    },
-    container: {
-      alignItems: 'center',
-    }
-  });
   
