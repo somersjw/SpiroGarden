@@ -143,7 +143,8 @@ export default class HomeScreen extends React.Component {
 
   const styles = StyleSheet.create({
     startButton: {
-      textAlign: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
       backgroundColor: '#229637',
       width: 125
     },
