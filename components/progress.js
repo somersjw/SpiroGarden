@@ -13,17 +13,12 @@ export default class progress extends React.Component {
       <View>
         <MyHeader navigation={this.props.navigation} title="Progress"/>
         <View style={styles.container}>
-          <View style={styles.buttonContainer}>
-            <Button onPress={this._onPress} title="Day" buttonStyle={styles.button}/>
-          </View>
-          <View style={styles.buttonContainer}>
-            <Button onPress={this._onPress} title="Week" buttonStyle={styles.button}/>
-          </View>
-          <View style={styles.buttonContainer}>
-            <Button onPress={this._onPress} title="Month" buttonStyle={styles.button}/>
-          </View>
+          <Button onPress={this._onPress} title="Day" buttonStyle={styles.button}/>
+          <Button onPress={this._onPress} title="Week" buttonStyle={styles.button}/>
+          <Button onPress={this._onPress} title="Month" buttonStyle={styles.button}/>
         </View>
-        
+        <Text>GOAL:</Text>
+        <Text>3 rounds per day</Text>
       </View>
       
     );
@@ -32,15 +27,12 @@ export default class progress extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-   flex: 1,
    flexDirection: 'row',
    alignItems: 'center',
    justifyContent: 'center',
    marginTop: 20,
   },
-  buttonContainer: {
-    flex: 1
-  },
+
   button: {
     backgroundColor: '#229637',
   }
