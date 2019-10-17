@@ -4,6 +4,7 @@ import { Button } from 'react-native-elements';
 import MyHeader from './MyHeader';
 import CountDown from 'react-native-countdown-component';
 import styles from './styles';
+import Plant from './Plant';
 
 export default class HomeScreen extends React.Component {
   constructor() {
@@ -118,7 +119,7 @@ export default class HomeScreen extends React.Component {
         { this.state.showPlant && <>
         <Text> Current Spriometer Values</Text>
         <Text> Quality: {this.state.quality} Val: {this.state.val}</Text>
-        <Image style={styles.image} source={require('./plant-dirt.png')} />
+        <Plant />
         </>
         }
         { !this.state.showPlant && 
