@@ -5,7 +5,7 @@ import MyHeader from './MyHeader';
 import CountDown from 'react-native-countdown-component';
 import styles from './styles';
 import Plant from './Plant';
-import { AsyncAlert, fetchSpiroData, getData, changePlant} from './gameFunctions';
+import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant } from './gameFunctions';
 
 export default class HomeScreen extends React.Component {
   constructor() {
@@ -17,11 +17,12 @@ export default class HomeScreen extends React.Component {
   }
 
   async componentDidMount() {
+    await initializePlant();
     let plantLevel = parseInt(await getData('@plant_level'));
     this.setState({
       plantLevel: plantLevel
     });
-    console.log(this.state.plantLevel);
+    console.log(this.state.plantLevel.toString());
   }
 
    async intermission() {

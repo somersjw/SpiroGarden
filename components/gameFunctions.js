@@ -28,7 +28,7 @@ export function AsyncAlert(title, message) {
 export async function initializePlant() {
     let level = await getData('@plant_level');
     if (level === -1) {
-        await storeData('@plant_level', 1);
+        await storeData('@plant_level', '1');
     }
 }
 
@@ -46,7 +46,6 @@ export async function changePlant(change) {
         else if (currentLevel < 0) {
             currentLevel = 0;
         }
-        console.log(currentLevel.toString());
         storeData('@plant_level', currentLevel.toString());
     }
 }
@@ -54,6 +53,9 @@ export async function changePlant(change) {
 export async function getData(key) {
     try {
       const value = await AsyncStorage.getItem(key)
+      if(isNaN(value)) {
+        return -1;
+      }
       if(value !== null) {
         return value;
       }

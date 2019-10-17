@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
 
 const AppContainer = createAppContainer(AppNavigator);
 console.disableYellowBox = true;
-initializePlant();
 export default class App extends React.Component {
   render() {
     return <AppContainer />;
