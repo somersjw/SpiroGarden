@@ -79,7 +79,7 @@ export default class HomeScreen extends React.Component {
 }
   async play10Times() {
     this.setState({showButton: false})
-    while (this.state.round <= 2) {
+    while (this.state.round <= 10) {
       await this.resetGame();
       if(await this.playGame()) {
         await this.intermission();
@@ -104,7 +104,7 @@ export default class HomeScreen extends React.Component {
         { this.state.showPlant && <>
         <Text> Current Spriometer Values</Text>
         <Text> Quality: {this.state.quality} Val: {this.state.val}</Text>
-        <Plant plantState={4}/>
+        <Plant plantState={this.state.plantLevel}/>
         </>
         }
         { !this.state.showPlant && 
