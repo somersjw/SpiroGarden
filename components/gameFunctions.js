@@ -25,6 +25,13 @@ export function AsyncAlert(title, message) {
     })
 }
 
+export async function initializePlant() {
+    let level = await getData('@plant_level');
+    if (level === -1) {
+        await storeData('@plant_level', 1);
+    }
+}
+
 export async function changePlant(change) {
     if (change < 0) {
         // reset to 0
@@ -51,7 +58,7 @@ export async function getData(key) {
         return value;
       }
     } catch(e) {
-        return 0;
+        return -1;
     }
   }
 

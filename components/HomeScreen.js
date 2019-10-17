@@ -92,7 +92,8 @@ export default class HomeScreen extends React.Component {
     }
     this.setState({
       showButton: true,
-      plantLevel: this.state.plantLevel + 1
+      plantLevel: this.state.plantLevel + 1,
+      round: 1
     })
     changePlant(1);
   }
