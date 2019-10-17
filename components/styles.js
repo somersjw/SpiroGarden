@@ -2,8 +2,8 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   startButton: {
-	alignItems: 'center',
-	justifyContent: 'center',
+		alignItems: 'center',
+		justifyContent: 'center',
 	  backgroundColor: '#229637',
 	  width: 125
 	},

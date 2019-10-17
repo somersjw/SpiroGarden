@@ -119,7 +119,7 @@ export default class HomeScreen extends React.Component {
         { this.state.showPlant && <>
         <Text> Current Spriometer Values</Text>
         <Text> Quality: {this.state.quality} Val: {this.state.val}</Text>
-        <Plant />
+        <Plant plantState={4}/>
         </>
         }
         { !this.state.showPlant && 
