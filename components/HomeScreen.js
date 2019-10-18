@@ -80,7 +80,7 @@ export default class HomeScreen extends React.Component {
 }
   async play10Times() {
     this.setState({showButton: false})
-    while (this.state.round <= 10) {
+    while (this.state.round <= 2) {
       await this.resetGame();
       if(await this.playGame()) {
         await this.intermission();
@@ -91,9 +91,13 @@ export default class HomeScreen extends React.Component {
         await AsyncAlert("Try Again", "Make sure to keep within the good range");
       }
     }
+    let nextLevel = this.state.plantLevel + 1;
+    if (nextLevel >= 4) {
+      nextLevel = 4;
+    }
     this.setState({
       showButton: true,
-      plantLevel: this.state.plantLevel + 1,
+      plantLevel: nextLevel,
       round: 1
     })
     changePlant(1);
