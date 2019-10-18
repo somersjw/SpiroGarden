@@ -10,6 +10,10 @@ import { SegmentedControls } from 'react-native-radio-buttons';
 import MyHeader from './MyHeader';
 
 export default class progress extends React.Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
   render () {
     const options = [
       "Day",
