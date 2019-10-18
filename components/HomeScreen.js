@@ -79,7 +79,7 @@ export default class HomeScreen extends React.Component {
 }
   async play10Times() {
     this.setState({showButton: false})
-    while (this.state.round <= 10) {
+    while (this.state.round <= 2) {
       await this.resetGame();
       if(await this.playGame()) {
         await this.intermission();
@@ -124,6 +124,7 @@ export default class HomeScreen extends React.Component {
         buttonStyle={styles.startButton}
         onPress={this.play10Times}
         />}
+        <Button title= 'Reset' onPress={() => changePlant(-1)} />
       </View>
       );
     }
