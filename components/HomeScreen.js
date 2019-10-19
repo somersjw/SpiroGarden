@@ -104,12 +104,12 @@ export default class HomeScreen extends React.Component {
   }
     render() {
       return (
-        <View style={styles.container}>
+        <View style={styles.homescreen}>
         <MyHeader navigation={this.props.navigation} title="Home" />
-        <Text> Round: {this.state.round} / 10</Text>
+        <Text style={styles.heading1}> Round: {this.state.round} / 10</Text>
         { this.state.showPlant && <>
-        <Text> Current Spriometer Values</Text>
-        <Text> Quality: {this.state.quality} Val: {this.state.val}</Text>
+        <Text style={styles.title}> Current Spirometer Values</Text>
+        <Text style={styles.heading1}> Quality: {this.state.quality} Val: {this.state.val}</Text>
         <Plant plantState={this.state.plantLevel}/>
         </>
         }
