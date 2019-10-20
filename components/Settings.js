@@ -16,12 +16,12 @@ export default class Settings extends React.Component {
                 <MyHeader navigation={this.props.navigation} title="Settings"/>
                 <View style={styles.container}>
                     <Text>Set Up Device</Text>
-                    <Button title="Connect" onPress={this._onPressConnect}/>
+                    <Button title="Connect" onPress={this._onPressConnect} buttonStyle={styles.button}/>
                     <Text>Breathing Regiment</Text>
                     <Text>10 breaths per round</Text>
                     <Text>3 rounds per day</Text>
                     <Text>15 days</Text>
-                    <Button title="Update" onPress={this._onPressUpdate}/>
+                    <Button title="Update" onPress={this._onPressUpdate} buttonStyle={styles.button}/>
                 </View>
             </View>
         );

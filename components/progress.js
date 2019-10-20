@@ -6,13 +6,44 @@ import {
   StyleSheet,
   SegmentedControlIOS,
 } from "react-native"
-import { SegmentedControls } from 'react-native-radio-buttons';
+import SegmentedControlTab from "react-native-segmented-control-tab";
+import ProgressCircle from 'react-native-progress-circle'
 import MyHeader from './MyHeader';
+import styles from './styles';
 
 export default class progress extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      selectedIndex: 0
+    };
+  }
+
+  handleIndexChange = index => {
+    this.setState({
+      ...this.state,
+      selectedIndex: index
+    });
+    if (this.state.selectedIndex == 0) {
+      return (
+        <ProgressCircle
+          percent={100}
+          radius={75}
+          borderWidth={10}
+          color='#229637'
+          shadowColor='#fff'
+          bgColor='8BD398'
+          >
+            <Text style={{fontSize: 24}}>{'100%'}</Text>
+          </ProgressCircle>
+      )
+    }
+    if (this.state.selectedIndex == 1) {
+      alert("This is your weekly progress")
+    }
+    if (this.state.selectedIndex== 2) {
+      alert("This is your monthly progress")
+    }
   }
   render () {
     const options = [
@@ -21,26 +52,15 @@ export default class progress extends React.Component {
       "Month"
     ];
 
-    function setSelectedOption(selectedOption) {
-      this.setState({
-        selectedOption
-      });
-    }  
-  
-    function renderContainer(optionNodes){
-      return <View>{optionNodes}</View>;
-    }
-
-
     return (
       <View>  
         <MyHeader navigation={this.props.navigation} title="Progress"/>
-        <View style={{margin: 20}}> 
-          <SegmentedControls 
-            options={ options }  
-            onSelection={ setSelectedOption.bind(this) }
-            selectedOption={ this.state.selectedOption }
-            optionContainerStyle={{flex: 1}}
+        <View style={styles.container}> 
+          <SegmentedControlTab
+            values={ options }  
+            selectedIndex={ this.state.selectedIndex }
+            onTabPress={this.handleIndexChange}
+            activeTabStyle={styles.activeTab}
           />
         </View>
       </View>
@@ -48,16 +68,3 @@ export default class progress extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-   flexDirection: 'row',
-   alignItems: 'center',
-   justifyContent: 'center',
-   marginTop: 20,
-  },
-
-  button: {
-    backgroundColor: '#229637',
-  }
-});

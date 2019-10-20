@@ -118,7 +118,7 @@ export default class HomeScreen extends React.Component {
                 until={this.state.timer}
                 size={30}
                 onFinish={() => this.setState({timer: 6})}
-                digitStyle={{backgroundColor: '#1CC625'}}
+                digitStyle={{backgroundColor: '#229637'}}
                 digitTxtStyle={{color: '#FFF'}}
                 timeToShow={['S']}
                 timeLabels={{s: 'Hold Your Breath'}}

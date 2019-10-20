@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  startButton: {
-		alignItems: 'center',
-		justifyContent: 'center',
+  button: {
+	  alignItems: 'center',
+	  justifyContent: 'center',
 	  backgroundColor: '#229637',
 	  width: 125
 	},
@@ -25,5 +25,8 @@ export default StyleSheet.create({
   },
   heading1: {
   	fontSize: 15,
+  },
+  activeTab: {
+	backgroundColor: '#229637',
   }
 });
