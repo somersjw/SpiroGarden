@@ -10,6 +10,7 @@ import SegmentedControlTab from "react-native-segmented-control-tab";
 import ProgressCircle from 'react-native-progress-circle'
 import MyHeader from './MyHeader';
 import styles from './styles';
+import { threadId } from "worker_threads";
 
 export default class progress extends React.Component {
   constructor() {
@@ -28,15 +29,18 @@ export default class progress extends React.Component {
       return (
         <View style={styles.container}>
           <ProgressCircle
-            percent={100}
+            percent={66}
             radius={75}
             borderWidth={10}
             color='#229637'
             shadowColor='#fff'
             bgColor='8BD398'
             >
-              <Text style={{fontSize: 24}}>{'100%'}</Text>
+              <Text style={{fontSize: 48, color: '#fff'}}>{'2'}</Text>
             </ProgressCircle>
+            <Text style={{fontSize: 32}}>GOAL:</Text>
+            <Text style={{fontSize: 24}}>3 rounds per day</Text>
+            <Text>You have completed 2/3 treatments today</Text>
         </View>
       )
     }
@@ -63,6 +67,8 @@ export default class progress extends React.Component {
             selectedIndex={ this.state.selectedIndex }
             onTabPress={this.handleIndexChange}
             activeTabStyle={styles.activeTab}
+            tabStyle={styles.tab}
+            tabTextStyle={threadId.tabText}
           />
         </View>
       </View>

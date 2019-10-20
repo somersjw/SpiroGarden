@@ -27,6 +27,12 @@ export default StyleSheet.create({
   	fontSize: 15,
   },
   activeTab: {
-	backgroundColor: '#229637',
+	backgroundColor: '8BD398',
+  },
+  tab: {
+	  borderColor: '#229637',
+  },
+  tabText: {
+	color: '#fff'
   }
 });
