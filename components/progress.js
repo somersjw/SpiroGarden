@@ -34,7 +34,7 @@ export default class progress extends React.Component {
             borderWidth={10}
             color='#229637'
             shadowColor='#fff'
-            bgColor='8BD398'
+            bgColor='#8BD398'
             >
               <Text style={{fontSize: 48, color: '#fff'}}>{'2'}</Text>
             </ProgressCircle>
