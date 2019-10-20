@@ -26,16 +26,18 @@ export default class progress extends React.Component {
     });
     if (this.state.selectedIndex == 0) {
       return (
-        <ProgressCircle
-          percent={100}
-          radius={75}
-          borderWidth={10}
-          color='#229637'
-          shadowColor='#fff'
-          bgColor='8BD398'
-          >
-            <Text style={{fontSize: 24}}>{'100%'}</Text>
-          </ProgressCircle>
+        <View style={styles.container}>
+          <ProgressCircle
+            percent={100}
+            radius={75}
+            borderWidth={10}
+            color='#229637'
+            shadowColor='#fff'
+            bgColor='8BD398'
+            >
+              <Text style={{fontSize: 24}}>{'100%'}</Text>
+            </ProgressCircle>
+        </View>
       )
     }
     if (this.state.selectedIndex == 1) {
