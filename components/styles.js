@@ -23,8 +23,18 @@ export default StyleSheet.create({
   	fontSize: 15,
     fontWeight: 'bold'
   },
+  titlelarge: {
+  	fontSize: 25,
+    fontWeight: 'bold',
+    marginTop: 50,
+    marginBottom: 10
+  },
   heading1: {
   	fontSize: 15,
+  },
+  subheading: {
+  	fontSize: 15,
+  	margin: 5
   },
   activeTab: {
 		backgroundColor: '#8BD398',
