@@ -12,7 +12,7 @@ export default StyleSheet.create({
 	},
 	homescreen: {
 		alignItems: 'center',
-	  backgroundColor: '#fee2c7',
+	  backgroundColor: '#8fc99c',
 	  height: '100%'
 	},
   image: {
