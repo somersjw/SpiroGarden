@@ -14,6 +14,7 @@ export default class HomeScreen extends React.Component {
     this.playGame = this.playGame.bind(this);
     this.intermission = this.intermission.bind(this);
     this.play10Times = this.play10Times.bind(this);
+    this.Quickreset = this.Quickreset.bind(this);
   }
 
   async componentDidMount() {
@@ -34,6 +35,17 @@ export default class HomeScreen extends React.Component {
       )
     );
   }
+
+  async Quickreset(){
+    await changePlant(-1);
+    await initializePlant();
+    let plantLevel = parseInt(await getData('@plant_level'));
+    this.setState({
+      plantLevel: plantLevel
+    });
+    console.log(this.state.plantLevel.toString());
+  }
+
   
   async resetGame() {
     this.setState({
@@ -132,7 +144,7 @@ export default class HomeScreen extends React.Component {
               buttonStyle={styles.startButton}
               onPress={this.play10Times}
               />
-            <Button title='Reset' color="#229637" onPress={() => changePlant(-1)} />
+            <Button title='Reset' color="#229637" onPress={this.Quickreset} />
           </View>
         )}
       </View>
