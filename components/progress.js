@@ -63,10 +63,38 @@ export default class progress extends React.Component {
             </View>
           )}
           {this.state.selectedIndex === 1 && (
-            alert("This is your weekly progress")
+            <View style={styles.container}>
+            <ProgressCircle
+            percent={57}
+            radius={75}
+            borderWidth={10}
+            color='#229637'
+            shadowColor='#fff'
+            bgColor='#8BD398'
+            >
+              <Text style={{fontSize: 48, color: '#fff'}}>{'4'}</Text>
+            </ProgressCircle>
+            <Text style={{fontSize: 32}}>GOAL:</Text>
+            <Text style={{fontSize: 24}}>3 rounds per day for 7 days this week</Text>
+            <Text>You have completed 4/7 days of treatment this week</Text>
+          </View>
           )}
           {this.state.selectedIndex === 2 && (
-            alert("This is your monthly progress")
+            <View style={styles.container}>
+            <ProgressCircle
+            percent={65}
+            radius={75}
+            borderWidth={10}
+            color='#229637'
+            shadowColor='#fff'
+            bgColor='#8BD398'
+            >
+              <Text style={{fontSize: 48, color: '#fff'}}>{'20'}</Text>
+            </ProgressCircle>
+            <Text style={{fontSize: 32}}>GOAL:</Text>
+            <Text style={{fontSize: 24}}>3 rounds a day for 31 days this month</Text>
+            <Text>You have completed 20/31 days of treatment this month</Text>
+          </View>
           )}
         </View>
       </View>
