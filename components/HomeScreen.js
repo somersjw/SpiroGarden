@@ -80,7 +80,7 @@ export default class HomeScreen extends React.Component {
 }
   async play10Times() {
     this.setState({showButton: false})
-    while (this.state.round <= 2) {
+    while (this.state.round <= 1) {
       await this.resetGame();
       if(await this.playGame()) {
         await this.intermission();
@@ -124,12 +124,16 @@ export default class HomeScreen extends React.Component {
                 timeLabels={{s: 'Hold Your Breath'}}
                 running={!this.state.showPlant}
             /> }
-        {this.state.showButton && <Button 
-        title="Start Game"
-        buttonStyle={styles.startButton}
-        onPress={this.play10Times}
-        />}
-        <Button title= 'Reset' onPress={() => changePlant(-1)} />
+        {this.state.showButton && (
+          <View>
+            <Button 
+              title="Start Game"
+              buttonStyle={styles.startButton}
+              onPress={this.play10Times}
+              />
+            <Button title='Reset' color="#229637" onPress={() => changePlant(-1)} />
+          </View>
+        )}
       </View>
       );
     }
