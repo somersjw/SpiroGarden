@@ -8,7 +8,9 @@ export default StyleSheet.create({
 	  width: 125
 	},
 	container: {
-	  alignItems: 'center'
+	  alignItems: 'center',
+	  backgroundColor: '#8fc99c',
+	  height: '100%'
 	},
 	homescreen: {
 		alignItems: 'center',
@@ -17,24 +19,34 @@ export default StyleSheet.create({
 	},
   image: {
   	width: '50%',
-  	height: '65%'
-  },
-  title: {
-  	fontSize: 15,
-    fontWeight: 'bold'
+  	height: '60%'
   },
   titlelarge: {
-  	fontSize: 25,
+  	fontSize: 35,
     fontWeight: 'bold',
     marginTop: 50,
-    marginBottom: 10
+    marginBottom: 10,
+    color: '#FFFF'
+  },
+  titlemedium: {
+  	fontSize: 25,
+    fontWeight: 'bold',
+    color: '#FFFF'
   },
   heading1: {
   	fontSize: 15,
+  	fontWeight: 'bold',
+  	color: '#FFFF'
+  },
+  heading2: {
+  	fontSize: 20,
+  	fontWeight: 'bold',
+  	color: '#FFFF'
   },
   subheading: {
   	fontSize: 15,
-  	margin: 5
+  	margin: 5,
+  	color: '#FFFF'
   },
   activeTab: {
 		backgroundColor: '#8BD398',

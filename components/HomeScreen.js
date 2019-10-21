@@ -80,7 +80,7 @@ export default class HomeScreen extends React.Component {
 }
   async play10Times() {
     this.setState({showButton: false})
-    while (this.state.round <= 1) {
+    while (this.state.round <= 2) {
       await this.resetGame();
       if(await this.playGame()) {
         await this.intermission();
@@ -108,7 +108,7 @@ export default class HomeScreen extends React.Component {
         <MyHeader navigation={this.props.navigation} title="Home" />
         <Text style={styles.heading1}> Round: {this.state.round} / 10</Text>
         { this.state.showPlant && <>
-        <Text style={styles.title}> Current Spirometer Values</Text>
+        <Text style={styles.titlemedium}>Current Spirometer Values</Text>
         <Text style={styles.heading1}> Quality: {this.state.quality} Val: {this.state.val}</Text>
         <Plant plantState={this.state.plantLevel}/>
         </>
@@ -122,6 +122,7 @@ export default class HomeScreen extends React.Component {
                 digitTxtStyle={{color: '#FFF'}}
                 timeToShow={['S']}
                 timeLabels={{s: 'Hold Your Breath'}}
+                timeLabelStyle={styles.titlemedium}
                 running={!this.state.showPlant}
             /> }
         {this.state.showButton && (

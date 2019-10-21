@@ -57,9 +57,11 @@ export default class progress extends React.Component {
               >
                 <Text style={{fontSize: 48, color: '#fff'}}>{'2'}</Text>
               </ProgressCircle>
-              <Text style={{fontSize: 32}}>GOAL:</Text>
-              <Text style={{fontSize: 24}}>3 rounds per day</Text>
-              <Text>You have completed 2/3 treatments today</Text>
+              <Text style={styles.titlelarge}>GOAL:</Text>
+              <Text style={styles.titlemedium}>3 rounds per day</Text>
+              <Text style={styles.subheading}>You have completed </Text> 
+            <Text style={styles.titlemedium}>2/3</Text>
+            <Text style={styles.subheading}>treatments today</Text>
             </View>
           )}
           {this.state.selectedIndex === 1 && (
@@ -74,9 +76,11 @@ export default class progress extends React.Component {
             >
               <Text style={{fontSize: 48, color: '#fff'}}>{'4'}</Text>
             </ProgressCircle>
-            <Text style={{fontSize: 32}}>GOAL:</Text>
-            <Text style={{fontSize: 24}}>3 rounds per day for 7 days this week</Text>
-            <Text>You have completed 4/7 days of treatment this week</Text>
+            <Text style={styles.titlelarge}>GOAL:</Text>
+            <Text style={styles.heading2}>3 rounds per day for 7 days this week</Text>
+            <Text style={styles.subheading}>You have completed </Text> 
+            <Text style={styles.titlemedium}>4/7</Text>
+            <Text style={styles.subheading}>days of treatment this week</Text>
           </View>
           )}
           {this.state.selectedIndex === 2 && (
@@ -91,9 +95,11 @@ export default class progress extends React.Component {
             >
               <Text style={{fontSize: 48, color: '#fff'}}>{'20'}</Text>
             </ProgressCircle>
-            <Text style={{fontSize: 32}}>GOAL:</Text>
-            <Text style={{fontSize: 24}}>3 rounds a day for 31 days this month</Text>
-            <Text>You have completed 20/31 days of treatment this month</Text>
+            <Text style={styles.titlelarge}>GOAL:</Text>
+            <Text style={styles.heading2}>3 rounds a day for 31 days this month</Text>
+            <Text style={styles.subheading}>You have completed </Text> 
+            <Text style={styles.titlemedium}>20/31</Text>
+            <Text style={styles.subheading}>days of treatment this month</Text>
           </View>
           )}
         </View>
