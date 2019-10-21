@@ -37,13 +37,10 @@ export default class HomeScreen extends React.Component {
   }
 
   async Quickreset(){
-    await changePlant(-1);
-    await initializePlant();
-    let plantLevel = parseInt(await getData('@plant_level'));
     this.setState({
-      plantLevel: plantLevel
+      plantLevel: 0
     });
-    console.log(this.state.plantLevel.toString());
+    await changePlant(-1);
   }
 
   
