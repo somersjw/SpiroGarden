@@ -178,7 +178,7 @@ export default class HomeScreen extends React.Component {
           <View>
             <Button 
               title="Start Game"
-              buttonStyle={styles.startButton}
+              buttonStyle={styles.button}
               onPress={this.play10Times}
               />
             <Button title='Reset' color="#229637" onPress={this.Quickreset} />
