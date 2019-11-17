@@ -160,11 +160,8 @@ export default class HomeScreen extends React.Component {
       showButton: true,
       round: 1
     })
-<<<<<<< HEAD
     changePlant(1);
     sendLocalNotification(moment().add(5, 'seconds')); // in 5 secs
-=======
->>>>>>> 3040875015594cf5cbae6decc6216e765209fdbc
   }
     render() {
       return (
