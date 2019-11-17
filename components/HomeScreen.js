@@ -6,6 +6,8 @@ import CountDown from 'react-native-countdown-component';
 import styles from './styles';
 import Plant from './Plant';
 import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant } from './gameFunctions';
+import { sendLocalNotification } from './notifications';
+import moment from 'moment';
 
 export default class HomeScreen extends React.Component {
   constructor() {
@@ -110,6 +112,7 @@ export default class HomeScreen extends React.Component {
       round: 1
     })
     changePlant(1);
+    sendLocalNotification(moment().add(5, 'seconds')); // in 5 secs
   }
     render() {
       return (
