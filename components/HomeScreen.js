@@ -6,6 +6,8 @@ import CountDown from 'react-native-countdown-component';
 import styles from './styles';
 import Plant from './Plant';
 import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant , saveprogress } from './gameFunctions';
+import { openDatabase } from 'react-native-sqlite-storage';
+var db = openDatabase({ name: 'CompletedRounds.db' });
 
 export default class HomeScreen extends React.Component {
   constructor() {
@@ -16,6 +18,10 @@ export default class HomeScreen extends React.Component {
     this.play10Times = this.play10Times.bind(this);
     this.Quickreset = this.Quickreset.bind(this);
     this.progression = this.progression.bind(this);
+    createRoundsTable = 'CREATE TABLE IF NOT EXISTS rounds(timeCompleted VARCHAR(20) '
+                      + 'PRIMARY KEY, breathsCompleted INTEGER, maxVolume INTEGER, '
+                      + 'avgFlow INTEGER)';
+    db.executeSql(createRoundsTable, []);
   }
 
   async componentDidMount() {
