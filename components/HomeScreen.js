@@ -5,9 +5,14 @@ import MyHeader from './MyHeader';
 import CountDown from 'react-native-countdown-component';
 import styles from './styles';
 import Plant from './Plant';
+
 import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant } from './gameFunctions';
+import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant , saveprogress } from './gameFunctions';
+import { openDatabase } from 'react-native-sqlite-storage';
+var db = openDatabase({ name: 'CompletedRounds.db' });
 import { sendLocalNotification } from './notifications';
 import moment from 'moment';
+
 
 export default class HomeScreen extends React.Component {
   constructor() {
@@ -17,13 +22,20 @@ export default class HomeScreen extends React.Component {
     this.intermission = this.intermission.bind(this);
     this.play10Times = this.play10Times.bind(this);
     this.Quickreset = this.Quickreset.bind(this);
+    this.progression = this.progression.bind(this);
+    createRoundsTable = 'CREATE TABLE IF NOT EXISTS rounds(timeCompleted VARCHAR(20) '
+                      + 'PRIMARY KEY, breathsCompleted INTEGER, maxVolume INTEGER, '
+                      + 'avgFlow INTEGER)';
+    db.executeSql(createRoundsTable, []);
   }
 
   async componentDidMount() {
     await initializePlant();
     let plantLevel = parseInt(await getData('@plant_level'));
+    let plantprogress = parseInt(await getData('@plant_progress'));
     this.setState({
-      plantLevel: plantLevel
+      plantLevel: plantLevel,
+      plantprogress: plantprogress
     });
     console.log(this.state.plantLevel.toString());
   }
@@ -40,11 +52,35 @@ export default class HomeScreen extends React.Component {
 
   async Quickreset(){
     this.setState({
-      plantLevel: 0
+      plantLevel: 1,
+      plantprogress: 0
     });
     await changePlant(-1);
   }
 
+  async progression(count,fullcount){
+    let divided = parseFloat(count)/parseFloat(fullcount);
+    let addtosum = 0;
+    addtosum += 5;
+    if(divided >= 0.25){
+      addtosum += 5;
+      if(divided >= 0.5){
+        addtosum += 5;
+        if(divided >= 0.75){
+          addtosum += 5;
+          if(divided = 1){
+            addtosum += 20;
+          }
+        }
+      }
+    }
+    sum = this.state.plantprogress + addtosum;
+    this.setState({
+      plantprogress: sum
+    });
+    saveprogress(sum.toString());
+    return 0;
+  }
   
   async resetGame() {
     this.setState({
@@ -64,6 +100,8 @@ export default class HomeScreen extends React.Component {
   async playGame() {
     let maxFlow = 67;
     let badCount = 0;
+    let fullcount = 0;
+    let goodCount = 0;
     let prevQuantity = 0;
     let json = await fetchSpiroData();
     while (json.val < 97) {
@@ -72,7 +110,7 @@ export default class HomeScreen extends React.Component {
         quality: json.quality,
         val: json.val
       })
-
+      fullcount += 1
       if (json.val < prevQuantity) {
         return false;
       }
@@ -85,13 +123,17 @@ export default class HomeScreen extends React.Component {
       if (badCount > 6) {
         return false;
       }
+      if (json.quality < 34){
+        goodCount += 1;
+      }
       prevQuantity = json.val;
     }
+    await this.progression(goodCount,fullcount);
     return true;
 }
   async play10Times() {
     this.setState({showButton: false})
-    while (this.state.round <= 2) {
+    while (this.state.round <= 10) {
       await this.resetGame();
       if(await this.playGame()) {
         await this.intermission();
@@ -101,18 +143,28 @@ export default class HomeScreen extends React.Component {
       else {
         await AsyncAlert("Try Again", "Make sure to keep within the good range");
       }
+      if(this.state.plantprogress >= 200){
+        let nextLevel = this.state.plantLevel + 1;
+        if (nextLevel >= 4) {
+          nextLevel = 4;
+        }
+        this.setState({
+          plantLevel: nextLevel,
+          plantprogress: 0
+        })
+        changePlant (1);
+      }
     }
-    let nextLevel = this.state.plantLevel + 1;
-    if (nextLevel >= 4) {
-      nextLevel = 4;
-    }
+
     this.setState({
       showButton: true,
-      plantLevel: nextLevel,
       round: 1
     })
+<<<<<<< HEAD
     changePlant(1);
     sendLocalNotification(moment().add(5, 'seconds')); // in 5 secs
+=======
+>>>>>>> 3040875015594cf5cbae6decc6216e765209fdbc
   }
     render() {
       return (
@@ -121,6 +173,7 @@ export default class HomeScreen extends React.Component {
         <Text style={styles.heading1}> Round: {this.state.round} / 10</Text>
         { this.state.showPlant && <>
         <Text style={styles.titlemedium}>Current Spirometer Values</Text>
+        <Text style={styles.heading1}> progression: {this.state.plantprogress}</Text>
         <Text style={styles.heading1}> Quality: {this.state.quality} Val: {this.state.val}</Text>
         <Plant plantState={this.state.plantLevel}/>
         </>

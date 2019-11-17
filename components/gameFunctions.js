@@ -29,13 +29,15 @@ export async function initializePlant() {
     let level = await getData('@plant_level');
     if (level === -1) {
         await storeData('@plant_level', '1');
+        await storeData('@plant_progress','0');
     }
 }
 
 export async function changePlant(change) {
     if (change < 0) {
         // reset to 0
-        await storeData('@plant_level', '0');
+        await storeData('@plant_level', '1');
+        await storeData('@plant_progress','0');
     }
     else {
         let currentLevel = parseInt(await getData('@plant_level'));
@@ -47,7 +49,12 @@ export async function changePlant(change) {
             currentLevel = 0;
         }
         storeData('@plant_level', currentLevel.toString());
+        await storeData('@plant_progress','0');
     }
+}
+
+export async function saveprogress (savedata) {
+  await storeData('@plant_progress', savedata);
 }
 
 export async function getData(key) {

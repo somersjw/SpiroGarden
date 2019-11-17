@@ -35,6 +35,7 @@ target 'SpiroGarden' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+  pod 'react-native-sqlite-storage', :path => '../node_modules/react-native-sqlite-storage'
 
   target 'SpiroGardenTests' do
     inherit! :search_paths
