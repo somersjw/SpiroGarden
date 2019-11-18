@@ -5,8 +5,6 @@ import MyHeader from './MyHeader';
 import CountDown from 'react-native-countdown-component';
 import styles from './styles';
 import Plant from './Plant';
-
-import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant } from './gameFunctions';
 import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant , saveprogress } from './gameFunctions';
 import { openDatabase } from 'react-native-sqlite-storage';
 var db = openDatabase({ name: 'CompletedRounds.db' });
@@ -133,7 +131,7 @@ export default class HomeScreen extends React.Component {
 }
   async play10Times() {
     this.setState({showButton: false})
-    while (this.state.round <= 10) {
+    while (this.state.round <= 1) {
       await this.resetGame();
       if(await this.playGame()) {
         await this.intermission();
