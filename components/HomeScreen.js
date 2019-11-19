@@ -7,10 +7,9 @@ import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import styles from './styles';
 import Plant from './Plant';
 import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant , saveprogress } from './gameFunctions';
-import { openDatabase } from 'react-native-sqlite-storage';
-var db = openDatabase({ name: 'CompletedRounds.db' });
 import { sendLocalNotification } from './notifications';
 import moment from 'moment';
+import { insertAlert } from './dbGateway';
 
 
 // For the tutorial when the user first loads the page
@@ -25,10 +24,7 @@ class HomeScreen extends React.Component {
     this.play10Times = this.play10Times.bind(this);
     this.Quickreset = this.Quickreset.bind(this);
     this.progression = this.progression.bind(this);
-    createRoundsTable = 'CREATE TABLE IF NOT EXISTS rounds(timeCompleted VARCHAR(20) '
-                      + 'PRIMARY KEY, breathsCompleted INTEGER, maxVolume INTEGER, '
-                      + 'avgFlow INTEGER)';
-    db.executeSql(createRoundsTable, []);
+    this.resetGame = this.resetGame.bind(this);
   }
 
   async componentDidMount() {
@@ -53,10 +49,27 @@ class HomeScreen extends React.Component {
     );
   }
 
+  async resetGame() {
+    this.setState({
+      quality: 0,
+      val: 0
+    })
+    return new Promise(function(resolve, reject) {
+      fetch('http://67.205.163.230/reset', {header: {
+        'Content-Type': 'application/json'}
+      })
+        .then((response) => resolve(response))
+        .catch((error) =>{
+          console.error(error);
+        });
+  })
+  }
+
   async Quickreset(){
     this.setState({
       plantLevel: 1,
-      plantprogress: 0
+      plantprogress: 0,
+      goodBreathCount: 0
     });
     await changePlant(-1);
   }
@@ -85,21 +98,6 @@ class HomeScreen extends React.Component {
     return 0;
   }
   
-  async resetGame() {
-    this.setState({
-      quality: 0,
-      val: 0
-    })
-    return new Promise(function(resolve, reject) {
-      fetch('http://67.205.163.230/reset', {header: {
-        'Content-Type': 'application/json'}
-      })
-        .then((response) => resolve(response))
-        .catch((error) =>{
-          console.error(error);
-        });
-  })
-  }
   async playGame() {
     let maxFlow = 67;
     let badCount = 0;
@@ -131,21 +129,30 @@ class HomeScreen extends React.Component {
       }
       prevQuantity = json.val;
     }
+
     await this.progression(goodCount,fullcount);
     return true;
 }
   async play10Times() {
+    let sumFlowVals = 0;
+    let avgFlow = 0;
     this.setState({showButton: false})
     while (this.state.round <= 1) {
       await this.resetGame();
       if(await this.playGame()) {
         await this.intermission();
         await AsyncAlert("Success", "Move onto the next round.");
-        this.setState({round: this.state.round + 1});
+        sumFlowVals += this.state.quality;
+        this.setState({
+          round: this.state.round + 1,
+          goodBreathCount: this.state.goodBreathCount + 1
+        })
+        await storeData('@interval_time',Date.now().toString())
       }
       else {
         await AsyncAlert("Try Again", "Make sure to keep within the good range");
       }
+      this.setState({round: this.state.round + 1});
       if(this.state.plantprogress >= 200){
         let nextLevel = this.state.plantLevel + 1;
         if (nextLevel >= 4) {
@@ -158,12 +165,15 @@ class HomeScreen extends React.Component {
         changePlant (1);
       }
     }
+    let dateTime = new Date();
+    avgFlow = parseFloat(sumFlowVals)/parseFloat(this.state.round);
 
+    insertAlert(avgFlow, dateTime.toISOString());
     this.setState({
       showButton: true,
-      round: 1
+      round: 1,
+      goodBreathCount: 0
     })
-    changePlant(1);
     sendLocalNotification(moment().add(5, 'seconds')); // in 5 secs
   }
     render() {

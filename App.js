@@ -2,6 +2,7 @@ import React from 'react';
 import {
   StyleSheet,
 } from 'react-native';
+
 import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
@@ -10,6 +11,7 @@ import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import progress from './components/progress';
 import Settings from './components/Settings';
+import {initalizeRoundTable} from './components/dbGateway';
 
 
 const AppNavigator = createDrawerNavigator({
@@ -64,10 +66,10 @@ const styles = StyleSheet.create({
   },
 });
 
+initalizeRoundTable();
 const AppContainer = createAppContainer(AppNavigator);
 console.disableYellowBox = true;
 export default class App extends React.Component {
-
   render() {
     return <AppContainer />;
   }
