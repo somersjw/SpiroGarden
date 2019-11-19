@@ -13,22 +13,6 @@ export function AsyncAlert(title, message) {
     })
   }
 
-  export async function resetGame() {
-    this.setState({
-      quality: 0,
-      val: 0
-    })
-    return new Promise(function(resolve, reject) {
-      fetch('http://67.205.163.230/reset', {header: {
-        'Content-Type': 'application/json'}
-      })
-        .then((response) => resolve(response))
-        .catch((error) =>{
-          console.error(error);
-        });
-  })
-  }
-
   export async function fetchSpiroData(){
     return new Promise(function(resolve, reject) {
         fetch('http://67.205.163.230', {header: {
