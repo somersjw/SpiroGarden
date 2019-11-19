@@ -147,6 +147,7 @@ class HomeScreen extends React.Component {
           round: this.state.round + 1,
           goodBreathCount: this.state.goodBreathCount + 1
         })
+        await storeData('@interval_time',Date.now().toString())
       }
       else {
         await AsyncAlert("Try Again", "Make sure to keep within the good range");
@@ -173,7 +174,6 @@ class HomeScreen extends React.Component {
       round: 1,
       goodBreathCount: 0
     })
-    changePlant(1);
     sendLocalNotification(moment().add(5, 'seconds')); // in 5 secs
   }
     render() {

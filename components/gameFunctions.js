@@ -26,7 +26,21 @@ export function AsyncAlert(title, message) {
 }
 
 export async function initializePlant() {
+    let timeaway = await getData('@interval_time');
+    if (isNaN(timeaway)){
+      await storeData('@interval_time',Date.now().toString())
+    }
+    timeaway = await getData('@interval_time');
+    console.log(parseFloat(timeaway));
+    console.log(Date.now());
+    if (Date.now() - parseFloat(timeaway) > 100 * 1000){
+      await AsyncAlert("Oh No!", "Your plant has wilted due to lack of water!");
+      await storeData('@plant_level', '0');
+      await storeData('@plant_progress','0');
+      await storeData('@interval_time',Date.now().toString())
+    }
     let level = await getData('@plant_level');
+    console.log(level)
     if (level === -1) {
         await storeData('@plant_level', '1');
         await storeData('@plant_progress','0');
