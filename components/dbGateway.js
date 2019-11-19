@@ -25,6 +25,14 @@ export function insertAlert(avgFlow, time) {
     console.log('Round logged in database');
 }
 
+export function initalizeRoundTable() {
+    var db = getDb();
+    var createRoundsTable = 'CREATE TABLE IF NOT EXISTS rounds(roundID INTEGER PRIMARY KEY AUTOINCREMENT, '
+                  + 'timeCompleted TEXT, goodBreathsCompleted INTEGER, '
+                  + 'maxVolume INTEGER, avgFlow INTEGER)';
+    db.executeSql(createRoundsTable, []);
+}
+
 function getDb() {
     return openDatabase({ name: 'CompletedRounds.db' });
 }
