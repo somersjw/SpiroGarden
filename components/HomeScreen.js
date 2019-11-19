@@ -126,11 +126,11 @@ class HomeScreen extends React.Component {
       if(await this.playGame()) {
         await this.intermission();
         await AsyncAlert("Success", "Move onto the next round.");
-        this.setState({round: this.state.round + 1});
       }
       else {
         await AsyncAlert("Try Again", "Make sure to keep within the good range");
       }
+      this.setState({round: this.state.round + 1});
       if(this.state.plantprogress >= 200){
         let nextLevel = this.state.plantLevel + 1;
         if (nextLevel >= 4) {

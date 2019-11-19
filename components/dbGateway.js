@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { openDatabase } from 'react-native-sqlite-storage';
-export async function getDailyExcercises() {
+export function getDailyRounds() {
     let start = moment().set({'hour': 0, 'minute': 1}).toISOString();
 
     let end = moment().toISOString();
@@ -8,7 +8,7 @@ export async function getDailyExcercises() {
     var db = openDatabase({ name: 'CompletedRounds.db' });
     var rounds = 0;
     db.transaction((tx) => {
-        tx.executeSql('SELECT * FROM rounds WHERE completedAt >= ? AND completedAt <= ?', [start, end], (tx, results) => {
+        tx.executeSql('SELECT COUNT(*) as c FROM rounds WHERE timeCompleted >= ? AND timeCompleted <= ?', [start, end], (tx, results) => {
             rounds = results.rows.length;
         })
     })
