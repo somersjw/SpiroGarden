@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import MyHeader from './MyHeader';
 import CountDown from 'react-native-countdown-component';
+import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import styles from './styles';
 import Plant from './Plant';
 import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant , saveprogress } from './gameFunctions';
@@ -12,7 +13,10 @@ import { sendLocalNotification } from './notifications';
 import moment from 'moment';
 
 
-export default class HomeScreen extends React.Component {
+// For the tutorial when the user first loads the page
+const CopilotView = walkthroughable(View);
+
+class HomeScreen extends React.Component {
   constructor() {
     super();
     this.state = {showPlant: true,showButton: true, timer: 6, round: 1};
@@ -36,6 +40,7 @@ export default class HomeScreen extends React.Component {
       plantprogress: plantprogress
     });
     console.log(this.state.plantLevel.toString());
+    this.props.start(); // runs the tutorial
   }
 
    async intermission() {
@@ -164,39 +169,74 @@ export default class HomeScreen extends React.Component {
     render() {
       return (
         <View style={styles.homescreen}>
-        <MyHeader navigation={this.props.navigation} title="Home" />
-        <Text style={styles.heading1}> Round: {this.state.round} / 10</Text>
-        { this.state.showPlant && <>
-        <Text style={styles.titlemedium}>Current Spirometer Values</Text>
-        <Text style={styles.heading1}> progression: {this.state.plantprogress}</Text>
-        <Text style={styles.heading1}> Quality: {this.state.quality} Val: {this.state.val}</Text>
-        <Plant plantState={this.state.plantLevel}/>
-        </>
-        }
-        { !this.state.showPlant && 
-            <CountDown
-                until={this.state.timer}
-                size={30}
-                onFinish={() => this.setState({timer: 6})}
-                digitStyle={{backgroundColor: '#229637'}}
-                digitTxtStyle={{color: '#FFF'}}
-                timeToShow={['S']}
-                timeLabels={{s: 'Hold Your Breath'}}
-                timeLabelStyle={styles.titlemedium}
-                running={!this.state.showPlant}
-            /> }
-        {this.state.showButton && (
-          <View>
-            <Button 
-              title="Start Game"
-              buttonStyle={styles.button}
-              onPress={this.play10Times}
-              />
-            <Button title='Reset' color="#229637" onPress={this.Quickreset} />
-          </View>
-        )}
-      </View>
+          {/* 
+            Header material
+            Everything labeled with Copilot gets shown during the tutorial walkthrough 
+          */}
+          <MyHeader navigation={this.props.navigation} title="Home" />
+          <CopilotStep text="Welcome to SpiroGarden!" order={1} name="welcome">
+            <CopilotView/>
+          </CopilotStep>
+          {/* Uses absolute positioning since I couldn't figure out how to make the header "walkthroughable" */}
+          <CopilotStep text="Connect your incentive spirometer to this app and take care of your very own plant!" order={2} name="connect">
+            <CopilotView style={styles.hamburger}/> 
+          </CopilotStep>
+          <CopilotStep text="Press this icon here to see your progress and set up your device" order={4} name="navigation">
+            <CopilotView style={styles.hamburger} />
+          </CopilotStep>
+
+          {/* 
+            Titles near top of page
+          */}
+          <Text style={styles.heading1}> Round: {this.state.round} / 10</Text>
+          { this.state.showPlant && <>
+          <CopilotStep text="Check how well you're breathing here!" order={5} name="spirometer data">
+            <CopilotView>
+              <Text style={styles.titlemedium}>Current Spirometer Values</Text>
+              <Text style={styles.heading1}> progression: {this.state.plantprogress}</Text>
+              <Text style={styles.heading1}> Quality: {this.state.quality} Val: {this.state.val}</Text>
+            </CopilotView>
+          </CopilotStep>
+          <CopilotStep text="Here's where you can check your plant progress!" order={3} name="plant">
+            <CopilotView style={styles.plant} />
+          </CopilotStep>
+
+          {/*
+            Plant Image and CountDowns
+          */}
+          <Plant plantState={this.state.plantLevel}/>
+          </>
+          }
+          { !this.state.showPlant && 
+              <CountDown
+                  until={this.state.timer}
+                  size={30}
+                  onFinish={() => this.setState({timer: 6})}
+                  digitStyle={{backgroundColor: '#229637'}}
+                  digitTxtStyle={{color: '#FFF'}}
+                  timeToShow={['S']}
+                  timeLabels={{s: 'Hold Your Breath'}}
+                  timeLabelStyle={styles.titlemedium}
+                  running={!this.state.showPlant}
+              /> }
+          {this.state.showButton && (
+            <CopilotStep text="Once you connect your spirometer, press Start and begin breathing!" order={6} name="start">
+              <CopilotView>
+                <Button 
+                  title="Start Game"
+                  buttonStyle={styles.button}
+                  onPress={this.play10Times}
+                  />
+                <Button title='Reset' color="#229637" onPress={this.Quickreset} />
+              </CopilotView>
+            </CopilotStep>
+          )}
+        </View>
       );
     }
   }
+
+export default copilot({
+    verticalOffset: 25,
+  })(HomeScreen);
   

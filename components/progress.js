@@ -8,15 +8,23 @@ import {
 } from "react-native"
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import ProgressCircle from 'react-native-progress-circle'
+import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import MyHeader from './MyHeader';
 import styles from './styles';
 
-export default class progress extends React.Component {
+// For the tutorial when the user first loads the page
+const CopilotView = walkthroughable(View);
+
+class progress extends React.Component {
   constructor() {
     super();
     this.state = {
       selectedIndex: 0
     };
+  }
+
+  componentDidMount() {
+    this.props.start(); // runs the tutorial
   }
 
   handleIndexChange = index => {
@@ -36,6 +44,9 @@ export default class progress extends React.Component {
       <View>  
         <MyHeader navigation={this.props.navigation} title="Progress"/>
         <View style={styles.container}> 
+          <CopilotStep text="Toggle between Day, Week, and Month Views by pressing the tabs!" order={3} name="hello">
+            <CopilotView style={styles.hamburger}/>
+          </CopilotStep>
           <SegmentedControlTab
             values={ options }  
             selectedIndex={ this.state.selectedIndex }
@@ -57,11 +68,19 @@ export default class progress extends React.Component {
               >
                 <Text style={{fontSize: 48, color: '#fff'}}>{'2'}</Text>
               </ProgressCircle>
-              <Text style={styles.titlelarge}>GOAL:</Text>
-              <Text style={styles.titlemedium}>3 rounds per day</Text>
-              <Text style={styles.subheading}>You have completed </Text> 
-            <Text style={styles.titlemedium}>2/3</Text>
-            <Text style={styles.subheading}>treatments today</Text>
+              <CopilotStep text="Here's your goal for today!" order={1} name="goal">
+                <CopilotView style={styles.centered}>
+                  <Text style={styles.titlelarge}>GOAL:</Text>
+                  <Text style={styles.titlemedium}>3 rounds per day</Text>
+                </CopilotView>
+              </CopilotStep>
+              <CopilotStep text="Here's your progress so far!" order={2} name="progress">
+                <CopilotView style={styles.centered}>
+                  <Text style={styles.subheading}>You have completed </Text> 
+                  <Text style={styles.titlemedium}>2/3</Text>
+                  <Text style={styles.subheading}>treatments today</Text>
+                </CopilotView>
+              </CopilotStep>
             </View>
           )}
           {this.state.selectedIndex === 1 && (
@@ -108,3 +127,7 @@ export default class progress extends React.Component {
     );
   }
 }
+
+export default copilot({
+    verticalOffset: 25,
+  })(progress);
