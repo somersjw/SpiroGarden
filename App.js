@@ -2,6 +2,7 @@ import React from 'react';
 import {
   StyleSheet,
 } from 'react-native';
+
 import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
@@ -10,6 +11,7 @@ import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import progress from './components/progress';
 import Settings from './components/Settings';
+import { changePlant, getData, initializePlant } from './components/gameFunctions';
 
 
 const AppNavigator = createDrawerNavigator({
@@ -64,10 +66,13 @@ const styles = StyleSheet.create({
   },
 });
 
+createRoundsTable = 'CREATE TABLE IF NOT EXISTS rounds(roundID INTEGER PRIMARY KEY AUTOINCREMENT, '
+                  + 'timeCompleted TEXT, goodBreathsCompleted INTEGER, '
+                  + 'maxVolume INTEGER, avgFlow INTEGER)';
+db.executeSql(createRoundsTable, []);
 const AppContainer = createAppContainer(AppNavigator);
 console.disableYellowBox = true;
 export default class App extends React.Component {
-
   render() {
     return <AppContainer />;
   }
