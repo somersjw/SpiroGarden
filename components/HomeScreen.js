@@ -6,7 +6,7 @@ import CountDown from 'react-native-countdown-component';
 import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import styles from './styles';
 import Plant from './Plant';
-import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant , saveprogress } from './gameFunctions';
+import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant , saveprogress, resetGame } from './gameFunctions';
 import { openDatabase } from 'react-native-sqlite-storage';
 var db = openDatabase({ name: 'CompletedRounds.db' });
 import { sendLocalNotification } from './notifications';
@@ -82,6 +82,7 @@ class HomeScreen extends React.Component {
     return 0;
   }
   
+<<<<<<< HEAD
   async resetGame() {
     this.setState({
       quality: 0,
@@ -97,6 +98,8 @@ class HomeScreen extends React.Component {
         });
   })
   }
+=======
+>>>>>>> 0fc23313e34a51fd843092eeaaf4f4d6e97f2994
   async playGame() {
     let maxFlow = 67;
     let badCount = 0;
@@ -137,14 +140,15 @@ class HomeScreen extends React.Component {
     let avgFlow = 0;
     this.setState({showButton: false})
     while (this.state.round <= 1) {
-      await this.resetGame();
+      await resetGame();
       if(await this.playGame()) {
         await this.intermission();
         await AsyncAlert("Success", "Move onto the next round.");
         sumFlowVals += this.state.quality;
         this.setState({
-          round: this.state.round + 1});
-          goodBreathCount: this.state.goodBreathCount + 1;
+          round: this.state.round + 1,
+          goodBreathCount: this.state.goodBreathCount + 1
+        })
       }
       else {
         await AsyncAlert("Try Again", "Make sure to keep within the good range");
@@ -175,7 +179,8 @@ class HomeScreen extends React.Component {
 
     this.setState({
       showButton: true,
-      round: 1
+      round: 1,
+      goodBreathCount: 0
     })
     changePlant(1);
     sendLocalNotification(moment().add(5, 'seconds')); // in 5 secs
