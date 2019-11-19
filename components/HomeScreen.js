@@ -5,7 +5,7 @@ import MyHeader from './MyHeader';
 import CountDown from 'react-native-countdown-component';
 import styles from './styles';
 import Plant from './Plant';
-import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant , saveprogress } from './gameFunctions';
+import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant , saveprogress, resetGame } from './gameFunctions';
 import { openDatabase } from 'react-native-sqlite-storage';
 var db = openDatabase({ name: 'CompletedRounds.db' });
 import { sendLocalNotification } from './notifications';
@@ -80,21 +80,6 @@ export default class HomeScreen extends React.Component {
     return 0;
   }
   
-  async resetGame() {
-    this.setState({
-      quality: 0,
-      val: 0
-    })
-    return new Promise(function(resolve, reject) {
-      fetch('http://67.205.163.230/reset', {header: {
-        'Content-Type': 'application/json'}
-      })
-        .then((response) => resolve(response))
-        .catch((error) =>{
-          console.error(error);
-        });
-  })
-  }
   async playGame() {
     let maxFlow = 67;
     let badCount = 0;
@@ -132,7 +117,7 @@ export default class HomeScreen extends React.Component {
   async play10Times() {
     this.setState({showButton: false})
     while (this.state.round <= 1) {
-      await this.resetGame();
+      await resetGame();
       if(await this.playGame()) {
         await this.intermission();
         await AsyncAlert("Success", "Move onto the next round.");
