@@ -5,11 +5,11 @@ import styles from './styles';
 export default class Plant extends Component {
   render() {
     const IMAGES = {
-      image0: require('../assets/plant-dead.png'),
-      image1: require('../assets/plant-dirt-water.gif'),
-      image2: require('../assets/plant-small.png'),
-      image3: require('../assets/plant-medium.png'),
-      image4: require('../assets/plant-large.png'),
+      image0: require('../assets/plant-dead.gif'),
+      image1: require('../assets/plant-dirt.gif'),
+      image2: require('../assets/plant-small.gif'),
+      image3: require('../assets/plant-medium.gif'),
+      image4: require('../assets/plant-large.gif'),
     }
     const plantURL = IMAGES['image' + this.props.plantState];
     
