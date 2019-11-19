@@ -136,7 +136,10 @@ class HomeScreen extends React.Component {
   async play10Times() {
     let sumFlowVals = 0;
     let avgFlow = 0;
-    this.setState({showButton: false})
+    this.setState({
+      showButton: false, 
+      plantWaterLevel: 1
+    })
     while (this.state.round <= 1) {
       await this.resetGame();
       if(await this.playGame()) {
@@ -172,7 +175,8 @@ class HomeScreen extends React.Component {
     this.setState({
       showButton: true,
       round: 1,
-      goodBreathCount: 0
+      goodBreathCount: 0,
+      plantWaterLevel: 0
     })
     sendLocalNotification(moment().add(5, 'seconds')); // in 5 secs
   }
@@ -214,7 +218,7 @@ class HomeScreen extends React.Component {
           {/*
             Plant Image and CountDowns
           */}
-          <Plant plantState={this.state.plantLevel}/>
+          <Plant plantState={this.state.plantLevel} plantWaterState={this.state.plantWaterLevel}/>
           </>
           }
           { !this.state.showPlant && 
