@@ -7,11 +7,19 @@ export default StyleSheet.create({
 	  backgroundColor: '#229637',
 	  width: 125
 	},
+  centered: {
+    alignItems: 'center',
+  },
 	container: {
 	  alignItems: 'center',
 	  backgroundColor: '#8fc99c',
 	  height: '100%'
 	},
+  hamburger: {
+    position: 'absolute',
+    left: 20,
+    top: 80
+  },
 	homescreen: {
 		alignItems: 'center',
 	  backgroundColor: '#8fc99c',
@@ -47,6 +55,11 @@ export default StyleSheet.create({
   	fontSize: 15,
   	margin: 5,
   	color: '#FFFF'
+  },
+  plant: {
+    position: 'absolute',
+    left: 200,
+    top: 400
   },
   activeTab: {
 		backgroundColor: '#8BD398',
