@@ -51,6 +51,12 @@ export default StyleSheet.create({
   	fontWeight: 'bold',
   	color: '#FFFF'
   },
+  regimen: {
+    borderColor: '#229637',
+    borderWidth: 1,
+    margin: 15,
+    height: 40
+  },
   subheading: {
   	fontSize: 15,
   	margin: 5,

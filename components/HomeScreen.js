@@ -82,24 +82,6 @@ class HomeScreen extends React.Component {
     return 0;
   }
   
-<<<<<<< HEAD
-  async resetGame() {
-    this.setState({
-      quality: 0,
-      val: 0,
-    })
-    return new Promise(function(resolve, reject) {
-      fetch('http://67.205.163.230/reset', {header: {
-        'Content-Type': 'application/json'}
-      })
-        .then((response) => resolve(response))
-        .catch((error) =>{
-          console.error(error);
-        });
-  })
-  }
-=======
->>>>>>> 0fc23313e34a51fd843092eeaaf4f4d6e97f2994
   async playGame() {
     let maxFlow = 67;
     let badCount = 0;

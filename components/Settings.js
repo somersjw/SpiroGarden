@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet, TextInput } from "react-native";
 import MyHeader from './MyHeader';
 import styles from './styles';
 import sendLocalNotification from './notifications';
@@ -9,11 +9,23 @@ import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 const CopilotView = walkthroughable(View);
 
 class Settings extends React.Component {
+  state = {
+    breathsPerRound: 0,
+    roundsPerDay: 0
+  }
+
+  handleBPR = (num) => {
+    this.setState({breathsPerRound: num})
+  }
+  handleRPD = (num) => {
+    this.setState({roundsPerDay: num})
+  }
     componentDidMount() {
       this.props.start(); // runs the tutorial
     }
     _onPressUpdate() {
         alert('You have successfully updated your regiment')
+        console.log('still need to set async storage or something here?')
     }
     render (){
         return (
@@ -29,9 +41,12 @@ class Settings extends React.Component {
                     <CopilotStep text="Update your breathing regimen here! Make sure you have doctor approval first" order={2} name="regimen">
                       <CopilotView>
                         <Text style={styles.titlelarge}>Breathing Regimen</Text>
-                        <Text style={styles.heading2}>10 breaths per round</Text>
-                        <Text style={styles.heading2}>3 rounds per day</Text>
-                        <Text style={styles.heading2}>15 days</Text>
+                        <TextInput style = {styles.regimen}
+                          placeholder = "Enter prescribed breaths per round"
+                          onChangeText = {this.handleBPR}/>
+                        <TextInput style = {styles.regimen}
+                          placeholder = "Enter prescribed rounds per day"
+                          onChangeText = {this.handleRPD}/>
                         <Button title="Update" onPress={this._onPressUpdate} color="#229637"/>
                       </CopilotView>
                     </CopilotStep>
