@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Button, StyleSheet, TextInput } from "react-native";
+import { View, Text, Button, StyleSheet, TextInput, KeyboardAvoidingView } from "react-native";
 import MyHeader from './MyHeader';
 import styles from './styles';
 import sendLocalNotification from './notifications';
@@ -36,7 +36,7 @@ class Settings extends React.Component {
         return (
             <View>
                 <MyHeader navigation={this.props.navigation} title="Settings"/>
-                <View style={styles.container}>
+                <KeyboardAvoidingView style={styles.container} behavior="padding">
                     <CopilotStep text="Connect your Spirometer here!" order={1} name="setup">
                       <CopilotView>
                         <Text style={styles.titlelarge}>Set Up Device</Text>
@@ -47,15 +47,18 @@ class Settings extends React.Component {
                       <CopilotView>
                         <Text style={styles.titlelarge}>Breathing Regimen</Text>
                         <TextInput style = {styles.regimen}
+                          keyboardType="numeric"
                           placeholder = "Enter prescribed breaths per round"
-                          onChangeText = {this.handleBPR}/>
+                          onChangeText = {this.handleBPR}
+                        />
                         <TextInput style = {styles.regimen}
+                          keyboardType="numeric"
                           placeholder = "Enter prescribed rounds per day"
                           onChangeText = {this.handleRPD}/>
                         <Button title="Update" onPress={this._onPressUpdate} color="#229637"/>
                       </CopilotView>
                     </CopilotStep>
-                </View>
+                </KeyboardAvoidingView>
             </View>
         );
       }
