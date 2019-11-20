@@ -6,11 +6,10 @@ import CountDown from 'react-native-countdown-component';
 import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import styles from './styles';
 import Plant from './Plant';
-import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant , saveprogress, resetGame } from './gameFunctions';
-import { openDatabase } from 'react-native-sqlite-storage';
-var db = openDatabase({ name: 'CompletedRounds.db' });
+import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant , saveprogress } from './gameFunctions';
 import { sendLocalNotification } from './notifications';
 import moment from 'moment';
+import { insertAlert } from './dbGateway';
 
 
 // For the tutorial when the user first loads the page
@@ -25,6 +24,7 @@ class HomeScreen extends React.Component {
     this.play10Times = this.play10Times.bind(this);
     this.Quickreset = this.Quickreset.bind(this);
     this.progression = this.progression.bind(this);
+    this.resetGame = this.resetGame.bind(this);
   }
 
   async componentDidMount() {
@@ -47,6 +47,22 @@ class HomeScreen extends React.Component {
         6000
       )
     );
+  }
+
+  async resetGame() {
+    this.setState({
+      quality: 0,
+      val: 0
+    })
+    return new Promise(function(resolve, reject) {
+      fetch('http://67.205.163.230/reset', {header: {
+        'Content-Type': 'application/json'}
+      })
+        .then((response) => resolve(response))
+        .catch((error) =>{
+          console.error(error);
+        });
+  })
   }
 
   async Quickreset(){
@@ -120,9 +136,12 @@ class HomeScreen extends React.Component {
   async play10Times() {
     let sumFlowVals = 0;
     let avgFlow = 0;
-    this.setState({showButton: false})
+    this.setState({
+      showButton: false, 
+      plantWaterLevel: 1
+    })
     while (this.state.round <= 1) {
-      await resetGame();
+      await this.resetGame();
       if(await this.playGame()) {
         await this.intermission();
         await AsyncAlert("Success", "Move onto the next round.");
@@ -131,10 +150,12 @@ class HomeScreen extends React.Component {
           round: this.state.round + 1,
           goodBreathCount: this.state.goodBreathCount + 1
         })
+        await storeData('@interval_time',Date.now().toString())
       }
       else {
         await AsyncAlert("Try Again", "Make sure to keep within the good range");
       }
+      this.setState({round: this.state.round + 1});
       if(this.state.plantprogress >= 200){
         let nextLevel = this.state.plantLevel + 1;
         if (nextLevel >= 4) {
@@ -149,22 +170,14 @@ class HomeScreen extends React.Component {
     }
     let dateTime = new Date();
     avgFlow = parseFloat(sumFlowVals)/parseFloat(this.state.round);
-    db.transaction(function(tx) {
-      tx.executeSql('INSERT INTO rounds(timeCompleted, goodBreathsCompleted, maxVolume, avgFlow) VALUES (?,?,?)',
-                    [dateTime.toISOString(), this.state.goodBreathCount, this.state.val, avgFlow],
-                    (tx, results) => {
-                      console.log('Round logged in database');
-                    }
 
-      )
-    })
-
+    insertAlert(avgFlow, dateTime.toISOString());
     this.setState({
       showButton: true,
       round: 1,
-      goodBreathCount: 0
+      goodBreathCount: 0,
+      plantWaterLevel: 0
     })
-    changePlant(1);
     sendLocalNotification(moment().add(5, 'seconds')); // in 5 secs
   }
     render() {
@@ -205,7 +218,7 @@ class HomeScreen extends React.Component {
           {/*
             Plant Image and CountDowns
           */}
-          <Plant plantState={this.state.plantLevel}/>
+          <Plant plantState={this.state.plantLevel} plantWaterState={this.state.plantWaterLevel}/>
           </>
           }
           { !this.state.showPlant && 

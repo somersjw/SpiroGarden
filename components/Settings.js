@@ -4,6 +4,7 @@ import MyHeader from './MyHeader';
 import styles from './styles';
 import sendLocalNotification from './notifications';
 import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
+import {getDailyRounds} from './dbGateway';
 
 // For the tutorial when the user first loads the page
 const CopilotView = walkthroughable(View);
@@ -27,6 +28,10 @@ class Settings extends React.Component {
         alert('You have successfully updated your regiment')
         console.log('still need to set async storage or something here?')
     }
+
+    test() {
+        console.log(getDailyRounds());
+    }
     render (){
         return (
             <View>
@@ -35,7 +40,7 @@ class Settings extends React.Component {
                     <CopilotStep text="Connect your Spirometer here!" order={1} name="setup">
                       <CopilotView>
                         <Text style={styles.titlelarge}>Set Up Device</Text>
-                        <Button title="Connect" onPress={sendLocalNotification} color="#229637"/>
+                        <Button title="Connect" onPress={this.test} color="#229637"/>
                       </CopilotView>
                     </CopilotStep>
                     <CopilotStep text="Update your breathing regimen here! Make sure you have doctor approval first" order={2} name="regimen">

@@ -13,22 +13,6 @@ export function AsyncAlert(title, message) {
     })
   }
 
-  export async function resetGame() {
-    this.setState({
-      quality: 0,
-      val: 0
-    })
-    return new Promise(function(resolve, reject) {
-      fetch('http://67.205.163.230/reset', {header: {
-        'Content-Type': 'application/json'}
-      })
-        .then((response) => resolve(response))
-        .catch((error) =>{
-          console.error(error);
-        });
-  })
-  }
-
   export async function fetchSpiroData(){
     return new Promise(function(resolve, reject) {
         fetch('http://67.205.163.230', {header: {
@@ -42,7 +26,21 @@ export function AsyncAlert(title, message) {
 }
 
 export async function initializePlant() {
+    let timeaway = await getData('@interval_time');
+    if (isNaN(timeaway)){
+      await storeData('@interval_time',Date.now().toString())
+    }
+    timeaway = await getData('@interval_time');
+    console.log(parseFloat(timeaway));
+    console.log(Date.now());
+    if (Date.now() - parseFloat(timeaway) > 100 * 1000){
+      await AsyncAlert("Oh No!", "Your plant has wilted due to lack of water!");
+      await storeData('@plant_level', '0');
+      await storeData('@plant_progress','0');
+      await storeData('@interval_time',Date.now().toString())
+    }
     let level = await getData('@plant_level');
+    console.log(level)
     if (level === -1) {
         await storeData('@plant_level', '1');
         await storeData('@plant_progress','0');
