@@ -147,10 +147,7 @@ class HomeScreen extends React.Component {
         await this.intermission();
         await AsyncAlert("Success", "Move onto the next round.");
         sumFlowVals += this.state.quality;
-        this.setState({
-          round: this.state.round + 1,
-          goodBreathCount: this.state.goodBreathCount + 1
-        })
+        this.setState({ goodBreathCount: this.state.goodBreathCount + 1 })
         await storeData('@interval_time',Date.now().toString())
       }
       else {
