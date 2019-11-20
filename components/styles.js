@@ -25,10 +25,6 @@ export default StyleSheet.create({
 	  backgroundColor: '#8fc99c',
 	  height: '100%'
 	},
-  image: {
-  	width: '50%',
-  	height: '60%'
-  },
   titlelarge: {
   	fontSize: 35,
     fontWeight: 'bold',

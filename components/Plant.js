@@ -1,9 +1,28 @@
 import React, { Component } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, Animated } from 'react-native';
 import styles from './styles';
 
 export default class Plant extends Component {
+  constructor() {
+    super()
+    this.springValue = new Animated.Value(0.75)
+  }
+
+  spring () {
+    this.springValue.setValue(0)
+    Animated.spring(
+      this.springValue,
+      {
+        toValue: 0.75,
+        friction: 3
+      }
+    ).start()
+  }
+
   render() {
+    if (this.props.plantSpring){
+      this.spring()
+    }
     const IMAGES = {
       image0: require('../assets/plant-dead.gif'),
       image1: require('../assets/plant-dirt.gif'),
@@ -24,8 +43,12 @@ export default class Plant extends Component {
     const plantWaterURL = IMAGES_WATER['image' + this.props.plantState];
     
     return (
-      <Image
-        style={styles.image}  
+      <Animated.Image
+        style={{
+          width: '50%',
+          height: '60%',
+          transform: [{scale: this.springValue}]
+        }}
         source={this.props.plantWaterState  === 1 ? plantWaterURL : plantURL}
       />
     );
