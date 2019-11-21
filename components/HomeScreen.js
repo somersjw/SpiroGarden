@@ -69,7 +69,8 @@ class HomeScreen extends React.Component {
     this.setState({
       plantLevel: 1,
       plantprogress: 0,
-      goodBreathCount: 0
+      goodBreathCount: 0,
+      maxVolume: 0
     });
     await changePlant(-1);
   }
@@ -127,6 +128,13 @@ class HomeScreen extends React.Component {
       if (json.quality < 34){
         goodCount += 1;
       }
+
+      if (json.val > this.state.maxVolume) {
+        this.setState({
+          maxVolume: json.val
+        });
+      }
+
       prevQuantity = json.val;
     }
 
@@ -167,11 +175,12 @@ class HomeScreen extends React.Component {
     let dateTime = new Date();
     avgFlow = parseFloat(sumFlowVals)/parseFloat(this.state.round);
 
-    insertAlert(avgFlow, dateTime.toISOString());
+    insertAlert(avgFlow,this.state.goodBreathCount, this.state.maxVolume, dateTime.toISOString());
     this.setState({
       showButton: true,
       round: 1,
-      goodBreathCount: 0
+      goodBreathCount: 0,
+      maxVolume: 0
     })
     changePlant(1);
     sendLocalNotification(moment().add(5, 'seconds')); // in 5 secs
