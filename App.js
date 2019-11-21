@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
 });
 
-initalizeRoundTable();
+// initalizeRoundTable();
 const AppContainer = createAppContainer(AppNavigator);
 console.disableYellowBox = true;
 export default class App extends React.Component {
