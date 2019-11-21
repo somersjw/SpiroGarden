@@ -46,7 +46,7 @@ export default class Plant extends Component {
       <Animated.Image
         style={{
           width: '50%',
-          height: '60%',
+          height: '50%',
           transform: [{scale: this.springValue}]
         }}
         source={this.props.plantWaterState  === 1 ? plantWaterURL : plantURL}
