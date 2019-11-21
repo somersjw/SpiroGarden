@@ -25,10 +25,6 @@ export default StyleSheet.create({
 	  backgroundColor: '#8fc99c',
 	  height: '100%'
 	},
-  image: {
-  	width: '50%',
-  	height: '60%'
-  },
   titlelarge: {
   	fontSize: 35,
     fontWeight: 'bold',
@@ -50,6 +46,12 @@ export default StyleSheet.create({
   	fontSize: 20,
   	fontWeight: 'bold',
   	color: '#FFFF'
+  },
+  regimen: {
+    borderColor: '#229637',
+    borderWidth: 1,
+    margin: 15,
+    height: 40
   },
   subheading: {
   	fontSize: 15,

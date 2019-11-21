@@ -144,17 +144,19 @@ class HomeScreen extends React.Component {
   async play10Times() {
     let sumFlowVals = 0;
     let avgFlow = 0;
-    this.setState({showButton: false})
-    while (this.state.round <= 1) {
+    this.setState({
+      showButton: false, 
+      plantWaterLevel: 1,
+      plantSpring: false
+    })
+    while (this.state.round <= 10) {
       await this.resetGame();
       if(await this.playGame()) {
         await this.intermission();
         await AsyncAlert("Success", "Move onto the next round.");
         sumFlowVals += this.state.quality;
-        this.setState({
-          round: this.state.round + 1,
-          goodBreathCount: this.state.goodBreathCount + 1
-        })
+        this.setState({ goodBreathCount: this.state.goodBreathCount + 1 })
+        await storeData('@interval_time',Date.now().toString())
       }
       else {
         await AsyncAlert("Try Again", "Make sure to keep within the good range");
@@ -167,7 +169,8 @@ class HomeScreen extends React.Component {
         }
         this.setState({
           plantLevel: nextLevel,
-          plantprogress: 0
+          plantprogress: 0,
+          plantSpring: true
         })
         changePlant (1);
       }
@@ -180,9 +183,10 @@ class HomeScreen extends React.Component {
       showButton: true,
       round: 1,
       goodBreathCount: 0,
-      maxVolume: 0
+      maxVolume: 0,
+      plantWaterLevel: 0,
+      plantSpring: false
     })
-    changePlant(1);
     sendLocalNotification(moment().add(5, 'seconds')); // in 5 secs
   }
     render() {
@@ -223,7 +227,7 @@ class HomeScreen extends React.Component {
           {/*
             Plant Image and CountDowns
           */}
-          <Plant plantState={this.state.plantLevel}/>
+          <Plant plantState={this.state.plantLevel} plantWaterState={this.state.plantWaterLevel} plantSpring={this.state.plantSpring}/>
           </>
           }
           { !this.state.showPlant && 
