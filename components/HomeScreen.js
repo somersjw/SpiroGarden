@@ -6,7 +6,7 @@ import CountDown from 'react-native-countdown-component';
 import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import styles from './styles';
 import Plant from './Plant';
-import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant , saveprogress } from './gameFunctions';
+import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant , saveprogress, round } from './gameFunctions';
 import { sendLocalNotification } from './notifications';
 import moment from 'moment';
 import { insertAlert } from './dbGateway';
@@ -19,7 +19,7 @@ const CopilotView = walkthroughable(View);
 class HomeScreen extends React.Component {
   constructor() {
     super();
-    this.state = {showPlant: true,showButton: true, timer: 6, round: 1};
+    this.state = {showPlant: true,showButton: true, timer: 6, round: 1, maxVolume: 0, sumFlowVals: 0, totalCount: 0};
     this.playGame = this.playGame.bind(this);
     this.intermission = this.intermission.bind(this);
     this.play10Times = this.play10Times.bind(this);
@@ -36,7 +36,6 @@ class HomeScreen extends React.Component {
       plantLevel: plantLevel,
       plantprogress: plantprogress
     });
-    console.log(this.state.plantLevel.toString());
     this.props.start(); // runs the tutorial
   }
 
@@ -92,7 +91,7 @@ class HomeScreen extends React.Component {
         }
       }
     }
-    sum = this.state.plantprogress + addtosum;
+    let sum = this.state.plantprogress + addtosum;
     this.setState({
       plantprogress: sum
     });
@@ -111,7 +110,9 @@ class HomeScreen extends React.Component {
       json = await fetchSpiroData();
       this.setState({
         quality: json.quality,
-        val: json.val
+        val: json.val,
+        sumFlowVals: this.state.sumFlowVals + json.quality,
+        totalCount: this.state.totalCount + 1
       })
       fullcount += 1
       if (json.val < prevQuantity) {
@@ -139,24 +140,22 @@ class HomeScreen extends React.Component {
       prevQuantity = json.val;
     }
 
-    await this.progression(goodCount,fullcount);
+    await this.progression(goodCount, fullcount);
     return true;
 }
   async play10Times() {
-    let sumFlowVals = 0;
-    let avgFlow = 0;
+    let roundsPassed = 0;
     this.setState({
       showButton: false, 
       plantWaterLevel: 1,
       plantSpring: false
     })
-    while (this.state.round <= 10) {
+    while (this.state.round <= 1) {
       await this.resetGame();
       if(await this.playGame()) {
         await this.intermission();
         await AsyncAlert("Success", "Move onto the next round.");
-        sumFlowVals += this.state.quality;
-        this.setState({ goodBreathCount: this.state.goodBreathCount + 1 })
+        roundsPassed += 1;
         await storeData('@interval_time',Date.now().toString())
       }
       else {
@@ -177,13 +176,12 @@ class HomeScreen extends React.Component {
       }
     }
     let dateTime = new Date();
-    avgFlow = parseFloat(sumFlowVals)/parseFloat(this.state.round);
+    let avgFlow = parseFloat(this.state.sumFlowVals)/parseFloat(this.state.totalCount);
 
-    insertAlert(avgFlow,this.state.goodBreathCount, this.state.maxVolume, dateTime.toISOString());
+    insertAlert(dateTime.toISOString(), roundsPassed, this.state.maxVolume, round(avgFlow, 1));
     this.setState({
       showButton: true,
       round: 1,
-      goodBreathCount: 0,
       maxVolume: 0,
       plantWaterLevel: 0,
       plantSpring: false
