@@ -261,12 +261,15 @@ class HomeScreen extends React.Component {
           {this.state.showButton && (
             <CopilotStep text="Once you connect your spirometer, press Start and begin breathing!" order={6} name="start">
               <CopilotView>
-                <Button 
-                  title="Start Game"
+                <Button
+                  title="START GAME"
                   buttonStyle={styles.button}
                   onPress={this.play10Times}
                   />
-                <Button title='Reset' color="#229637" onPress={this.Quickreset} />
+                <Button
+                  title='RESET'
+                  buttonStyle={styles.button}
+                  onPress={this.Quickreset} />
               </CopilotView>
             </CopilotStep>
           )}
