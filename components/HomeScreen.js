@@ -6,7 +6,7 @@ import CountDown from 'react-native-countdown-component';
 import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import styles from './styles';
 import Plant from './Plant';
-import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant , saveprogress, round } from './gameFunctions';
+import { AsyncAlert, fetchSpiroData, getData, storeData, changePlant, initializePlant , saveprogress, round } from './gameFunctions';
 import { sendLocalNotification } from './notifications';
 import moment from 'moment';
 import { insertAlert } from './dbGateway';
@@ -36,6 +36,11 @@ class HomeScreen extends React.Component {
       plantLevel: plantLevel,
       plantprogress: plantprogress
     });
+    let intro = await getData('@homescreen_tutorial');
+    if (intro === '-1') {
+      this.props.start(); // runs the tutorial
+      await storeData('@homescreen_tutorial', '1');
+    }
   }
 
    async intermission() {

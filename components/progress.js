@@ -12,6 +12,7 @@ import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import MyHeader from './MyHeader';
 import styles from './styles';
 import {getDailyRounds, getMonthlyRounds, getWeeklyRounds} from './dbGateway';
+import { getData, storeData } from './gameFunctions';
 import moment from "moment";
 import { ScrollView } from "react-native-gesture-handler";
 import RecentRounds from './RecentRounds';
@@ -32,7 +33,11 @@ class progress extends React.Component {
 
   // TODO: need to fetch the round data every time the page is loaded
   async componentDidMount() {
-    this.props.start(); // runs the tutorial
+    let progress_intro = await getData('@progress_tutorial');
+    if (progress_intro === '-1') {
+      this.props.start(); // runs the tutorial
+      await storeData('@progress_tutorial', '1');
+    }
     let dailyRounds = await getDailyRounds();
     let weeklyRounds = await getWeeklyRounds();
     let monthlyRounds = await getMonthlyRounds();

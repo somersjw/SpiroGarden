@@ -5,6 +5,7 @@ import styles from './styles';
 import sendLocalNotification from './notifications';
 import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import {getDailyRounds} from './dbGateway';
+import { getData, storeData } from './gameFunctions';
 
 // For the tutorial when the user first loads the page
 const CopilotView = walkthroughable(View);
@@ -21,8 +22,12 @@ class Settings extends React.Component {
   handleRPD = (num) => {
     this.setState({roundsPerDay: num})
   }
-    componentDidMount() {
-      this.props.start(); // runs the tutorial
+    async componentDidMount() {
+      let settings_intro = await getData('@settings_tutorial');
+      if (settings_intro === '-1') {
+        this.props.start(); // runs the tutorial
+        await storeData('@settings_tutorial', '1');
+      }
     }
     _onPressUpdate() {
         alert('You have successfully updated your regiment')

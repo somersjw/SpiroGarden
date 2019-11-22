@@ -51,6 +51,9 @@ export async function changePlant(change) {
         // reset to 0
         await storeData('@plant_level', '1');
         await storeData('@plant_progress','0');
+        await storeData('@homescreen_tutorial','-1');
+        await storeData('@progress_tutorial','-1');
+        await storeData('@settings_tutorial','-1');
     }
     else {
         let currentLevel = parseInt(await getData('@plant_level'));
