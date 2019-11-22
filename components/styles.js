@@ -5,8 +5,9 @@ export default StyleSheet.create({
 	  alignItems: 'center',
 	  justifyContent: 'center',
 	  backgroundColor: '#229637',
-	  width: 125,
-    marginTop: 10,
+    width: 150,
+    margin: 10,
+    fontFamily: "LIONELLORegular"
 	},
   centered: {
     alignItems: 'center',
@@ -15,11 +16,7 @@ export default StyleSheet.create({
     paddingTop: 5,
 	  alignItems: 'center',
 	  backgroundColor: '#8fc99c',
-	  height: '100%'
-  },
-  table: {
-    backgroundColor: '#8fc99c',
-    height: '100%'
+    height: '100%',
 	},
   hamburger: {
     position: 'absolute',
@@ -28,21 +25,21 @@ export default StyleSheet.create({
   },
 	homescreen: {
 		alignItems: 'center',
-	  backgroundColor: '#8fc99c',
+	  backgroundColor: '#e1ffd4',
 	  height: '100%'
 	},
   titlelarge: {
-  	fontSize: 35,
-    fontWeight: 'bold',
+  	fontSize: 65,
     marginTop: 50,
     marginBottom: 10,
     color: '#FFFF',
-    fontFamily: "Iconic-Bold-trial"
+    fontFamily: "LIONELLORegular",
+    textAlign: "center"
   },
   titlemedium: {
-  	fontSize: 25,
-    fontWeight: 'bold',
-    color: '#FFFF'
+  	fontSize: 35,
+    color: '#FFFF',
+    fontFamily: "LIONELLORegular"
   },
   heading1: {
   	fontSize: 15,
@@ -56,14 +53,15 @@ export default StyleSheet.create({
   },
   regimen: {
     borderColor: '#229637',
-    borderWidth: 1,
+    borderWidth: 3,
     margin: 15,
     height: 40
   },
   subheading: {
-  	fontSize: 15,
+  	fontSize: 25,
   	margin: 5,
-  	color: '#FFFF'
+    color: '#FFFF',
+    fontFamily: "LIONELLOLight"
   },
   plant: {
     position: 'absolute',

@@ -6,7 +6,7 @@ import CountDown from 'react-native-countdown-component';
 import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import styles from './styles';
 import Plant from './Plant';
-import { AsyncAlert, fetchSpiroData, getData, changePlant, initializePlant , saveprogress, round } from './gameFunctions';
+import { AsyncAlert, fetchSpiroData, getData, storeData, changePlant, initializePlant , saveprogress, round } from './gameFunctions';
 import { sendLocalNotification } from './notifications';
 import moment from 'moment';
 import { insertAlert } from './dbGateway';
@@ -36,6 +36,11 @@ class HomeScreen extends React.Component {
       plantLevel: plantLevel,
       plantprogress: plantprogress
     });
+    let intro = await getData('@homescreen_tutorial');
+    if (intro === '-1') {
+      this.props.start(); // runs the tutorial
+      await storeData('@homescreen_tutorial', '1');
+    }
   }
 
    async intermission() {
@@ -149,7 +154,7 @@ class HomeScreen extends React.Component {
       plantWaterLevel: 1,
       plantSpring: false
     })
-    while (this.state.round <= 1) {
+    while (this.state.round <= 10) {
       await this.resetGame();
       if(await this.playGame()) {
         await this.intermission();
@@ -169,9 +174,12 @@ class HomeScreen extends React.Component {
         this.setState({
           plantLevel: nextLevel,
           plantprogress: 0,
-          // plantSpring: true
+          plantSpring: true
         })
         changePlant (1);
+        this.setState({
+          plantSpring: false
+        })
       }
     }
     let dateTime = new Date();
@@ -210,7 +218,7 @@ class HomeScreen extends React.Component {
           {/* 
             Titles near top of page
           */}
-          <Text style={styles.heading1}> Round: {this.state.round} / 10</Text>
+          <Text style={styles.heading1}> Breath: {this.state.round} / 10</Text>
           { this.state.showPlant && <>
           <CopilotStep text="Check how well you're breathing here!" order={5} name="spirometer data">
             <CopilotView>
@@ -248,12 +256,15 @@ class HomeScreen extends React.Component {
           {this.state.showButton && (
             <CopilotStep text="Once you connect your spirometer, press Start and begin breathing!" order={6} name="start">
               <CopilotView>
-                <Button 
-                  title="Start Game"
+                <Button
+                  title="START GAME"
                   buttonStyle={styles.button}
                   onPress={this.play10Times}
                   />
-                <Button title='Reset' color="#229637" onPress={this.Quickreset} />
+                <Button
+                  title='RESET'
+                  buttonStyle={styles.button}
+                  onPress={this.Quickreset} />
               </CopilotView>
             </CopilotStep>
           )}
