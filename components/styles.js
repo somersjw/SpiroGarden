@@ -5,7 +5,8 @@ export default StyleSheet.create({
 	  alignItems: 'center',
 	  justifyContent: 'center',
 	  backgroundColor: '#229637',
-	  width: 125
+	  width: 125,
+    marginTop: 10,
 	},
   centered: {
     alignItems: 'center',

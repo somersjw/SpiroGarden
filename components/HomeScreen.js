@@ -36,7 +36,6 @@ class HomeScreen extends React.Component {
       plantLevel: plantLevel,
       plantprogress: plantprogress
     });
-    this.props.start(); // runs the tutorial
   }
 
    async intermission() {
@@ -189,19 +188,7 @@ class HomeScreen extends React.Component {
     sendLocalNotification(moment().add(5, 'seconds')); // in 5 secs
   }
     render() {
-      let progressbar = 0;
-      let qualitybar = 0;
-      let valbar = 0;
-      if (this.state.plantprogress) {
-        progressbar = this.state.plantprogress/200;
-      }
-      if (this.state.quality){
-        qualitybar = this.state.quality/100;
-      }
-      if (this.state.val){
-        valbar = this.state.val/100;
-      }
-      
+      let flow = this.state.quality;
       return (
         <View style={styles.homescreen}>
           {/* 
@@ -228,12 +215,10 @@ class HomeScreen extends React.Component {
           <CopilotStep text="Check how well you're breathing here!" order={5} name="spirometer data">
             <CopilotView>
               <Text style={styles.titlemedium}>Current Spirometer Values</Text>
-              <Text style={styles.heading1}> progression: {this.state.plantprogress}</Text>
-              <Progress.Bar progress={progressbar} width={300} />
-              <Text style={styles.heading1}> Quality: {this.state.quality}</Text>
-              <Progress.Bar progress={qualitybar} width={300} />
-              <Text style={styles.heading1}>Val: {this.state.val}</Text>
-              <Progress.Bar progress={valbar} width={300} />
+              <Text style={styles.heading1}>Flow: {this.state.quality}</Text>
+              <Progress.Bar color={flow ? hsl(flow <= 50 ? flow*2 : 100 - (flow - 50)*2, '100%', '50%') : '#229637'} progress={flow ? flow/100 : 0} width={300} />
+              <Text style={styles.heading1}>Volume: {this.state.val}</Text>
+              <Progress.Bar progress={this.state.val ? this.state.val/100 : 0} width={300} />
             </CopilotView>
           </CopilotStep>
           <CopilotStep text="Here's where you can check your plant progress!" order={3} name="plant">
@@ -244,6 +229,8 @@ class HomeScreen extends React.Component {
             Plant Image and CountDowns
           */}
           <Plant plantState={this.state.plantLevel} plantWaterState={this.state.plantWaterLevel} plantSpring={this.state.plantSpring}/>
+          <Text style={styles.heading1}>Points: {this.state.plantprogress}</Text>
+          <Progress.Bar progress={this.state.plantprogress ? this.state.plantprogress/200 : 0} width={300} />
           </>
           }
           { !this.state.showPlant && 
