@@ -154,7 +154,7 @@ class HomeScreen extends React.Component {
       plantWaterLevel: 1,
       plantSpring: false
     })
-    while (this.state.round <= 1) {
+    while (this.state.round <= 10) {
       await this.resetGame();
       if(await this.playGame()) {
         await this.intermission();
@@ -174,9 +174,12 @@ class HomeScreen extends React.Component {
         this.setState({
           plantLevel: nextLevel,
           plantprogress: 0,
-          // plantSpring: true
+          plantSpring: true
         })
         changePlant (1);
+        this.setState({
+          plantSpring: false
+        })
       }
     }
     let dateTime = new Date();
@@ -215,7 +218,7 @@ class HomeScreen extends React.Component {
           {/* 
             Titles near top of page
           */}
-          <Text style={styles.heading1}> Round: {this.state.round} / 10</Text>
+          <Text style={styles.heading1}> Breath: {this.state.round} / 10</Text>
           { this.state.showPlant && <>
           <CopilotStep text="Check how well you're breathing here!" order={5} name="spirometer data">
             <CopilotView>
