@@ -50,7 +50,7 @@ class HomeScreen extends React.Component {
       await storeData('@homescreen_tutorial', '1');
     }
 
-    await fetchUserData();
+    // await this.fetchUserData();
   }
 
   async fetchUserData() {
