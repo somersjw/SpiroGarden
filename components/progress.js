@@ -11,6 +11,8 @@ import ProgressCircle from 'react-native-progress-circle'
 import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import MyHeader from './MyHeader';
 import styles from './styles';
+import {getDailyRounds, getMonthlyRounds, getWeeklyRounds} from './dbGateway';
+import moment from "moment";
 
 // For the tutorial when the user first loads the page
 const CopilotView = walkthroughable(View);
@@ -19,12 +21,33 @@ class progress extends React.Component {
   constructor() {
     super();
     this.state = {
-      selectedIndex: 0
+      selectedIndex: 0,
+      dailyRounds: 0,
+      weeklyRounds: 0,
+      monthlyRounds: 0
     };
   }
 
-  componentDidMount() {
+  // TODO: need to fetch the round data every time the page is loaded
+  async componentDidMount() {
     this.props.start(); // runs the tutorial
+    let dailyRounds = await getDailyRounds();
+    let weeklyRounds = await getWeeklyRounds();
+    let monthlyRounds = await getMonthlyRounds();
+    if (dailyRounds > 3) {
+      dailyRounds = 3;
+    }
+    if (weeklyRounds > 7) {
+      weeklyRounds = 7
+    }
+    if (monthlyRounds > moment().daysInMonth()) {
+      monthlyRounds = moment().daysInMonth();
+    }
+    this.setState({
+      dailyRounds: dailyRounds,
+      weeklyRounds: weeklyRounds,
+      monthlyRounds: monthlyRounds
+    });
   }
 
   handleIndexChange = index => {
@@ -59,14 +82,14 @@ class progress extends React.Component {
           {this.state.selectedIndex === 0 && (
             <View style={styles.container}>
               <ProgressCircle
-              percent={66}
+              percent={(this.state.dailyRounds / 3) * 100}
               radius={75}
               borderWidth={10}
               color='#229637'
               shadowColor='#fff'
               bgColor='#8BD398'
               >
-                <Text style={{fontSize: 48, color: '#fff'}}>{'2'}</Text>
+                <Text style={{fontSize: 48, color: '#fff'}}>{this.state.dailyRounds}</Text>
               </ProgressCircle>
               <CopilotStep text="Here's your goal for today!" order={1} name="goal">
                 <CopilotView style={styles.centered}>
@@ -77,7 +100,7 @@ class progress extends React.Component {
               <CopilotStep text="Here's your progress so far!" order={2} name="progress">
                 <CopilotView style={styles.centered}>
                   <Text style={styles.subheading}>You have completed </Text> 
-                  <Text style={styles.titlemedium}>2/3</Text>
+                  <Text style={styles.titlemedium}>{this.state.dailyRounds}/3</Text>
                   <Text style={styles.subheading}>treatments today</Text>
                 </CopilotView>
               </CopilotStep>
@@ -86,38 +109,38 @@ class progress extends React.Component {
           {this.state.selectedIndex === 1 && (
             <View style={styles.container}>
             <ProgressCircle
-            percent={57}
+            percent={(this.state.weeklyRounds / 7) * 100}
             radius={75}
             borderWidth={10}
             color='#229637'
             shadowColor='#fff'
             bgColor='#8BD398'
             >
-              <Text style={{fontSize: 48, color: '#fff'}}>{'4'}</Text>
+              <Text style={{fontSize: 48, color: '#fff'}}>{this.state.weeklyRounds}</Text>
             </ProgressCircle>
             <Text style={styles.titlelarge}>GOAL:</Text>
             <Text style={styles.heading2}>3 rounds per day for 7 days this week</Text>
             <Text style={styles.subheading}>You have completed </Text> 
-            <Text style={styles.titlemedium}>4/7</Text>
+          <Text style={styles.titlemedium}>{this.state.weeklyRounds}/7</Text>
             <Text style={styles.subheading}>days of treatment this week</Text>
           </View>
           )}
           {this.state.selectedIndex === 2 && (
             <View style={styles.container}>
             <ProgressCircle
-            percent={65}
+            percent={(this.state.monthlyRounds / moment().daysInMonth()) * 100}
             radius={75}
             borderWidth={10}
             color='#229637'
             shadowColor='#fff'
             bgColor='#8BD398'
             >
-              <Text style={{fontSize: 48, color: '#fff'}}>{'20'}</Text>
+              <Text style={{fontSize: 48, color: '#fff'}}>{this.state.monthlyRounds}</Text>
             </ProgressCircle>
             <Text style={styles.titlelarge}>GOAL:</Text>
-            <Text style={styles.heading2}>3 rounds a day for 31 days this month</Text>
+            <Text style={styles.heading2}>3 rounds a day for {moment().daysInMonth()} days this month</Text>
             <Text style={styles.subheading}>You have completed </Text> 
-            <Text style={styles.titlemedium}>20/31</Text>
+            <Text style={styles.titlemedium}>{this.state.monthlyRounds}/{moment().daysInMonth()}</Text>
             <Text style={styles.subheading}>days of treatment this month</Text>
           </View>
           )}

@@ -40,7 +40,6 @@ export async function initializePlant() {
       await storeData('@interval_time',Date.now().toString())
     }
     let level = await getData('@plant_level');
-    console.log(level)
     if (level === -1) {
         await storeData('@plant_level', '1');
         await storeData('@plant_progress','0');
@@ -84,6 +83,11 @@ export async function getData(key) {
         return -1;
     }
   }
+
+  export function round(value, precision) {
+    var multiplier = Math.pow(10, precision || 0);
+    return Math.round(value * multiplier) / multiplier;
+}
 
   storeData = async (key, value) => {
     try {
