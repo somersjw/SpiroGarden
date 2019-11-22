@@ -6,11 +6,8 @@ import { Button } from 'react-native-elements';
 import sendLocalNotification from './notifications';
 import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import {getDailyRounds} from './dbGateway';
-<<<<<<< HEAD
-import { storeData } from "./gameFunctions";
-=======
 import { getData, storeData } from './gameFunctions';
->>>>>>> b5561d261eb3cafcf968ae3250a73543fa16d73a
+
 
 // For the tutorial when the user first loads the page
 const CopilotView = walkthroughable(View);
@@ -68,32 +65,27 @@ class Settings extends React.Component {
                           value = {this.state.BPR}
                           keyboardType="numeric"
                           placeholder = "Enter prescribed breaths per round"
-<<<<<<< HEAD
                           onChangeText = {(BPR) => this.setState({BPR})}
-=======
                           placeholderTextColor="#fff"
-                          onChangeText = {this.handleBPR}
->>>>>>> b5561d261eb3cafcf968ae3250a73543fa16d73a
                         />
                         <TextInput style = {styles.regimen}
                           value = {this.state.RPD}
                           keyboardType="numeric"
                           placeholder = "Enter prescribed rounds per day"
-<<<<<<< HEAD
-                          onChangeText = {(RPD) => this.setState({RPD})}/>
-
+                          placeholderTextColor="#fff"
+                          onChangeText = {(RPD) => this.setState({RPD})}
+                          />
                       <TextInput style = {styles.regimen}
-                          value = {this.state.volume}
+                          value={this.state.volume}
                           keyboardType="numeric"
                           placeholder = "Enter target volume goal"
-                          onChangeText = {(volume) => this.setState({volume})}/>
-                        <Button title="Update" onPress={this._onPressUpdate} disabled={!(this.state.BPR || this.state.RPD || this.state.volume)} color="#229637"/>
-=======
+                          onChangeText = {(volume) => this.setState({volume})}
                           placeholderTextColor="#fff"
-                          onChangeText = {this.handleRPD}/>
+                          />
                         <Button
                           title="UPDATE"
                           onPress={this._onPressUpdate}
+                          disabled={!(this.state.BPR || this.state.RPD || this.state.volume)}
                           buttonStyle={styles.button}/>
                       </CopilotView>
                     </CopilotStep>
@@ -104,7 +96,6 @@ class Settings extends React.Component {
                           title="CONNECT"
                           onPress={this.test}
                           buttonStyle={styles.button}/>
->>>>>>> b5561d261eb3cafcf968ae3250a73543fa16d73a
                       </CopilotView>
                     </CopilotStep>
             </View>

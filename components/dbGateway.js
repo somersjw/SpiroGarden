@@ -12,7 +12,7 @@ export async function getDailyRounds() {
   return row.c;
 }
 
-export async function getDailyRoundInfo(limit) {
+export async function getDailyRoundInfo(limit) {  
   let result = await query('SELECT * FROM rounds ORDER BY timeCompleted DESC LIMIT 10', []);
   return result.rows;
 }

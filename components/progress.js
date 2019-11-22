@@ -14,7 +14,7 @@ import styles from './styles';
 import {getDailyRounds, getMonthlyRounds, getWeeklyRounds} from './dbGateway';
 import { getData, storeData } from './gameFunctions';
 import moment from "moment";
-import { ScrollView } from "react-native-gesture-handler";
+import { withNavigationFocus } from 'react-navigation';
 import RecentRounds from './RecentRounds';
 
 // For the tutorial when the user first loads the page
@@ -29,6 +29,7 @@ class progress extends React.Component {
       weeklyRounds: 0,
       monthlyRounds: 0
     };
+    this.fetchRoundData = this.fetchRoundData.bind(this);
   }
 
   // TODO: need to fetch the round data every time the page is loaded
@@ -38,6 +39,10 @@ class progress extends React.Component {
       this.props.start(); // runs the tutorial
       await storeData('@progress_tutorial', '1');
     }
+    this.fetchRoundData();
+  }
+
+  async fetchRoundData() {
     let dailyRounds = await getDailyRounds();
     let weeklyRounds = await getWeeklyRounds();
     let monthlyRounds = await getMonthlyRounds();
@@ -160,7 +165,7 @@ class progress extends React.Component {
           </View>
           )}
         {this.state.selectedIndex === 3 && (
-          <View style={styles.table}>
+          <View style={styles.container}>
           <RecentRounds> </RecentRounds>
           </View>
         )}
@@ -169,8 +174,15 @@ class progress extends React.Component {
       
     );
   }
+  async componentDidUpdate(prevProps) {
+    if (this.props.isFocused && !prevProps.isFocused) {
+      // Screen has now come into focus, call your method here 
+      await this.fetchRoundData();
+      console.log("new data!");
+    }
+  }
 }
 
-export default copilot({
+export default withNavigationFocus(copilot({
     verticalOffset: 25,
-  })(progress);
+  })(progress));
