@@ -5,28 +5,44 @@ import styles from './styles';
 import sendLocalNotification from './notifications';
 import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import {getDailyRounds} from './dbGateway';
+import { storeData } from "./gameFunctions";
 
 // For the tutorial when the user first loads the page
 const CopilotView = walkthroughable(View);
 
 class Settings extends React.Component {
-  state = {
-    breathsPerRound: 0,
-    roundsPerDay: 0
+  constructor() {
+    super();
+    this.state = {
+      BPR: null,
+      RPD: null,
+      volume: null
+    }
+    this._onPressUpdate = this._onPressUpdate.bind(this);
   }
 
-  handleBPR = (num) => {
-    this.setState({breathsPerRound: num})
-  }
-  handleRPD = (num) => {
-    this.setState({roundsPerDay: num})
-  }
     componentDidMount() {
       this.props.start(); // runs the tutorial
     }
-    _onPressUpdate() {
-        alert('You have successfully updated your regiment')
-        console.log('still need to set async storage or something here?')
+    async _onPressUpdate() {
+      if (this.state.RPD) {
+        await storeData('@userRPD', this.state.RPD.toString());
+      }
+
+      if (this.state.BPR) {
+        await storeData('@userBPR', this.state.BPR.toString());
+      }
+
+      if (this.state.volume) {
+        await storeData('@userVolume', this.state.volume.toString());
+      }
+      this.setState({
+        BPR: "",
+        RPD: "",
+        volume: ""
+      });
+
+      alert("Your regimen has been updated");
     }
 
     test() {
@@ -47,15 +63,23 @@ class Settings extends React.Component {
                       <CopilotView>
                         <Text style={styles.titlelarge}>Breathing Regimen</Text>
                         <TextInput style = {styles.regimen}
+                          value = {this.state.BPR}
                           keyboardType="numeric"
                           placeholder = "Enter prescribed breaths per round"
-                          onChangeText = {this.handleBPR}
+                          onChangeText = {(BPR) => this.setState({BPR})}
                         />
                         <TextInput style = {styles.regimen}
+                          value = {this.state.RPD}
                           keyboardType="numeric"
                           placeholder = "Enter prescribed rounds per day"
-                          onChangeText = {this.handleRPD}/>
-                        <Button title="Update" onPress={this._onPressUpdate} color="#229637"/>
+                          onChangeText = {(RPD) => this.setState({RPD})}/>
+
+                      <TextInput style = {styles.regimen}
+                          value = {this.state.volume}
+                          keyboardType="numeric"
+                          placeholder = "Enter target volume goal"
+                          onChangeText = {(volume) => this.setState({volume})}/>
+                        <Button title="Update" onPress={this._onPressUpdate} disabled={!(this.state.BPR || this.state.RPD || this.state.volume)} color="#229637"/>
                       </CopilotView>
                     </CopilotStep>
                 </KeyboardAvoidingView>
