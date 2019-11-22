@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text, Button, StyleSheet, TextInput, KeyboardAvoidingView } from "react-native";
+import { View, Text, Keyboard, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
 import MyHeader from './MyHeader';
 import styles from './styles';
+import { Button } from 'react-native-elements';
 import sendLocalNotification from './notifications';
 import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import {getDailyRounds} from './dbGateway';
@@ -39,31 +40,37 @@ class Settings extends React.Component {
     }
     render (){
         return (
-            <View>
+            <View style={styles.container}>
                 <MyHeader navigation={this.props.navigation} title="Settings"/>
-                <KeyboardAvoidingView style={styles.container} behavior="padding">
-                    <CopilotStep text="Connect your Spirometer here!" order={1} name="setup">
-                      <CopilotView>
-                        <Text style={styles.titlelarge}>Set Up Device</Text>
-                        <Button title="Connect" onPress={this.test} color="#229637"/>
-                      </CopilotView>
-                    </CopilotStep>
                     <CopilotStep text="Update your breathing regimen here! Make sure you have doctor approval first" order={2} name="regimen">
                       <CopilotView>
                         <Text style={styles.titlelarge}>Breathing Regimen</Text>
                         <TextInput style = {styles.regimen}
                           keyboardType="numeric"
                           placeholder = "Enter prescribed breaths per round"
+                          placeholderTextColor="#fff"
                           onChangeText = {this.handleBPR}
                         />
                         <TextInput style = {styles.regimen}
                           keyboardType="numeric"
                           placeholder = "Enter prescribed rounds per day"
+                          placeholderTextColor="#fff"
                           onChangeText = {this.handleRPD}/>
-                        <Button title="Update" onPress={this._onPressUpdate} color="#229637"/>
+                        <Button
+                          title="UPDATE"
+                          onPress={this._onPressUpdate}
+                          buttonStyle={styles.button}/>
                       </CopilotView>
                     </CopilotStep>
-                </KeyboardAvoidingView>
+                    <CopilotStep text="Connect your Spirometer here!" order={1} name="setup">
+                      <CopilotView>
+                        <Text style={styles.titlelarge}>Set Up Device</Text>
+                        <Button
+                          title="CONNECT"
+                          onPress={this.test}
+                          buttonStyle={styles.button}/>
+                      </CopilotView>
+                    </CopilotStep>
             </View>
         );
       }
