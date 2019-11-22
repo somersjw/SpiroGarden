@@ -74,7 +74,7 @@ class progress extends React.Component {
     return (
       <View>  
         <MyHeader navigation={this.props.navigation} title="Progress"/>
-        <View> 
+        <View style={styles.container}> 
           <CopilotStep text="Toggle between Day, Week, and Month Views by pressing the tabs!" order={3} name="hello">
             <CopilotView style={styles.hamburger}/>
           </CopilotStep>
@@ -89,15 +89,14 @@ class progress extends React.Component {
           
           {this.state.selectedIndex === 0 && (
             <View style={styles.container}>
-              <View style={{marginTop: 75}}>
+              <View>
                 <ProgressCircle
                 percent={(this.state.dailyRounds / 3) * 100}
                 radius={75}
                 borderWidth={10}
-                color='#229637'
+                color='#3a5335'
                 shadowColor='#fff'
-                bgColor='#8BD398'
-                
+                bgColor='#87a08b'
                 >
                   <Text style={{fontSize: 72, color: '#fff', fontFamily: "LIONELLORegular"}}>{this.state.dailyRounds}</Text>
                 </ProgressCircle>
@@ -119,14 +118,14 @@ class progress extends React.Component {
           )}
           {this.state.selectedIndex === 1 && (
             <View style={styles.container}>
-              <View style={{marginTop: 75}}>
+              <View>
               <ProgressCircle
               percent={(this.state.weeklyRounds / 7) * 100}
               radius={75}
               borderWidth={10}
-              color='#229637'
+              color='#3a5335'
               shadowColor='#fff'
-              bgColor='#8BD398'
+              bgColor='#87a08b'
               >
                 <Text style={{fontSize: 48, color: '#fff'}}>{this.state.weeklyRounds}</Text>
               </ProgressCircle>
@@ -140,14 +139,14 @@ class progress extends React.Component {
           )}
           {this.state.selectedIndex === 2 && (
             <View style={styles.container}>
-              <View style={{marginTop: 75}}>
+              <View style>
               <ProgressCircle
               percent={(this.state.monthlyRounds / moment().daysInMonth()) * 100}
               radius={75}
               borderWidth={10}
-              color='#229637'
+              color='#3a5335'
               shadowColor='#fff'
-              bgColor='#8BD398'
+              bgColor='#87a08b'
               >
                 <Text style={{fontSize: 48, color: '#fff'}}>{this.state.monthlyRounds}</Text>
               </ProgressCircle>

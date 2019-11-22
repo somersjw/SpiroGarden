@@ -195,7 +195,7 @@ class HomeScreen extends React.Component {
     render() {
       let flow = this.state.quality;
       return (
-        <View style={styles.homescreen}>
+        <View style={styles.container}>
           {/* 
             Header material
             Everything labeled with Copilot gets shown during the tutorial walkthrough 
@@ -215,15 +215,15 @@ class HomeScreen extends React.Component {
           {/* 
             Titles near top of page
           */}
-          <Text style={styles.heading1}> Round: {this.state.round} / 10</Text>
+          <Text style={styles.subheading}> Breath: {this.state.round} / 10</Text>
           { this.state.showPlant && <>
           <CopilotStep text="Check how well you're breathing here!" order={5} name="spirometer data">
             <CopilotView>
               <Text style={styles.titlemedium}>Current Spirometer Values</Text>
-              <Text style={styles.heading1}>Flow: {this.state.quality}</Text>
-              <Progress.Bar color={flow ? hsl(flow <= 50 ? flow*2 : 100 - (flow - 50)*2, '100%', '50%') : '#229637'} progress={flow ? flow/100 : 0} width={300} />
-              <Text style={styles.heading1}>Volume: {this.state.val}</Text>
-              <Progress.Bar progress={this.state.val ? this.state.val/100 : 0} width={300} />
+              <Text style={styles.heading2}>Flow: {this.state.quality}</Text>
+              <Progress.Bar color={flow ? hsl(flow <= 50 ? flow*2 : 100 - (flow - 50)*2, '100%', '50%') : '#3a5335'} progress={flow ? flow/100 : 0} width={300} />
+              <Text style={styles.heading2}>Volume: {this.state.val}</Text>
+              <Progress.Bar color={'#3a5335'} progress={this.state.val ? this.state.val/100 : 0} width={300} />
             </CopilotView>
           </CopilotStep>
           <CopilotStep text="Here's where you can check your plant progress!" order={3} name="plant">
@@ -234,8 +234,8 @@ class HomeScreen extends React.Component {
             Plant Image and CountDowns
           */}
           <Plant plantState={this.state.plantLevel} plantWaterState={this.state.plantWaterLevel} plantSpring={this.state.plantSpring}/>
-          <Text style={styles.heading1}>Points: {this.state.plantprogress}</Text>
-          <Progress.Bar progress={this.state.plantprogress ? this.state.plantprogress/200 : 0} width={300} />
+          <Text style={styles.heading2}>Points: {this.state.plantprogress}</Text>
+          <Progress.Bar color={'#3a5335'} progress={this.state.plantprogress ? this.state.plantprogress/200 : 0} width={300} />
           </>
           }
           { !this.state.showPlant && 
@@ -261,7 +261,8 @@ class HomeScreen extends React.Component {
                 <Button
                   title='RESET'
                   buttonStyle={styles.button}
-                  onPress={this.Quickreset} />
+                  onPress={this.Quickreset}
+                 />
               </CopilotView>
             </CopilotStep>
           )}

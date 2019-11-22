@@ -13,7 +13,7 @@ const MyHeader = props => {
       }}
       statusBarProps={{ barStyle: "light-content" }}
       containerStyle={{
-        backgroundColor: '#229637',
+        backgroundColor: '#3a5335',
         justifyContent: 'space-around',
       }}
     />

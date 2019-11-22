@@ -48,22 +48,24 @@ class Settings extends React.Component {
                         <TextInput style = {styles.regimen}
                           keyboardType="numeric"
                           placeholder = "Enter prescribed breaths per round"
-                          placeholderTextColor="#fff"
+                          placeholderTextColor="#3a5335"
                           onChangeText = {this.handleBPR}
                         />
                         <TextInput style = {styles.regimen}
                           keyboardType="numeric"
                           placeholder = "Enter prescribed rounds per day"
-                          placeholderTextColor="#fff"
+                          placeholderTextColor="#3a5335"
                           onChangeText = {this.handleRPD}/>
-                        <Button
-                          title="UPDATE"
-                          onPress={this._onPressUpdate}
-                          buttonStyle={styles.button}/>
+                        <View style={styles.centered}>
+                          <Button
+                            title="UPDATE"
+                            onPress={this._onPressUpdate}
+                            buttonStyle={styles.button}/>
+                        </View>
                       </CopilotView>
                     </CopilotStep>
                     <CopilotStep text="Connect your Spirometer here!" order={1} name="setup">
-                      <CopilotView>
+                      <CopilotView style={styles.centered}>
                         <Text style={styles.titlelarge}>Set Up Device</Text>
                         <Button
                           title="CONNECT"

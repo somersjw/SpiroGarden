@@ -51,9 +51,9 @@ export default class RecentRounds extends React.Component {
 }
 
 const styles2 = StyleSheet.create({
-    container: { flex: 1,padding: 5},  
-    head: { height: 40, backgroundColor: '#229637' },
-    headText: { margin: 6, textAlign: 'center', fontSize: 15, fontWeight: 'bold'},
+    container: { flex: 1,padding: 5, backgroundColor:'#87a08b'},  
+    head: { height: 40, backgroundColor: '#3a5335' },
+    headText: { margin: 6, textAlign: 'center', fontSize: 15, fontWeight: 'bold', color: '#fff', fontFamily:'LIONELLORegular'},
     text: { margin: 6, textAlign: 'center', fontSize: 15},
     row: {alignItems: 'center'}
   });
