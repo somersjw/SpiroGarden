@@ -183,7 +183,7 @@ class HomeScreen extends React.Component {
       await this.resetGame();
       if(await this.playGame()) {
         await this.intermission();
-        await AsyncAlert("Success", "Move onto the next round.");
+        await AsyncAlert("Success", "Move onto the next breath.");
         roundsPassed += 1;
         await storeData('@interval_time',Date.now().toString())
       }
