@@ -89,7 +89,7 @@ export async function getData(key) {
     return Math.round(value * multiplier) / multiplier;
 }
 
-  storeData = async (key, value) => {
+  export async function storeData (key, value) {
     try {
       await AsyncStorage.setItem(key, value)
     } catch (e) {
