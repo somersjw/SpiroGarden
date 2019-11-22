@@ -30,7 +30,8 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 50,
     marginBottom: 10,
-    color: '#FFFF'
+    color: '#FFFF',
+    fontFamily: "Iconic-Bold-trial"
   },
   titlemedium: {
   	fontSize: 25,
