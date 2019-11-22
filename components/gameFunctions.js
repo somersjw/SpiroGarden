@@ -51,6 +51,9 @@ export async function changePlant(change) {
         // reset to 0
         await storeData('@plant_level', '1');
         await storeData('@plant_progress','0');
+        await storeData('@homescreen_tutorial','-1');
+        await storeData('@progress_tutorial','-1');
+        await storeData('@settings_tutorial','-1');
     }
     else {
         let currentLevel = parseInt(await getData('@plant_level'));
@@ -89,7 +92,7 @@ export async function getData(key) {
     return Math.round(value * multiplier) / multiplier;
 }
 
-  storeData = async (key, value) => {
+  export async function storeData (key, value) {
     try {
       await AsyncStorage.setItem(key, value)
     } catch (e) {

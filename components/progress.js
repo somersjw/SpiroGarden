@@ -12,7 +12,10 @@ import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import MyHeader from './MyHeader';
 import styles from './styles';
 import {getDailyRounds, getMonthlyRounds, getWeeklyRounds} from './dbGateway';
+import { getData, storeData } from './gameFunctions';
 import moment from "moment";
+import { ScrollView } from "react-native-gesture-handler";
+import RecentRounds from './RecentRounds';
 
 // For the tutorial when the user first loads the page
 const CopilotView = walkthroughable(View);
@@ -30,7 +33,11 @@ class progress extends React.Component {
 
   // TODO: need to fetch the round data every time the page is loaded
   async componentDidMount() {
-    this.props.start(); // runs the tutorial
+    let progress_intro = await getData('@progress_tutorial');
+    if (progress_intro === '-1') {
+      this.props.start(); // runs the tutorial
+      await storeData('@progress_tutorial', '1');
+    }
     let dailyRounds = await getDailyRounds();
     let weeklyRounds = await getWeeklyRounds();
     let monthlyRounds = await getMonthlyRounds();
@@ -60,13 +67,14 @@ class progress extends React.Component {
     const options = [
       "DAY",
       "WEEK",
-      "MONTH"
+      "MONTH",
+      "RECENT"
     ];
 
     return (
       <View>  
         <MyHeader navigation={this.props.navigation} title="Progress"/>
-        <View style={styles.container}> 
+        <View> 
           <CopilotStep text="Toggle between Day, Week, and Month Views by pressing the tabs!" order={3} name="hello">
             <CopilotView style={styles.hamburger}/>
           </CopilotStep>
@@ -151,6 +159,11 @@ class progress extends React.Component {
             <Text style={styles.subheading}>days of treatment this month</Text>
           </View>
           )}
+        {this.state.selectedIndex === 3 && (
+          <View style={styles.table}>
+          <RecentRounds> </RecentRounds>
+          </View>
+        )}
         </View>
       </View>
       

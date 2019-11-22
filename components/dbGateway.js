@@ -4,7 +4,6 @@ import SQLite from "react-native-sqlite-storage";
 SQLite.enablePromise(true);
 
 export async function getDailyRounds() {
-  console.log("gettingDailyRounds");
   let start = moment().set({'hour': 0, 'minute': 1}).toISOString();
   let end = moment().toISOString();
 
@@ -13,8 +12,12 @@ export async function getDailyRounds() {
   return row.c;
 }
 
+export async function getDailyRoundInfo(limit) {
+  let result = await query('SELECT * FROM rounds ORDER BY timeCompleted DESC LIMIT 10', []);
+  return result.rows;
+}
+
 export async function getWeeklyRounds() {
-  console.log("gettingWeeklyRounds");
   let start = moment().subtract(7, 'days').set({'hour': 0, 'minute': 1}).toISOString();
   let end = moment().toISOString();
 
@@ -24,7 +27,6 @@ export async function getWeeklyRounds() {
 }
 
 export async function getMonthlyRounds() {
-  console.log("gettingMonthlyRounds");
   let start = moment().subtract(1, 'months').set({'hour': 0, 'minute': 1}).toISOString();
   let end = moment().toISOString();
 
@@ -33,7 +35,6 @@ export async function getMonthlyRounds() {
 }
 
 export async function insertAlert(dateTime, goodBreathCount, maxVolume, avgFlow) {
-  console.log('Inserting round into database');
   // await query('DELETE FROM rounds WHERE 1', []);
   await query('INSERT INTO rounds(timeCompleted, goodBreaths, maxVolume, avgFlow, date) VALUES (?,?,?,?,?)', [dateTime, goodBreathCount, maxVolume, avgFlow, moment().format("YYYY-MM-DD")])
   .catch(err => {
@@ -60,9 +61,11 @@ export async function query(queryString, args) {
 
       })
       .catch((err) => {
+        console.log(queryString);
         console.log(err);
       });
     }).catch((err) => {
+      console.log(queryString);
       console.log(err);
     });
   });  
@@ -94,7 +97,6 @@ function closeDatabase(db) {
     return new Promise((resolve) => {
       SQLite.echoTest()
         .then(() => {
-          console.log("Opening database ...");
           SQLite.openDatabase({ name: 'userData.db', createFromLocation : 1})
             .then(DB => {
               db = DB;

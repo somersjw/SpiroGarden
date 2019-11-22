@@ -13,6 +13,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
 	container: {
+    paddingTop: 5,
 	  alignItems: 'center',
 	  backgroundColor: '#8fc99c',
     height: '100%',

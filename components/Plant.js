@@ -49,7 +49,7 @@ export default class Plant extends Component {
           height: '50%',
           transform: [{scale: this.springValue}]
         }}
-        source={this.props.plantWaterState  === 1 ? plantWaterURL : plantURL}
+        source={this.props.plantWaterState === 1 ? plantWaterURL : plantURL}
       />
     );
   }
