@@ -15,7 +15,6 @@ export default StyleSheet.create({
 	  alignItems: 'center',
 	  backgroundColor: '#87a08b',
     height: '100%',
-    
 	},
   hamburger: {
     position: 'absolute',
@@ -51,7 +50,8 @@ export default StyleSheet.create({
     borderWidth: 4,
     margin: 15,
     height: 40,
-    fontSize: 15
+    fontSize: 15,
+    color: '#3a5335'
   },
   subheading: {
   	fontSize: 25,

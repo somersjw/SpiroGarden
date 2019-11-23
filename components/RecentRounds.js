@@ -41,7 +41,7 @@ export default class RecentRounds extends React.Component {
         return (
             <View style={styles2.container}>
                 <Text style={styles.titlelarge}> Your Last 10 Excercises</Text>
-            <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
+            <Table borderStyle={{borderWidth: 2, borderColor: '#FFF'}}>
               <Row data={state.tableHead} style={styles2.head} textStyle={styles2.headText}/>
               <Rows data={state.tableData}  style={styles2.row} textStyle={styles2.text}/>
             </Table>
@@ -51,9 +51,9 @@ export default class RecentRounds extends React.Component {
 }
 
 const styles2 = StyleSheet.create({
-    container: { flex: 1,padding: 5, backgroundColor:'#87a08b'},  
+    container: { flex: 1,padding: 5, backgroundColor: '#87a08b'},  
     head: { height: 40, backgroundColor: '#3a5335' },
-    headText: { margin: 6, textAlign: 'center', fontSize: 15, fontWeight: 'bold', color: '#fff', fontFamily:'LIONELLORegular'},
-    text: { margin: 6, textAlign: 'center', fontSize: 15},
+    headText: { margin: 6, textAlign: 'center', fontSize: 15, fontWeight: 'bold', fontFamily:'LIONELLORegular', color:'#fff'},
+    text: { margin: 6, textAlign: 'center', fontSize: 15, color: '#fff'},
     row: {alignItems: 'center'}
   });

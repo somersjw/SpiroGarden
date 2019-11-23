@@ -19,17 +19,25 @@ const CopilotView = walkthroughable(View);
 class HomeScreen extends React.Component {
   constructor() {
     super();
-    this.state = {showPlant: true,showButton: true, timer: 6, round: 1, maxVolume: 0, sumFlowVals: 0, totalCount: 0};
+    this.state = {showPlant: true,showButton: true, timer: 6, round: 1, maxVolume: 0, sumFlowVals: 0, totalCount: 0, buttonCooldown: true};
     this.playGame = this.playGame.bind(this);
     this.intermission = this.intermission.bind(this);
     this.play10Times = this.play10Times.bind(this);
     this.Quickreset = this.Quickreset.bind(this);
     this.progression = this.progression.bind(this);
     this.resetGame = this.resetGame.bind(this);
+    this.fetchUserData = this.fetchUserData.bind(this);
   }
 
   async componentDidMount() {
     await initializePlant();
+    timeaway = await getData('@interval_time');
+    if (Date.now() - parseFloat(timeaway) > 3600 * 1000){
+      this.setState({buttonCooldown: false}); 
+    }
+    else {
+      this.setState({buttonCooldown: true});
+    }
     let plantLevel = parseInt(await getData('@plant_level'));
     let plantprogress = parseInt(await getData('@plant_progress'));
     this.setState({
@@ -40,6 +48,23 @@ class HomeScreen extends React.Component {
     if (intro === '-1') {
       this.props.start(); // runs the tutorial
       await storeData('@homescreen_tutorial', '1');
+    }
+
+    // await this.fetchUserData();
+  }
+
+  async fetchUserData() {
+    let VOL = parseInt(await getData('@userVolume'));
+
+    if (VOL === -1) {
+      alert('Please fill out your regimen on the settings page');
+      this.setState({showButton: false});
+    }
+    else {
+      this.setState({
+        showButton: true,
+        userVolume: VOL
+      });
     }
   }
 
@@ -158,7 +183,7 @@ class HomeScreen extends React.Component {
       await this.resetGame();
       if(await this.playGame()) {
         await this.intermission();
-        await AsyncAlert("Success", "Move onto the next round.");
+        await AsyncAlert("Success", "Move onto the next breath.");
         roundsPassed += 1;
         await storeData('@interval_time',Date.now().toString())
       }
@@ -174,9 +199,12 @@ class HomeScreen extends React.Component {
         this.setState({
           plantLevel: nextLevel,
           plantprogress: 0,
-          // plantSpring: true
+          plantSpring: true
         })
         changePlant (1);
+        this.setState({
+          plantSpring: false
+        })
       }
     }
     let dateTime = new Date();
@@ -188,7 +216,8 @@ class HomeScreen extends React.Component {
       round: 1,
       maxVolume: 0,
       plantWaterLevel: 0,
-      plantSpring: false
+      plantSpring: false,
+      buttonCooldown: true
     })
     sendLocalNotification(moment().add(5, 'seconds')); // in 5 secs
   }
@@ -252,12 +281,14 @@ class HomeScreen extends React.Component {
               /> }
           {this.state.showButton && (
             <CopilotStep text="Once you connect your spirometer, press Start and begin breathing!" order={6} name="start">
-              <CopilotView>
+              <CopilotView style={styles.centered}>
                 <Button
                   title="START GAME"
                   buttonStyle={styles.button}
                   onPress={this.play10Times}
+                  disabled={this.state.buttonCooldown}
                   />
+              {this.state.buttonCooldown && <Text style={styles.heading2}> Please wait an hour before watering again! </Text> }
                 <Button
                   title='RESET'
                   buttonStyle={styles.button}
