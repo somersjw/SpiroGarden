@@ -1,10 +1,11 @@
     import {getDailyRounds} from './dbGateway';
     import moment from 'moment';
+    import { getData } from './gameFunctions';
 
 
     export async function sendLocalNotification(time) {
         let completedRounds = await getDailyRounds();
-        let timeToSend = getTimeToSend(completedRounds);
+        let timeToSend = await getTimeToSend(completedRounds);
 
         var PushNotification = require("react-native-push-notification");
         PushNotification.localNotificationSchedule({
@@ -13,8 +14,9 @@
           });
       }
 
-      function getTimeToSend(completedRounds) {
-          if (completedRounds >= 3) {
+      async function getTimeToSend(completedRounds) {
+          let userRPD = parseInt(await getData('@userRPD'));
+          if (completedRounds >= userRPD) {
               console.log('Notification scheduled for 10am');
               return moment().add(1,'days').set({'hour': 10, 'minute': 0}).toISOString();
           }

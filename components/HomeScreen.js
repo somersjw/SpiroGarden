@@ -6,7 +6,7 @@ import CountDown from 'react-native-countdown-component';
 import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import styles from './styles';
 import Plant from './Plant';
-import { AsyncAlert, fetchSpiroData, getData, storeData, changePlant, initializePlant , saveprogress, round , getdatmoney, sleep } from './gameFunctions';
+import { AsyncAlert, fetchSpiroData, getData, storeData, changePlant, initializePlant , saveprogress, round , getdatmoney, sleep, fetchHardwareData} from './gameFunctions';
 import { sendLocalNotification } from './notifications';
 import moment from 'moment';
 import { insertAlert } from './dbGateway';
@@ -74,15 +74,18 @@ class HomeScreen extends React.Component {
 
   async fetchUserData() {
     let VOL = parseInt(await getData('@userVolume'));
+    let BPR = parseInt(await getData('@userBPR'));
 
-    if (VOL === -1) {
+
+    if (VOL === -1 || BPR === -1) {
       alert('Please fill out your regimen on the settings page');
       this.setState({showButton: false});
     }
     else {
       this.setState({
         showButton: true,
-        userVolume: VOL
+        userVolume: VOL,
+        userBPR: BPR
       });
     }
   }
@@ -165,9 +168,9 @@ class HomeScreen extends React.Component {
     let fullcount = 0;
     let goodCount = 0;
     let prevQuantity = 0;
-    let json = await fetchSpiroData();
+    let json = await fetchHardwareData();
     while (json.values[0] < this.state.userVolume) {
-      json = await fetchSpiroData();
+      json = await fetchHardwareData();
       this.setState({
         quality: json.values[1],
         val: json.values[0],
@@ -212,7 +215,7 @@ async playGame() {
   let goodCount = 0;
   let prevQuantity = 0;
   let json = await fetchSpiroData();
-  while (json.val < 97) {
+  while (json.val < this.state.userVolume) {
     json = await fetchSpiroData();
     this.setState({
       quality: json.quality,
@@ -256,7 +259,7 @@ async playGame() {
       plantWaterLevel: 1,
       plantSpring: false
     })
-    while (this.state.round <= 1) {
+    while (this.state.round <= this.state.userBPR) {
       await this.resetGame();
       if(await this.playGame()) {
         await this.intermission();
@@ -322,14 +325,14 @@ async playGame() {
           {/* 
             Titles near top of page
           */}
-          <Text style={styles.subheading}> Breath: {this.state.round} / 10</Text>
+          <Text style={styles.subheading}> Breath: {this.state.round} / {this.state.userBPR}</Text>
           { this.state.showPlant && <>
           <CopilotStep text="Check how well you're breathing here!" order={5} name="spirometer data">
             <CopilotView>
               <Text style={styles.heading2}>Flow: {this.state.quality}</Text>
               <Progress.Bar color={flow ? hsl(flow <= 50 ? flow*2 : 100 - (flow - 50)*2, '100%', '50%') : '#3a5335'} progress={flow ? flow/100 : 0} width={300} />
               <Text style={styles.heading2}>Volume: {this.state.val} / {this.state.userVolume}</Text>
-              <Progress.Bar color={'#3a5335'} progress={this.state.val ? this.state.val/100 : 0} width={300} />
+              <Progress.Bar color={'#3a5335'} progress={this.state.val ? this.state.val/ this.state.userVolume : 0} width={300} />
             </CopilotView>
           </CopilotStep>
           <CopilotStep text="Here's where you can check your plant progress!" order={3} name="plant">

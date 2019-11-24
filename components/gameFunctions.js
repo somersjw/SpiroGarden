@@ -15,7 +15,7 @@ export function AsyncAlert(title, message) {
 
   export async function fetchSpiroData(){
     return new Promise(function(resolve, reject) {
-        fetch('http://ec2-3-14-152-39.us-east-2.compute.amazonaws.com/api/v1/reading', {header: {
+      fetch('http://67.205.163.230', {header: {
           'Content-Type': 'application/json'}
         })
           .then((response) => resolve(response.json()))
@@ -23,6 +23,18 @@ export function AsyncAlert(title, message) {
             console.error(error);
           });
     })
+}
+
+export async function fetchHardwareData(){
+  return new Promise(function(resolve, reject) {
+      fetch('http://ec2-3-14-152-39.us-east-2.compute.amazonaws.com/api/v1/reading', {header: {
+        'Content-Type': 'application/json'}
+      })
+        .then((response) => resolve(response.json()))
+        .catch((error) =>{
+          console.error(error);
+        });
+  })
 }
 
 export async function initializePlant() {

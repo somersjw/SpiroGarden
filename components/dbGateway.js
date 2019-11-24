@@ -60,7 +60,6 @@ export async function query(queryString, args) {
     initDB().then((db) => {
       db.transaction((tx) => {
         tx.executeSql(queryString, args).then(([tx,results]) => {
-          console.log()
           resolve(results);
         });
       }).then((result) => {
