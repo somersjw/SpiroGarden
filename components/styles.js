@@ -55,6 +55,13 @@ export default StyleSheet.create({
     color: '#FFFF',
     fontFamily: "LIONELLOLight"
   },
+  nextPlantTitle: {
+    alignSelf: 'flex-end',
+    paddingRight: 20,
+    fontSize: 20,
+    color: '#FFFF',
+    fontFamily: "LIONELLOLight"
+  },
   regimen: {
     borderColor: '#3a5335',
     backgroundColor: '#fff',
