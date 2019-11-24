@@ -10,12 +10,13 @@ export default StyleSheet.create({
 	  alignItems: 'center',
 	  justifyContent: 'center',
 	  backgroundColor: '#3a5335',
-	height: 36,
+	  height: 36,
     width: 125,
     margin: 8,
 	},
   centered: {
     alignItems: 'center',
+    alignSelf: 'center'
   },
 	container: {
 	  alignItems: 'center',
@@ -48,7 +49,8 @@ export default StyleSheet.create({
   heading2: {
   	fontSize: 20,
     color: '#FFFF',
-    fontFamily: "LIONELLOLight"
+    fontFamily: "LIONELLOLight",
+    padding: 5
   },
   heading3: {
   	fontSize: 30,

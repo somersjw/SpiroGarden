@@ -104,7 +104,7 @@ class progress extends React.Component {
           
           {this.state.selectedIndex === 0 && (
             <View style={styles.container}>
-              <View>
+              <View style={{paddingTop: 30}}>
                 <ProgressCircle
                 percent={this.state.progress}
                 radius={75}
@@ -133,7 +133,7 @@ class progress extends React.Component {
           )}
           {this.state.selectedIndex === 1 && (
             <View style={styles.container}>
-              <View>
+              <View style={{paddingTop: 30}}>
               <ProgressCircle
               percent={(this.state.weeklyRounds / 7) * 100}
               radius={75}
@@ -154,7 +154,7 @@ class progress extends React.Component {
           )}
           {this.state.selectedIndex === 2 && (
             <View style={styles.container}>
-              <View style>
+              <View style={{paddingTop: 30}}>
               <ProgressCircle
               percent={(this.state.monthlyRounds / moment().daysInMonth()) * 100}
               radius={75}
