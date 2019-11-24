@@ -27,8 +27,8 @@ export default StyleSheet.create({
 	},
   hamburger: {
     position: 'absolute',
-    left: 20,
-    top: 80
+    left: -20,
+    top: -20
   },
   titlelarge: {
   	fontSize: 55,

@@ -315,36 +315,37 @@ async playGame() {
             <CopilotView/>
           </CopilotStep> 
           {/* Uses absolute positioning since I couldn't figure out how to make the header "walkthroughable" */}
-          <CopilotStep text="Connect your incentive spirometer to this app and take care of your very own plant!" order={2} name="connect">
+          <CopilotStep text="SpiroGarden let's you take care of your very own virtual plant with your spirometer!" order={2} name="connect">
             <CopilotView style={styles.hamburger}/> 
           </CopilotStep>
-          <CopilotStep text="Press this icon here to see your progress and set up your device" order={4} name="navigation">
+          <CopilotStep text="But first, let's press this icon to navigate to the Settings page where you'll set everything up" order={6} name="navigation">
             <CopilotView style={styles.hamburger}/>
           </CopilotStep>
 
           {/* 
             Titles near top of page
           */}
-          <Text style={styles.subheading}> Breath: {this.state.round} / {this.state.userBPR}</Text>
           { this.state.showPlant && <>
-          <CopilotStep text="Check how well you're breathing here!" order={5} name="spirometer data">
+          <CopilotStep text="Check how well you're breathing here!" order={4} name="spirometer data">
             <CopilotView>
+              <Text style={[styles.subheading, styles.centered]}> Breath: {this.state.round} / {this.state.userBPR}</Text>
               <Text style={styles.heading2}>Flow: {this.state.quality}</Text>
               <Progress.Bar color={flow ? hsl(flow <= 50 ? flow*2 : 100 - (flow - 50)*2, '100%', '50%') : '#3a5335'} progress={flow ? flow/100 : 0} width={300} />
               <Text style={styles.heading2}>Volume: {this.state.val} / {this.state.userVolume}</Text>
               <Progress.Bar color={'#3a5335'} progress={this.state.val ? this.state.val/ this.state.userVolume : 0} width={300} />
             </CopilotView>
           </CopilotStep>
-          <CopilotStep text="Here's where you can check your plant progress!" order={3} name="plant">
-            <CopilotView style={styles.plant} />
-          </CopilotStep>
 
           {/*
             Plant Image and CountDowns
           */}
           <Plant plantState={this.state.plantLevel} plantWaterState={this.state.plantWaterLevel} plantSpring={this.state.plantSpring}/>
-          <Text style={styles.nextPlantTitle}>Next Plant</Text>
-          <Progress.Bar color={'#3a5335'} progress={this.state.plantprogress ? this.state.plantprogress/200 : 0} width={300} />
+          <CopilotStep text="Here's where you can check your plant progress! Once the bar is full your plant will grow!" order={3} name="plant">
+            <CopilotView>
+              <Text style={styles.nextPlantTitle}>Next Plant</Text>
+              <Progress.Bar color={'#3a5335'} progress={this.state.plantprogress ? this.state.plantprogress/200 : 0} width={300} />
+            </CopilotView>
+          </CopilotStep>
           </>
           }
           { !this.state.showPlant && 
@@ -360,7 +361,7 @@ async playGame() {
                   running={!this.state.showPlant}
               /> }
           {this.state.showButton && (
-            <CopilotStep text="Once you connect your spirometer, press Start and begin breathing!" order={6} name="start">
+            <CopilotStep text="Once you connect your spirometer and input your breathing regimen, press Start and begin breathing!" order={5} name="start">
               <CopilotView style={styles.centered}>
                 <Button
                   title="START GAME"
