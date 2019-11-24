@@ -20,7 +20,7 @@ export default StyleSheet.create({
 	container: {
 	  alignItems: 'center',
 	  backgroundColor: '#87a08b',
-    height: '100%',
+    height: '120%',
 	},
   hamburger: {
     position: 'absolute',
@@ -47,6 +47,11 @@ export default StyleSheet.create({
   },
   heading2: {
   	fontSize: 20,
+    color: '#FFFF',
+    fontFamily: "LIONELLOLight"
+  },
+  heading3: {
+  	fontSize: 30,
     color: '#FFFF',
     fontFamily: "LIONELLOLight"
   },

@@ -10,7 +10,6 @@ const HamburgerMenu = props => {
 		    <Icon
 		      color="#fff"
 		      name="menu"
-		      style={{margin: 100}}
 		    />
 	    </TouchableWithoutFeedback>
     </View>
