@@ -28,37 +28,16 @@ class HomeScreen extends React.Component {
     this.progression = this.progression.bind(this);
     this.resetGame = this.resetGame.bind(this);
     this.fetchUserData = this.fetchUserData.bind(this);
-<<<<<<< HEAD
-<<<<<<< HEAD
     this.Sellplant = this.Sellplant.bind(this);
-=======
     this.checkCooldown = this.checkCooldown.bind(this);
->>>>>>> 4249d69c4d52fdccf4c7ad67a783305448e0535b
-=======
-    this.checkCooldown = this.checkCooldown.bind(this);
->>>>>>> 4249d69c4d52fdccf4c7ad67a783305448e0535b
   }
 
   async componentDidMount() {
     await initializePlant();
     let money = await getdatmoney(0);
     timeaway = await getData('@interval_time');
-<<<<<<< HEAD
-<<<<<<< HEAD
-    if (Date.now() - parseFloat(timeaway) > 3600 * 1000){
-      this.setState({buttonCooldown: false});
-    }
-    else {
-      this.setState({buttonCooldown: true});
-    }
-=======
     console.log(Date.now() - parseFloat(timeaway));
     this.checkCooldown(timeaway);
->>>>>>> 4249d69c4d52fdccf4c7ad67a783305448e0535b
-=======
-    console.log(Date.now() - parseFloat(timeaway));
-    this.checkCooldown(timeaway);
->>>>>>> 4249d69c4d52fdccf4c7ad67a783305448e0535b
     let plantLevel = parseInt(await getData('@plant_level'));
     let plantprogress = parseInt(await getData('@plant_progress'));
     this.setState({
@@ -303,15 +282,7 @@ class HomeScreen extends React.Component {
               <Text style={styles.titlemedium}>Current Spirometer Values</Text>
               <Text style={styles.heading2}>Flow: {this.state.quality}</Text>
               <Progress.Bar color={flow ? hsl(flow <= 50 ? flow*2 : 100 - (flow - 50)*2, '100%', '50%') : '#3a5335'} progress={flow ? flow/100 : 0} width={300} />
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <Text style={styles.heading2}>Volume: {this.state.val} </Text>
-=======
               <Text style={styles.heading2}>Volume: {this.state.val} / {this.state.userVolume}</Text>
->>>>>>> 4249d69c4d52fdccf4c7ad67a783305448e0535b
-=======
-              <Text style={styles.heading2}>Volume: {this.state.val} / {this.state.userVolume}</Text>
->>>>>>> 4249d69c4d52fdccf4c7ad67a783305448e0535b
               <Progress.Bar color={'#3a5335'} progress={this.state.val ? this.state.val/100 : 0} width={300} />
             </CopilotView>
           </CopilotStep>
@@ -350,8 +321,6 @@ class HomeScreen extends React.Component {
                   />
 
               {this.state.buttonCooldown && <Text style={styles.heading2}> Please wait an hour before watering again! </Text> }
-<<<<<<< HEAD
-<<<<<<< HEAD
               <View style={styles.buttoncontainer}>
                 <Button
                   title='RESET'
@@ -365,12 +334,6 @@ class HomeScreen extends React.Component {
                    disabled={this.state.plantLevel != 4}
                  />
                 </View>
-=======
-
->>>>>>> 4249d69c4d52fdccf4c7ad67a783305448e0535b
-=======
-
->>>>>>> 4249d69c4d52fdccf4c7ad67a783305448e0535b
               </CopilotView>
             </CopilotStep>
           )}
