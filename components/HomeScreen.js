@@ -11,6 +11,7 @@ import { sendLocalNotification } from './notifications';
 import moment from 'moment';
 import { insertAlert } from './dbGateway';
 import * as Progress from 'react-native-progress';
+import { withNavigationFocus } from 'react-navigation';
 
 
 // For the tutorial when the user first loads the page
@@ -27,17 +28,14 @@ class HomeScreen extends React.Component {
     this.progression = this.progression.bind(this);
     this.resetGame = this.resetGame.bind(this);
     this.fetchUserData = this.fetchUserData.bind(this);
+    this.checkCooldown = this.checkCooldown.bind(this);
   }
 
   async componentDidMount() {
     await initializePlant();
     timeaway = await getData('@interval_time');
-    if (Date.now() - parseFloat(timeaway) > 3600 * 1000){
-      this.setState({buttonCooldown: false}); 
-    }
-    else {
-      this.setState({buttonCooldown: true});
-    }
+    console.log(Date.now() - parseFloat(timeaway));
+    this.checkCooldown(timeaway);
     let plantLevel = parseInt(await getData('@plant_level'));
     let plantprogress = parseInt(await getData('@plant_progress'));
     this.setState({
@@ -50,7 +48,25 @@ class HomeScreen extends React.Component {
       await storeData('@homescreen_tutorial', '1');
     }
 
-    // await this.fetchUserData();
+    await this.fetchUserData();
+  }
+
+  checkCooldown(timeaway) {
+    if (Date.now() - parseFloat(timeaway) > 20 * 1000){
+      this.setState({buttonCooldown: false}); 
+    }
+    else {
+      this.setState({buttonCooldown: true});
+    }
+  }
+  async componentDidUpdate(prevProps) {
+    if (this.props.isFocused && !prevProps.isFocused) {
+      // Screen has now come into focus, call your method here 
+      await this.fetchUserData();
+      console.log("new data!");
+      timeaway = await getData('@interval_time');
+      this.checkCooldown(timeaway);
+    }
   }
 
   async fetchUserData() {
@@ -251,7 +267,7 @@ class HomeScreen extends React.Component {
               <Text style={styles.titlemedium}>Current Spirometer Values</Text>
               <Text style={styles.heading2}>Flow: {this.state.quality}</Text>
               <Progress.Bar color={flow ? hsl(flow <= 50 ? flow*2 : 100 - (flow - 50)*2, '100%', '50%') : '#3a5335'} progress={flow ? flow/100 : 0} width={300} />
-              <Text style={styles.heading2}>Volume: {this.state.val}</Text>
+              <Text style={styles.heading2}>Volume: {this.state.val} / {this.state.userVolume}</Text>
               <Progress.Bar color={'#3a5335'} progress={this.state.val ? this.state.val/100 : 0} width={300} />
             </CopilotView>
           </CopilotStep>
@@ -289,11 +305,7 @@ class HomeScreen extends React.Component {
                   disabled={this.state.buttonCooldown}
                   />
               {this.state.buttonCooldown && <Text style={styles.heading2}> Please wait an hour before watering again! </Text> }
-                <Button
-                  title='RESET'
-                  buttonStyle={styles.button}
-                  onPress={this.Quickreset}
-                 />
+
               </CopilotView>
             </CopilotStep>
           )}
@@ -302,7 +314,7 @@ class HomeScreen extends React.Component {
     }
   }
 
-export default copilot({
+export default withNavigationFocus(copilot({
     verticalOffset: 25,
-  })(HomeScreen);
+  })(HomeScreen));
   
