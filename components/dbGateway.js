@@ -24,18 +24,18 @@ export async function getWeeklyRounds() {
 
   let userRPD = await getData('@userRPD');
   userRPD = parseInt(userRPD);
-  let result = await query('SELECT date, COUNT(*) FROM rounds WHERE timeCompleted >= ? AND timeCompleted <= ? GROUP BY date HAVING COUNT(*) >= ?', [start, end, userRPD]);
-
+  console.log(userRPD);
+  let result = await query('SELECT date, COUNT(*) FROM rounds WHERE timeCompleted >= ? AND timeCompleted <= ? GROUP BY date HAVING COUNT(*) >=' + userRPD.toString(), [start, end ]);
   return result.rows.length;
 }
 
 export async function getMonthlyRounds() {
-  let start = moment().subtract(1, 'months').set({'hour': 0, 'minute': 1}).toISOString();
+
+  let start = moment().startOf('month').set({'hour': 0, 'minute': 1}).toISOString();
   let end = moment().toISOString();
 
   let userRPD = await getData('@userRPD');
-  userRPD = parseInt(userRPD);
-  let result = await query('SELECT date, COUNT(*) FROM rounds WHERE timeCompleted >= ? AND timeCompleted <= ? GROUP BY date HAVING COUNT(*) >= ?', [start, end, userRPD]);
+  let result = await query('SELECT date, COUNT(*) FROM rounds WHERE timeCompleted >= ? AND timeCompleted <= ? GROUP BY date HAVING COUNT(*) >=' + userRPD.toString(), [start, end]);  
   return result.rows.length;
 }
 
@@ -60,6 +60,7 @@ export async function query(queryString, args) {
     initDB().then((db) => {
       db.transaction((tx) => {
         tx.executeSql(queryString, args).then(([tx,results]) => {
+          console.log()
           resolve(results);
         });
       }).then((result) => {
