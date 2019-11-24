@@ -31,6 +31,7 @@ class Settings extends React.Component {
       }
     }
     async _onPressUpdate() {
+      let error = false;
       if (this.state.RPD) {
         await storeData('@userRPD', this.state.RPD.toString());
       }
@@ -40,7 +41,13 @@ class Settings extends React.Component {
       }
 
       if (this.state.volume) {
-        await storeData('@userVolume', this.state.volume.toString());
+        if (this.state.volume > 3000) {
+          alert("You can't set volume past 3000.");
+          error = true;
+        }
+        else {
+          await storeData('@userVolume', this.state.volume.toString());
+        }
       }
       this.setState({
         BPR: "",
@@ -48,7 +55,10 @@ class Settings extends React.Component {
         volume: ""
       });
 
-      alert("Your regimen has been updated");
+      if (!error) {
+        alert("Your regimen has been updated.");
+      }
+
     }
 
     test() {
