@@ -7,7 +7,7 @@ const Countdown = () => {
                 until={6}
                 size={30}
                 onFinish={() => alert('Finished')}
-                digitStyle={{backgroundColor: '#229637'}}
+                digitStyle={{backgroundColor: '#3a5335'}}
                 digitTxtStyle={{color: '#FFF'}}
                 timeToShow={['S']}
                 timeLabels={{s: 'Seconds'}}

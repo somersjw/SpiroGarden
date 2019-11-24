@@ -20,7 +20,8 @@ export default StyleSheet.create({
 	container: {
 	  alignItems: 'center',
 	  backgroundColor: '#87a08b',
-    height: '120%',
+    height: '100%',
+    paddingTop: '10%'
 	},
   hamburger: {
     position: 'absolute',

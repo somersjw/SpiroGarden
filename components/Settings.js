@@ -75,6 +75,7 @@ class Settings extends React.Component {
                         <TextInput style = {styles.regimen}
                           value = {this.state.BPR}
                           keyboardType="numeric"
+                          returnKeyType="done"
                           placeholder = "Enter prescribed breaths per round"
                           onChangeText = {(BPR) => this.setState({BPR})}
                           placeholderTextColor="#3a5335"
@@ -82,6 +83,7 @@ class Settings extends React.Component {
                         <TextInput style = {styles.regimen}
                           value = {this.state.RPD}
                           keyboardType="numeric"
+                          returnKeyType="done"
                           placeholder = "Enter prescribed rounds per day"
                           placeholderTextColor="#3a5335"
                           onChangeText = {(RPD) => this.setState({RPD})}
@@ -89,6 +91,7 @@ class Settings extends React.Component {
                       <TextInput style = {styles.regimen}
                           value={this.state.volume}
                           keyboardType="numeric"
+                          returnKeyType="done"
                           placeholder = "Enter target volume goal in mL"
                           onChangeText = {(volume) => this.setState({volume})}
                           placeholderTextColor="#3a5335"
