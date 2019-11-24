@@ -1,12 +1,18 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  buttoncontainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
   button: {
 	  alignItems: 'center',
 	  justifyContent: 'center',
 	  backgroundColor: '#3a5335',
-    width: 150,
-    margin: 10,
+	height: 36,
+    width: 125,
+    margin: 8,
 	},
   centered: {
     alignItems: 'center',

@@ -27,9 +27,11 @@ class progress extends React.Component {
       selectedIndex: 0,
       dailyRounds: 0,
       weeklyRounds: 0,
-      monthlyRounds: 0
+      monthlyRounds: 0,
+      progress: 0
     };
     this.fetchRoundData = this.fetchRoundData.bind(this);
+    this.fetchUserData = this.fetchUserData.bind(this);
   }
 
   // TODO: need to fetch the round data every time the page is loaded
@@ -39,16 +41,24 @@ class progress extends React.Component {
       this.props.start(); // runs the tutorial
       await storeData('@progress_tutorial', '1');
     }
-    this.fetchRoundData();
+    await this.fetchRoundData();
+    await this.fetchUserData();
+  }
+
+  async fetchUserData() {
+    let rpdGoal = await getData('@userRPD');
+    rpdGoal = parseInt(rpdGoal);
+    let progress = (this.state.dailyRounds / rpdGoal) * 100;
+    this.setState({
+      rpdGoal: rpdGoal,
+      progress: progress
+    });
   }
 
   async fetchRoundData() {
     let dailyRounds = await getDailyRounds();
     let weeklyRounds = await getWeeklyRounds();
     let monthlyRounds = await getMonthlyRounds();
-    if (dailyRounds > 3) {
-      dailyRounds = 3;
-    }
     if (weeklyRounds > 7) {
       weeklyRounds = 7
     }
@@ -96,7 +106,7 @@ class progress extends React.Component {
             <View style={styles.container}>
               <View>
                 <ProgressCircle
-                percent={(this.state.dailyRounds / 3) * 100}
+                percent={this.state.progress}
                 radius={75}
                 borderWidth={10}
                 color='#3a5335'
@@ -109,13 +119,13 @@ class progress extends React.Component {
               <CopilotStep text="Here's your goal for today!" order={1} name="goal">
                 <CopilotView style={styles.centered}>
                   <Text style={styles.titlelarge}>GOAL:</Text>
-                  <Text style={styles.titlemedium}>3 rounds per day</Text>
+                  <Text style={styles.titlemedium}>{this.state.rpdGoal} rounds per day</Text>
                 </CopilotView>
               </CopilotStep>
               <CopilotStep text="Here's your progress so far!" order={2} name="progress">
                 <CopilotView style={styles.centered}>
                   <Text style={styles.subheading}>You have completed </Text> 
-                  <Text style={styles.titlemedium}>{this.state.dailyRounds}/3</Text>
+                  <Text style={styles.titlemedium}>{this.state.dailyRounds}/{this.state.rpdGoal} </Text>
                   <Text style={styles.subheading}>treatments today</Text>
                 </CopilotView>
               </CopilotStep>
@@ -136,7 +146,7 @@ class progress extends React.Component {
               </ProgressCircle>
             </View>
             <Text style={styles.titlelarge}>GOAL:</Text>
-            <Text style={styles.heading2}>3 rounds per day for 7 days this week</Text>
+            <Text style={styles.heading2}>{this.state.rpdGoal} rounds per day for 7 days this week</Text>
             <Text style={styles.subheading}>You have completed </Text> 
           <Text style={styles.titlemedium}>{this.state.weeklyRounds}/7</Text>
             <Text style={styles.subheading}>days of treatment this week</Text>
@@ -157,7 +167,7 @@ class progress extends React.Component {
               </ProgressCircle>
             </View>
             <Text style={styles.titlelarge}>GOAL:</Text>
-            <Text style={styles.heading2}>3 rounds a day for {moment().daysInMonth()} days this month</Text>
+            <Text style={styles.heading2}>{this.state.rpdGoal} rounds a day for {moment().daysInMonth()} days this month</Text>
             <Text style={styles.subheading}>You have completed </Text> 
             <Text style={styles.titlemedium}>{this.state.monthlyRounds}/{moment().daysInMonth()}</Text>
             <Text style={styles.subheading}>days of treatment this month</Text>
@@ -173,10 +183,12 @@ class progress extends React.Component {
       
     );
   }
+
   async componentDidUpdate(prevProps) {
     if (this.props.isFocused && !prevProps.isFocused) {
       // Screen has now come into focus, call your method here 
       await this.fetchRoundData();
+      await this.fetchUserData();
       console.log("new data!");
     }
   }

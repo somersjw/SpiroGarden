@@ -46,6 +46,17 @@ export async function initializePlant() {
     }
 }
 
+export async function getdatmoney(newmoney) {
+    let currentmoney = await getData('@money');
+    if (isNaN(currentmoney)){
+      await storeData('@money', '0');
+    }
+    currentmoney = await getData('@money');
+    let nowmoney = parseInt(currentmoney) + newmoney;
+    await storeData('@money', nowmoney.toString());
+    return nowmoney;
+}
+
 export async function changePlant(change) {
     if (change < 0) {
         // reset to 0

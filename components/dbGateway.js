@@ -1,5 +1,6 @@
 import moment from 'moment';
 import SQLite from "react-native-sqlite-storage";
+import { getData } from './gameFunctions';
 
 SQLite.enablePromise(true);
 
@@ -21,7 +22,9 @@ export async function getWeeklyRounds() {
   let start = moment().subtract(7, 'days').set({'hour': 0, 'minute': 1}).toISOString();
   let end = moment().toISOString();
 
-  let result = await query('SELECT date, COUNT(*) FROM rounds WHERE timeCompleted >= ? AND timeCompleted <= ? GROUP BY date HAVING COUNT(*) >= 3', [start, end]);
+  let userRPD = await getData('@userRPD');
+  userRPD = parseInt(userRPD);
+  let result = await query('SELECT date, COUNT(*) FROM rounds WHERE timeCompleted >= ? AND timeCompleted <= ? GROUP BY date HAVING COUNT(*) >= ?', [start, end, userRPD]);
 
   return result.rows.length;
 }
@@ -30,7 +33,9 @@ export async function getMonthlyRounds() {
   let start = moment().subtract(1, 'months').set({'hour': 0, 'minute': 1}).toISOString();
   let end = moment().toISOString();
 
-  let result = await query('SELECT date, COUNT(*) FROM rounds WHERE timeCompleted >= ? AND timeCompleted <= ? GROUP BY date HAVING COUNT(*) >= 3', [start, end]);
+  let userRPD = await getData('@userRPD');
+  userRPD = parseInt(userRPD);
+  let result = await query('SELECT date, COUNT(*) FROM rounds WHERE timeCompleted >= ? AND timeCompleted <= ? GROUP BY date HAVING COUNT(*) >= ?', [start, end, userRPD]);
   return result.rows.length;
 }
 

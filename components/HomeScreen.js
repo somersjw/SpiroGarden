@@ -6,11 +6,12 @@ import CountDown from 'react-native-countdown-component';
 import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import styles from './styles';
 import Plant from './Plant';
-import { AsyncAlert, fetchSpiroData, getData, storeData, changePlant, initializePlant , saveprogress, round } from './gameFunctions';
+import { AsyncAlert, fetchSpiroData, getData, storeData, changePlant, initializePlant , saveprogress, round , getdatmoney } from './gameFunctions';
 import { sendLocalNotification } from './notifications';
 import moment from 'moment';
 import { insertAlert } from './dbGateway';
 import * as Progress from 'react-native-progress';
+import { withNavigationFocus } from 'react-navigation';
 
 
 // For the tutorial when the user first loads the page
@@ -27,20 +28,32 @@ class HomeScreen extends React.Component {
     this.progression = this.progression.bind(this);
     this.resetGame = this.resetGame.bind(this);
     this.fetchUserData = this.fetchUserData.bind(this);
+<<<<<<< HEAD
+    this.Sellplant = this.Sellplant.bind(this);
+=======
+    this.checkCooldown = this.checkCooldown.bind(this);
+>>>>>>> 4249d69c4d52fdccf4c7ad67a783305448e0535b
   }
 
   async componentDidMount() {
     await initializePlant();
+    let money = await getdatmoney(0);
     timeaway = await getData('@interval_time');
+<<<<<<< HEAD
     if (Date.now() - parseFloat(timeaway) > 3600 * 1000){
-      this.setState({buttonCooldown: false}); 
+      this.setState({buttonCooldown: false});
     }
     else {
       this.setState({buttonCooldown: true});
     }
+=======
+    console.log(Date.now() - parseFloat(timeaway));
+    this.checkCooldown(timeaway);
+>>>>>>> 4249d69c4d52fdccf4c7ad67a783305448e0535b
     let plantLevel = parseInt(await getData('@plant_level'));
     let plantprogress = parseInt(await getData('@plant_progress'));
     this.setState({
+      money: money,
       plantLevel: plantLevel,
       plantprogress: plantprogress
     });
@@ -50,7 +63,25 @@ class HomeScreen extends React.Component {
       await storeData('@homescreen_tutorial', '1');
     }
 
-    // await this.fetchUserData();
+    await this.fetchUserData();
+  }
+
+  checkCooldown(timeaway) {
+    if (Date.now() - parseFloat(timeaway) > 20 * 1000){
+      this.setState({buttonCooldown: false}); 
+    }
+    else {
+      this.setState({buttonCooldown: true});
+    }
+  }
+  async componentDidUpdate(prevProps) {
+    if (this.props.isFocused && !prevProps.isFocused) {
+      // Screen has now come into focus, call your method here 
+      await this.fetchUserData();
+      console.log("new data!");
+      timeaway = await getData('@interval_time');
+      this.checkCooldown(timeaway);
+    }
   }
 
   async fetchUserData() {
@@ -78,6 +109,17 @@ class HomeScreen extends React.Component {
     );
   }
 
+  async Sellplant(){
+    let money = await getdatmoney(500);
+    this.setState({
+      money: money,
+      plantLevel: 1,
+      plantprogress: 0,
+    });
+    await changePlant(-1);
+    await AsyncAlert("Success", "You sold your plant for cash.");
+  }
+
   async resetGame() {
     this.setState({
       quality: 0,
@@ -96,7 +138,8 @@ class HomeScreen extends React.Component {
 
   async Quickreset(){
     this.setState({
-      plantLevel: 1,
+      buttonCooldown: false,
+      plantLevel: 4,
       plantprogress: 0,
       goodBreathCount: 0,
       maxVolume: 0
@@ -251,7 +294,11 @@ class HomeScreen extends React.Component {
               <Text style={styles.titlemedium}>Current Spirometer Values</Text>
               <Text style={styles.heading2}>Flow: {this.state.quality}</Text>
               <Progress.Bar color={flow ? hsl(flow <= 50 ? flow*2 : 100 - (flow - 50)*2, '100%', '50%') : '#3a5335'} progress={flow ? flow/100 : 0} width={300} />
-              <Text style={styles.heading2}>Volume: {this.state.val}</Text>
+<<<<<<< HEAD
+              <Text style={styles.heading2}>Volume: {this.state.val} </Text>
+=======
+              <Text style={styles.heading2}>Volume: {this.state.val} / {this.state.userVolume}</Text>
+>>>>>>> 4249d69c4d52fdccf4c7ad67a783305448e0535b
               <Progress.Bar color={'#3a5335'} progress={this.state.val ? this.state.val/100 : 0} width={300} />
             </CopilotView>
           </CopilotStep>
@@ -263,7 +310,7 @@ class HomeScreen extends React.Component {
             Plant Image and CountDowns
           */}
           <Plant plantState={this.state.plantLevel} plantWaterState={this.state.plantWaterLevel} plantSpring={this.state.plantSpring}/>
-          <Text style={styles.heading2}>Points: {this.state.plantprogress}</Text>
+          <Text style={styles.heading2}>Points: {this.state.plantprogress} Money: {this.state.money}</Text>
           <Progress.Bar color={'#3a5335'} progress={this.state.plantprogress ? this.state.plantprogress/200 : 0} width={300} />
           </>
           }
@@ -288,12 +335,25 @@ class HomeScreen extends React.Component {
                   onPress={this.play10Times}
                   disabled={this.state.buttonCooldown}
                   />
+
               {this.state.buttonCooldown && <Text style={styles.heading2}> Please wait an hour before watering again! </Text> }
+<<<<<<< HEAD
+              <View style={styles.buttoncontainer}>
                 <Button
                   title='RESET'
                   buttonStyle={styles.button}
                   onPress={this.Quickreset}
                  />
+                 <Button
+                   title = 'Sell Plant'
+                   buttonStyle={styles.button}
+                   onPress={this.Sellplant}
+                   disabled={this.state.plantLevel != 4}
+                 />
+                </View>
+=======
+
+>>>>>>> 4249d69c4d52fdccf4c7ad67a783305448e0535b
               </CopilotView>
             </CopilotStep>
           )}
@@ -302,7 +362,7 @@ class HomeScreen extends React.Component {
     }
   }
 
-export default copilot({
+export default withNavigationFocus(copilot({
     verticalOffset: 25,
-  })(HomeScreen);
+  })(HomeScreen));
   
