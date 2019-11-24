@@ -1,6 +1,6 @@
 import React from "react";
 import { Header } from "react-native-elements";
-
+import styles  from './styles';
 import HamburgerMenu from "./HamburgerMenu";
 
 const MyHeader = props => {
@@ -9,7 +9,7 @@ const MyHeader = props => {
       leftComponent={<HamburgerMenu navigation={props.navigation} />}
       centerComponent={{
         text: props.title,
-        style: { color: "#fff", fontWeight: "bold" }
+        style: styles.heading3
       }}
       statusBarProps={{ barStyle: "light-content" }}
       containerStyle={{

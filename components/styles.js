@@ -44,6 +44,11 @@ export default StyleSheet.create({
     color: '#FFFF',
     fontFamily: "LIONELLOLight"
   },
+  heading3: {
+  	fontSize: 30,
+    color: '#FFFF',
+    fontFamily: "LIONELLOLight"
+  },
   regimen: {
     borderColor: '#3a5335',
     backgroundColor: '#fff',
