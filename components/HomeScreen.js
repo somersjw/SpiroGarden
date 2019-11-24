@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import MyHeader from './MyHeader';
 import CountDown from 'react-native-countdown-component';
@@ -240,15 +240,16 @@ class HomeScreen extends React.Component {
     render() {
       let flow = this.state.quality;
       return (
-        <View style={styles.container}>
+        <View>
           {/* 
             Header material
             Everything labeled with Copilot gets shown during the tutorial walkthrough 
           */}
           <MyHeader navigation={this.props.navigation} title="Home" />
+          <ScrollView contentContainerStyle={styles.container}>
           <CopilotStep text="Welcome to SpiroGarden!" order={1} name="welcome">
             <CopilotView/>
-          </CopilotStep>
+          </CopilotStep> 
           {/* Uses absolute positioning since I couldn't figure out how to make the header "walkthroughable" */}
           <CopilotStep text="Connect your incentive spirometer to this app and take care of your very own plant!" order={2} name="connect">
             <CopilotView style={styles.hamburger}/> 
@@ -309,6 +310,7 @@ class HomeScreen extends React.Component {
               </CopilotView>
             </CopilotStep>
           )}
+          </ScrollView>
         </View>
       );
     }
@@ -317,4 +319,3 @@ class HomeScreen extends React.Component {
 export default withNavigationFocus(copilot({
     verticalOffset: 25,
   })(HomeScreen));
-  
