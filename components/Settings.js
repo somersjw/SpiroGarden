@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Keyboard, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
+import { View, Text, Keyboard, TextInput, TouchableWithoutFeedback } from "react-native";
 import MyHeader from './MyHeader';
 import styles from './styles';
 import { Button } from 'react-native-elements';
@@ -54,8 +54,10 @@ class Settings extends React.Component {
     test() {
         console.log(getDailyRounds());
     }
+
     render (){
         return (
+          <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
             <View style={styles.container}>
                 <MyHeader navigation={this.props.navigation} title="Settings"/>
                     <CopilotStep text="Update your breathing regimen here! Make sure you have doctor approval first" order={2} name="regimen">
@@ -64,6 +66,7 @@ class Settings extends React.Component {
                         <TextInput style = {styles.regimen}
                           value = {this.state.BPR}
                           keyboardType="numeric"
+                          returnKeyType="done"
                           placeholder = "Enter prescribed breaths per round"
                           onChangeText = {(BPR) => this.setState({BPR})}
                           placeholderTextColor="#3a5335"
@@ -71,6 +74,7 @@ class Settings extends React.Component {
                         <TextInput style = {styles.regimen}
                           value = {this.state.RPD}
                           keyboardType="numeric"
+                          returnKeyType="done"
                           placeholder = "Enter prescribed rounds per day"
                           placeholderTextColor="#3a5335"
                           onChangeText = {(RPD) => this.setState({RPD})}
@@ -78,6 +82,7 @@ class Settings extends React.Component {
                       <TextInput style = {styles.regimen}
                           value={this.state.volume}
                           keyboardType="numeric"
+                          returnKeyType="done"
                           placeholder = "Enter target volume goal in mL"
                           onChangeText = {(volume) => this.setState({volume})}
                           placeholderTextColor="#3a5335"
@@ -101,6 +106,7 @@ class Settings extends React.Component {
                       </CopilotView>
                     </CopilotStep>
             </View>
+          </TouchableWithoutFeedback>
         );
       }
 }
