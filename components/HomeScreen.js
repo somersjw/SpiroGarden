@@ -20,7 +20,7 @@ const CopilotView = walkthroughable(View);
 class HomeScreen extends React.Component {
   constructor() {
     super();
-    this.state = {showPlant: true,showButton: true, timer: 6, round: 1, maxVolume: 0, sumFlowVals: 0, totalCount: 0, buttonCooldown: true};
+    this.state = {money: 0, showPlant: true, showButton: true, timer: 6, round: 1, maxVolume: 0, sumFlowVals: 0, totalCount: 0, buttonCooldown: true};
     this.playGame = this.playGame.bind(this);
     this.intermission = this.intermission.bind(this);
     this.play10Times = this.play10Times.bind(this);
@@ -260,7 +260,7 @@ class HomeScreen extends React.Component {
             Header material
             Everything labeled with Copilot gets shown during the tutorial walkthrough 
           */}
-          <MyHeader navigation={this.props.navigation} title="Home" />
+          <MyHeader navigation={this.props.navigation} title="Home" money={this.state.money.toString()}/>
           <ScrollView contentContainerStyle={styles.container}>
           <CopilotStep text="Welcome to SpiroGarden!" order={1} name="welcome">
             <CopilotView/>
@@ -295,7 +295,7 @@ class HomeScreen extends React.Component {
             Plant Image and CountDowns
           */}
           <Plant plantState={this.state.plantLevel} plantWaterState={this.state.plantWaterLevel} plantSpring={this.state.plantSpring}/>
-          <Text style={styles.heading2}>Points: {this.state.plantprogress} Money: {this.state.money}</Text>
+          <Text style={styles.nextPlantTitle}>Next Plant</Text>
           <Progress.Bar color={'#3a5335'} progress={this.state.plantprogress ? this.state.plantprogress/200 : 0} width={300} />
           </>
           }
