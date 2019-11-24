@@ -71,7 +71,7 @@ class Settings extends React.Component {
             <ScrollView contentContainerStyle={styles.container}>
                     <CopilotStep text="Update your breathing regimen here! Make sure you have doctor approval first" order={2} name="regimen">
                       <CopilotView>
-                        <Text style={styles.titlelarge}>Breathing Regimen</Text>
+                        <Text style={[styles.titlemedium, styles.centered]}>Breathing Regimen</Text>
                         <TextInput style = {styles.regimen}
                           value = {this.state.BPR}
                           keyboardType="numeric"
@@ -107,7 +107,7 @@ class Settings extends React.Component {
                     </CopilotStep>
                     <CopilotStep text="Connect your Spirometer here!" order={1} name="setup">
                       <CopilotView style={styles.centered}>
-                        <Text style={styles.titlelarge}>Set Up Device</Text>
+                        <Text style={[styles.titlemedium, styles.paddingTop]}>Set Up Device</Text>
                         <Button
                           title="CONNECT"
                           onPress={this.test}

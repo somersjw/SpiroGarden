@@ -11,7 +11,7 @@ import ProgressCircle from 'react-native-progress-circle'
 import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import MyHeader from './MyHeader';
 import styles from './styles';
-import {getDailyRounds, getMonthlyRounds, getWeeklyRounds} from './dbGateway';
+import { getDailyRounds, getMonthlyRounds, getWeeklyRounds } from './dbGateway';
 import { getData, storeData } from './gameFunctions';
 import moment from "moment";
 import { withNavigationFocus } from 'react-navigation';
@@ -87,7 +87,7 @@ class progress extends React.Component {
     ];
 
     return (
-      <View>  
+      <View style={{backgroundColor: '#87a08b'}}>  
         <MyHeader navigation={this.props.navigation} title="Progress"/>
         <CopilotStep text="Toggle between Day, Week, and Month Views by pressing the tabs!" order={3} name="hello">
           <CopilotView style={styles.hamburger}/>
@@ -112,17 +112,17 @@ class progress extends React.Component {
                 >
                   <Text style={{fontSize: 72, color: '#fff', fontFamily: "LIONELLORegular"}}>{this.state.dailyRounds}</Text>
                 </ProgressCircle>
-              <CopilotStep text="Here's your goal for today!" order={1} name="goal">
-                <CopilotView style={styles.centered}>
-                  <Text style={styles.titlelarge}>GOAL:</Text>
-                  <Text style={styles.titlemedium}>{this.state.rpdGoal} rounds per day</Text>
-                </CopilotView>
-              </CopilotStep>
               <CopilotStep text="Here's your progress so far!" order={2} name="progress">
                 <CopilotView style={styles.centered}>
                   <Text style={styles.subheading}>You have completed </Text> 
                   <Text style={styles.titlemedium}>{this.state.dailyRounds}/{this.state.rpdGoal} </Text>
                   <Text style={styles.subheading}>treatments today</Text>
+                </CopilotView>
+              </CopilotStep>
+              <CopilotStep text="Here's your goal for today!" order={1} name="goal">
+                <CopilotView style={styles.centered}>
+                  <Text style={[styles.titlemedium, styles.paddingTop]}>GOAL:</Text>
+                  <Text style={styles.subheading}>{this.state.rpdGoal} rounds per day</Text>
                 </CopilotView>
               </CopilotStep>
             </View>
@@ -139,11 +139,11 @@ class progress extends React.Component {
               >
                 <Text style={{fontSize: 48, color: '#fff'}}>{this.state.weeklyRounds}</Text>
               </ProgressCircle>
-            <Text style={styles.titlelarge}>GOAL:</Text>
-            <Text style={styles.heading2}>{this.state.rpdGoal} rounds per day for 7 days this week</Text>
             <Text style={styles.subheading}>You have completed </Text> 
-          <Text style={styles.titlemedium}>{this.state.weeklyRounds}/7</Text>
+            <Text style={styles.titlemedium}>{this.state.weeklyRounds}/7</Text>
             <Text style={styles.subheading}>days of treatment this week</Text>
+            <Text style={[styles.titlemedium, styles.paddingTop]}>GOAL:</Text>
+            <Text style={[styles.subheading, styles.centered]}>{this.state.rpdGoal} rounds per day for 7 days this week</Text>
           </View>
           )}
           {this.state.selectedIndex === 2 && (
@@ -158,12 +158,12 @@ class progress extends React.Component {
               >
                 <Text style={{fontSize: 48, color: '#fff'}}>{this.state.monthlyRounds}</Text>
               </ProgressCircle>
-            <Text style={styles.titlelarge}>GOAL:</Text>
-            <Text style={styles.heading2}>{this.state.rpdGoal} rounds a day for {moment().daysInMonth()} days this month</Text>
-            <Text style={styles.subheading}>You have completed </Text> 
-            <Text style={styles.titlemedium}>{this.state.monthlyRounds}/{moment().daysInMonth()}</Text>
-            <Text style={styles.subheading}>days of treatment this month</Text>
-          </View>
+              <Text style={styles.subheading}>You have completed </Text> 
+              <Text style={styles.titlemedium}>{this.state.monthlyRounds}/{moment().daysInMonth()}</Text>
+              <Text style={styles.subheading}>days of treatment this month</Text>
+              <Text style={[styles.titlemedium, styles.paddingTop]}>GOAL:</Text>
+              <Text style={[styles.subheading, styles.centered]}>{this.state.rpdGoal} rounds a day for {moment().daysInMonth()} days this month</Text>
+            </View>
           )}
         {this.state.selectedIndex === 3 && (
           <View style={styles.container}>

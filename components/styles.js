@@ -16,13 +16,14 @@ export default StyleSheet.create({
 	},
   centered: {
     alignItems: 'center',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    textAlign: 'center'
   },
 	container: {
 	  alignItems: 'center',
 	  backgroundColor: '#87a08b',
     height: '100%',
-    paddingTop: '10%'
+    paddingTop: '5%'
 	},
   hamburger: {
     position: 'absolute',
@@ -68,8 +69,9 @@ export default StyleSheet.create({
   regimen: {
     borderColor: '#3a5335',
     backgroundColor: '#fff',
-    borderWidth: 4,
-    margin: 15,
+    borderWidth: 2,
+    borderRadius: 8,
+    margin: 10,
     height: 40,
     fontSize: 15,
     color: '#3a5335'
@@ -79,6 +81,9 @@ export default StyleSheet.create({
   	margin: 5,
     color: '#FFFF',
     fontFamily: "LIONELLOLight"
+  },
+  paddingTop: {
+    paddingTop: 50
   },
   plant: {
     position: 'absolute',

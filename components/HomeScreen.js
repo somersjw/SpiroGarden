@@ -270,7 +270,7 @@ class HomeScreen extends React.Component {
             <CopilotView style={styles.hamburger}/> 
           </CopilotStep>
           <CopilotStep text="Press this icon here to see your progress and set up your device" order={4} name="navigation">
-            <CopilotView style={styles.hamburger} />
+            <CopilotView style={styles.hamburger}/>
           </CopilotStep>
 
           {/* 
@@ -280,8 +280,6 @@ class HomeScreen extends React.Component {
           { this.state.showPlant && <>
           <CopilotStep text="Check how well you're breathing here!" order={5} name="spirometer data">
             <CopilotView>
-              <Text style={[styles.titlemedium, styles.centered]}>Current Spirometer</Text>
-              <Text style={[styles.titlemedium, styles.centered]}>Values</Text>
               <Text style={styles.heading2}>Flow: {this.state.quality}</Text>
               <Progress.Bar color={flow ? hsl(flow <= 50 ? flow*2 : 100 - (flow - 50)*2, '100%', '50%') : '#3a5335'} progress={flow ? flow/100 : 0} width={300} />
               <Text style={styles.heading2}>Volume: {this.state.val} / {this.state.userVolume}</Text>
