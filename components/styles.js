@@ -10,17 +10,20 @@ export default StyleSheet.create({
 	  alignItems: 'center',
 	  justifyContent: 'center',
 	  backgroundColor: '#3a5335',
-	height: 36,
+	  height: 36,
     width: 125,
     margin: 8,
 	},
   centered: {
     alignItems: 'center',
+    alignSelf: 'center',
+    textAlign: 'center'
   },
 	container: {
 	  alignItems: 'center',
 	  backgroundColor: '#87a08b',
-    height: '120%',
+    height: '100%',
+    paddingTop: '5%'
 	},
   hamburger: {
     position: 'absolute',
@@ -48,7 +51,8 @@ export default StyleSheet.create({
   heading2: {
   	fontSize: 20,
     color: '#FFFF',
-    fontFamily: "LIONELLOLight"
+    fontFamily: "LIONELLOLight",
+    padding: 5
   },
   heading3: {
   	fontSize: 30,
@@ -65,8 +69,9 @@ export default StyleSheet.create({
   regimen: {
     borderColor: '#3a5335',
     backgroundColor: '#fff',
-    borderWidth: 4,
-    margin: 15,
+    borderWidth: 2,
+    borderRadius: 8,
+    margin: 10,
     height: 40,
     fontSize: 15,
     color: '#3a5335'
@@ -76,6 +81,9 @@ export default StyleSheet.create({
   	margin: 5,
     color: '#FFFF',
     fontFamily: "LIONELLOLight"
+  },
+  paddingTop: {
+    paddingTop: 50
   },
   plant: {
     position: 'absolute',

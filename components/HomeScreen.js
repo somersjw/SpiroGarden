@@ -316,7 +316,7 @@ async playGame() {
             <CopilotView style={styles.hamburger}/> 
           </CopilotStep>
           <CopilotStep text="Press this icon here to see your progress and set up your device" order={4} name="navigation">
-            <CopilotView style={styles.hamburger} />
+            <CopilotView style={styles.hamburger}/>
           </CopilotStep>
 
           {/* 
@@ -326,7 +326,6 @@ async playGame() {
           { this.state.showPlant && <>
           <CopilotStep text="Check how well you're breathing here!" order={5} name="spirometer data">
             <CopilotView>
-              <Text style={styles.titlemedium}>Current Spirometer Values</Text>
               <Text style={styles.heading2}>Flow: {this.state.quality}</Text>
               <Progress.Bar color={flow ? hsl(flow <= 50 ? flow*2 : 100 - (flow - 50)*2, '100%', '50%') : '#3a5335'} progress={flow ? flow/100 : 0} width={300} />
               <Text style={styles.heading2}>Volume: {this.state.val} / {this.state.userVolume}</Text>
@@ -350,7 +349,7 @@ async playGame() {
                   until={this.state.timer}
                   size={30}
                   onFinish={() => this.setState({timer: 6})}
-                  digitStyle={{backgroundColor: '#229637'}}
+                  digitStyle={{backgroundColor: '#3a5335'}}
                   digitTxtStyle={{color: '#FFF'}}
                   timeToShow={['S']}
                   timeLabels={{s: 'Hold Your Breath'}}

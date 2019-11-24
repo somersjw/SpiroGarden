@@ -71,10 +71,11 @@ class Settings extends React.Component {
             <ScrollView contentContainerStyle={styles.container}>
                     <CopilotStep text="Update your breathing regimen here! Make sure you have doctor approval first" order={2} name="regimen">
                       <CopilotView>
-                        <Text style={styles.titlelarge}>Breathing Regimen</Text>
+                        <Text style={[styles.titlemedium, styles.centered]}>Breathing Regimen</Text>
                         <TextInput style = {styles.regimen}
                           value = {this.state.BPR}
                           keyboardType="numeric"
+                          returnKeyType="done"
                           placeholder = "Enter prescribed breaths per round"
                           onChangeText = {(BPR) => this.setState({BPR})}
                           placeholderTextColor="#3a5335"
@@ -82,6 +83,7 @@ class Settings extends React.Component {
                         <TextInput style = {styles.regimen}
                           value = {this.state.RPD}
                           keyboardType="numeric"
+                          returnKeyType="done"
                           placeholder = "Enter prescribed rounds per day"
                           placeholderTextColor="#3a5335"
                           onChangeText = {(RPD) => this.setState({RPD})}
@@ -89,6 +91,7 @@ class Settings extends React.Component {
                       <TextInput style = {styles.regimen}
                           value={this.state.volume}
                           keyboardType="numeric"
+                          returnKeyType="done"
                           placeholder = "Enter target volume goal in mL"
                           onChangeText = {(volume) => this.setState({volume})}
                           placeholderTextColor="#3a5335"
@@ -104,7 +107,7 @@ class Settings extends React.Component {
                     </CopilotStep>
                     <CopilotStep text="Connect your Spirometer here!" order={1} name="setup">
                       <CopilotView style={styles.centered}>
-                        <Text style={styles.titlelarge}>Set Up Device</Text>
+                        <Text style={[styles.titlemedium, styles.paddingTop]}>Set Up Device</Text>
                         <Button
                           title="CONNECT"
                           onPress={this.test}

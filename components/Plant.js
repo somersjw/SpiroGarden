@@ -5,7 +5,7 @@ import styles from './styles';
 export default class Plant extends Component {
   constructor() {
     super()
-    this.springValue = new Animated.Value(0.75)
+    this.springValue = new Animated.Value(1)
   }
 
   spring () {
@@ -13,7 +13,7 @@ export default class Plant extends Component {
     Animated.spring(
       this.springValue,
       {
-        toValue: 0.75,
+        toValue: 1,
         friction: 3
       }
     ).start()
@@ -45,8 +45,8 @@ export default class Plant extends Component {
     return (
       <Animated.Image
         style={{
-          width: '50%',
-          height: '50%',
+          width: '100%',
+          height: '40%',
           transform: [{scale: this.springValue}]
         }}
         source={this.props.plantWaterState === 1 ? plantWaterURL : plantURL}
