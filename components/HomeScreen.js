@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import MyHeader from './MyHeader';
 import CountDown from 'react-native-countdown-component';
@@ -224,79 +224,81 @@ class HomeScreen extends React.Component {
     render() {
       let flow = this.state.quality;
       return (
-        <View style={styles.container}>
-          {/* 
-            Header material
-            Everything labeled with Copilot gets shown during the tutorial walkthrough 
-          */}
+        <View>
           <MyHeader navigation={this.props.navigation} title="Home" />
-          <CopilotStep text="Welcome to SpiroGarden!" order={1} name="welcome">
-            <CopilotView/>
-          </CopilotStep>
-          {/* Uses absolute positioning since I couldn't figure out how to make the header "walkthroughable" */}
-          <CopilotStep text="Connect your incentive spirometer to this app and take care of your very own plant!" order={2} name="connect">
-            <CopilotView style={styles.hamburger}/> 
-          </CopilotStep>
-          <CopilotStep text="Press this icon here to see your progress and set up your device" order={4} name="navigation">
-            <CopilotView style={styles.hamburger} />
-          </CopilotStep>
+          <ScrollView contentContainerStyle={styles.container}>
+            {/* 
+              Header material
+              Everything labeled with Copilot gets shown during the tutorial walkthrough 
+            */}
+            <CopilotStep text="Welcome to SpiroGarden!" order={1} name="welcome">
+              <CopilotView/>
+            </CopilotStep>
+            {/* Uses absolute positioning since I couldn't figure out how to make the header "walkthroughable" */}
+            <CopilotStep text="Connect your incentive spirometer to this app and take care of your very own plant!" order={2} name="connect">
+              <CopilotView style={styles.hamburger}/> 
+            </CopilotStep>
+            <CopilotStep text="Press this icon here to see your progress and set up your device" order={4} name="navigation">
+              <CopilotView style={styles.hamburger} />
+            </CopilotStep>
 
-          {/* 
-            Titles near top of page
-          */}
-          <Text style={styles.subheading}> Breath: {this.state.round} / 10</Text>
-          { this.state.showPlant && <>
-          <CopilotStep text="Check how well you're breathing here!" order={5} name="spirometer data">
-            <CopilotView>
-              <Text style={styles.titlemedium}>Current Spirometer Values</Text>
-              <Text style={styles.heading2}>Flow: {this.state.quality}</Text>
-              <Progress.Bar color={flow ? hsl(flow <= 50 ? flow*2 : 100 - (flow - 50)*2, '100%', '50%') : '#3a5335'} progress={flow ? flow/100 : 0} width={300} />
-              <Text style={styles.heading2}>Volume: {this.state.val}</Text>
-              <Progress.Bar color={'#3a5335'} progress={this.state.val ? this.state.val/100 : 0} width={300} />
-            </CopilotView>
-          </CopilotStep>
-          <CopilotStep text="Here's where you can check your plant progress!" order={3} name="plant">
-            <CopilotView style={styles.plant} />
-          </CopilotStep>
-
-          {/*
-            Plant Image and CountDowns
-          */}
-          <Plant plantState={this.state.plantLevel} plantWaterState={this.state.plantWaterLevel} plantSpring={this.state.plantSpring}/>
-          <Text style={styles.heading2}>Points: {this.state.plantprogress}</Text>
-          <Progress.Bar color={'#3a5335'} progress={this.state.plantprogress ? this.state.plantprogress/200 : 0} width={300} />
-          </>
-          }
-          { !this.state.showPlant && 
-              <CountDown
-                  until={this.state.timer}
-                  size={30}
-                  onFinish={() => this.setState({timer: 6})}
-                  digitStyle={{backgroundColor: '#229637'}}
-                  digitTxtStyle={{color: '#FFF'}}
-                  timeToShow={['S']}
-                  timeLabels={{s: 'Hold Your Breath'}}
-                  timeLabelStyle={styles.titlemedium}
-                  running={!this.state.showPlant}
-              /> }
-          {this.state.showButton && (
-            <CopilotStep text="Once you connect your spirometer, press Start and begin breathing!" order={6} name="start">
-              <CopilotView style={styles.centered}>
-                <Button
-                  title="START GAME"
-                  buttonStyle={styles.button}
-                  onPress={this.play10Times}
-                  disabled={this.state.buttonCooldown}
-                  />
-              {this.state.buttonCooldown && <Text style={styles.heading2}> Please wait an hour before watering again! </Text> }
-                <Button
-                  title='RESET'
-                  buttonStyle={styles.button}
-                  onPress={this.Quickreset}
-                 />
+            {/* 
+              Titles near top of page
+            */}
+            <Text style={styles.subheading}> Breath: {this.state.round} / 10</Text>
+            { this.state.showPlant && <>
+            <CopilotStep text="Check how well you're breathing here!" order={5} name="spirometer data">
+              <CopilotView>
+                <Text style={styles.titlemedium}>Current Spirometer Values</Text>
+                <Text style={styles.heading2}>Flow: {this.state.quality}</Text>
+                <Progress.Bar color={flow ? hsl(flow <= 50 ? flow*2 : 100 - (flow - 50)*2, '100%', '50%') : '#3a5335'} progress={flow ? flow/100 : 0} width={300} />
+                <Text style={styles.heading2}>Volume: {this.state.val}</Text>
+                <Progress.Bar color={'#3a5335'} progress={this.state.val ? this.state.val/100 : 0} width={300} />
               </CopilotView>
             </CopilotStep>
-          )}
+            <CopilotStep text="Here's where you can check your plant progress!" order={3} name="plant">
+              <CopilotView style={styles.plant} />
+            </CopilotStep>
+
+            {/*
+              Plant Image and CountDowns
+            */}
+            <Plant plantState={this.state.plantLevel} plantWaterState={this.state.plantWaterLevel} plantSpring={this.state.plantSpring}/>
+            <Text style={styles.heading2}>Points: {this.state.plantprogress}</Text>
+            <Progress.Bar color={'#3a5335'} progress={this.state.plantprogress ? this.state.plantprogress/200 : 0} width={300} />
+            </>
+            }
+            { !this.state.showPlant && 
+                <CountDown
+                    until={this.state.timer}
+                    size={30}
+                    onFinish={() => this.setState({timer: 6})}
+                    digitStyle={{backgroundColor: '#229637'}}
+                    digitTxtStyle={{color: '#FFF'}}
+                    timeToShow={['S']}
+                    timeLabels={{s: 'Hold Your Breath'}}
+                    timeLabelStyle={styles.titlemedium}
+                    running={!this.state.showPlant}
+                /> }
+            {this.state.showButton && (
+              <CopilotStep text="Once you connect your spirometer, press Start and begin breathing!" order={6} name="start">
+                <CopilotView style={styles.centered}>
+                  <Button
+                    title="START GAME"
+                    buttonStyle={styles.button}
+                    onPress={this.play10Times}
+                    disabled={this.state.buttonCooldown}
+                    />
+                {this.state.buttonCooldown && <Text style={styles.heading2}> Please wait an hour before watering again! </Text> }
+                  <Button
+                    title='RESET'
+                    buttonStyle={styles.button}
+                    onPress={this.Quickreset}
+                   />
+                </CopilotView>
+              </CopilotStep>
+            )}
+          </ScrollView>
         </View>
       );
     }

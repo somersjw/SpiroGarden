@@ -14,7 +14,7 @@ export default StyleSheet.create({
 	container: {
 	  alignItems: 'center',
 	  backgroundColor: '#87a08b',
-    height: '100%',
+    height: '120%',
 	},
   hamburger: {
     position: 'absolute',
