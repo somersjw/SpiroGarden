@@ -15,7 +15,7 @@ export function AsyncAlert(title, message) {
 
   export async function fetchSpiroData(){
     return new Promise(function(resolve, reject) {
-        fetch('http://67.205.163.230', {header: {
+        fetch('http://ec2-3-14-152-39.us-east-2.compute.amazonaws.com/api/v1/reading', {header: {
           'Content-Type': 'application/json'}
         })
           .then((response) => resolve(response.json()))
@@ -55,6 +55,10 @@ export async function getdatmoney(newmoney) {
     let nowmoney = parseInt(currentmoney) + newmoney;
     await storeData('@money', nowmoney.toString());
     return nowmoney;
+}
+
+export async function sleep(milliseconds) {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
 export async function changePlant(change) {

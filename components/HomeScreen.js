@@ -6,7 +6,7 @@ import CountDown from 'react-native-countdown-component';
 import { copilot, walkthroughable, CopilotStep } from 'react-native-copilot';
 import styles from './styles';
 import Plant from './Plant';
-import { AsyncAlert, fetchSpiroData, getData, storeData, changePlant, initializePlant , saveprogress, round , getdatmoney } from './gameFunctions';
+import { AsyncAlert, fetchSpiroData, getData, storeData, changePlant, initializePlant , saveprogress, round , getdatmoney, sleep } from './gameFunctions';
 import { sendLocalNotification } from './notifications';
 import moment from 'moment';
 import { insertAlert } from './dbGateway';
@@ -30,13 +30,13 @@ class HomeScreen extends React.Component {
     this.fetchUserData = this.fetchUserData.bind(this);
     this.Sellplant = this.Sellplant.bind(this);
     this.checkCooldown = this.checkCooldown.bind(this);
+    this.playGameHardware = this.playGameHardware.bind(this);
   }
 
   async componentDidMount() {
     await initializePlant();
     let money = await getdatmoney(0);
     timeaway = await getData('@interval_time');
-    console.log(Date.now() - parseFloat(timeaway));
     this.checkCooldown(timeaway);
     let plantLevel = parseInt(await getData('@plant_level'));
     let plantprogress = parseInt(await getData('@plant_progress'));
@@ -67,7 +67,7 @@ class HomeScreen extends React.Component {
       // Screen has now come into focus, call your method here 
       await this.fetchUserData();
       console.log("new data!");
-      timeaway = await getData('@interval_time');
+      let timeaway = await getData('@interval_time');
       this.checkCooldown(timeaway);
     }
   }
@@ -159,26 +159,26 @@ class HomeScreen extends React.Component {
     return 0;
   }
   
-  async playGame() {
+  async playGameHardware() {
     let maxFlow = 67;
     let badCount = 0;
     let fullcount = 0;
     let goodCount = 0;
     let prevQuantity = 0;
     let json = await fetchSpiroData();
-    while (json.val < 97) {
+    while (json.values[0] < this.state.userVolume) {
       json = await fetchSpiroData();
       this.setState({
-        quality: json.quality,
-        val: json.val,
-        sumFlowVals: this.state.sumFlowVals + json.quality,
+        quality: json.values[1],
+        val: json.values[0],
+        sumFlowVals: this.state.sumFlowVals + json.values[1],
         totalCount: this.state.totalCount + 1
       })
       fullcount += 1
-      if (json.val < prevQuantity) {
-        return false;
-      }
-      if (json.quality > maxFlow) {
+      // if (json.values[0] < prevQuantity) {
+      //   return false;
+      // }
+      if (json.values[1] > maxFlow) {
         badCount += 1;
       }
       else {
@@ -187,21 +187,67 @@ class HomeScreen extends React.Component {
       if (badCount > 6) {
         return false;
       }
-      if (json.quality < 34){
+      if (json.values[1] < 34){
         goodCount += 1;
       }
 
-      if (json.val > this.state.maxVolume) {
+      if (json.values[0] > this.state.maxVolume) {
         this.setState({
-          maxVolume: json.val
+          maxVolume: json.values[0]
         });
       }
 
-      prevQuantity = json.val;
+      prevQuantity = json.values[0];
+      // await sleep(500);
     }
 
     await this.progression(goodCount, fullcount);
     return true;
+}
+
+async playGame() {
+  let maxFlow = 67;
+  let badCount = 0;
+  let fullcount = 0;
+  let goodCount = 0;
+  let prevQuantity = 0;
+  let json = await fetchSpiroData();
+  while (json.val < 97) {
+    json = await fetchSpiroData();
+    this.setState({
+      quality: json.quality,
+      val: json.val,
+      sumFlowVals: this.state.sumFlowVals + json.quality,
+      totalCount: this.state.totalCount + 1
+    })
+    fullcount += 1
+    if (json.val < prevQuantity) {
+      return false;
+    }
+    if (json.quality > maxFlow) {
+      badCount += 1;
+    }
+    else {
+      badCount = 0;
+    }
+    if (badCount > 6) {
+      return false;
+    }
+    if (json.quality < 34){
+      goodCount += 1;
+    }
+
+    if (json.val > this.state.maxVolume) {
+      this.setState({
+        maxVolume: json.val
+      });
+    }
+
+    prevQuantity = json.val;
+  }
+
+  await this.progression(goodCount, fullcount);
+  return true;
 }
   async play10Times() {
     let roundsPassed = 0;
