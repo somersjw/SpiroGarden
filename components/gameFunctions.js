@@ -27,7 +27,7 @@ export function AsyncAlert(title, message) {
 
 export async function fetchHardwareData(){
   return new Promise(function(resolve, reject) {
-      fetch('http://ec2-3-14-152-39.us-east-2.compute.amazonaws.com/api/v1/reading', {header: {
+      fetch('http://ec2-18-223-149-252.us-east-2.compute.amazonaws.com/api/v1/reading', {header: {
         'Content-Type': 'application/json'}
       })
         .then((response) => resolve(response.json()))

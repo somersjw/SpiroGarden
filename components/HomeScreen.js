@@ -261,7 +261,7 @@ async playGame() {
     })
     while (this.state.round <= this.state.userBPR) {
       await this.resetGame();
-      if(await this.playGame()) {
+      if(await this.playGameHardware()) {
         await this.intermission();
         await AsyncAlert("Success", "Move onto the next breath.");
         roundsPassed += 1;
