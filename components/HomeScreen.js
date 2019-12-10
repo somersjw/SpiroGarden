@@ -20,7 +20,7 @@ const CopilotView = walkthroughable(View);
 class HomeScreen extends React.Component {
   constructor() {
     super();
-    this.state = {money: 0, showPlant: true, showButton: true, timer: 6, round: 1, maxVolume: 0, sumFlowVals: 0, totalCount: 0, buttonCooldown: true};
+    this.state = {money: 0, showPlant: true, showButton: true, timer: 6, round: 1, maxVolume: 0, sumFlowVals: 0, totalCount: 0, buttonCooldown: true, plantType: 1};
     this.playGame = this.playGame.bind(this);
     this.intermission = this.intermission.bind(this);
     this.play10Times = this.play10Times.bind(this);
@@ -36,14 +36,17 @@ class HomeScreen extends React.Component {
   async componentDidMount() {
     await initializePlant();
     let money = await getdatmoney(0);
-    timeaway = await getData('@interval_time');
+    timeaway = await getData('@cooldown');
     this.checkCooldown(timeaway);
     let plantLevel = parseInt(await getData('@plant_level'));
+    let plantType = parseInt(await getData('@plant_type'));
+    console.log(plantType);
     let plantprogress = parseInt(await getData('@plant_progress'));
     this.setState({
       money: money,
       plantLevel: plantLevel,
-      plantprogress: plantprogress
+      plantprogress: plantprogress,
+      plantType: plantType
     });
     let intro = await getData('@homescreen_tutorial');
     if (intro === '-1') {
@@ -67,7 +70,7 @@ class HomeScreen extends React.Component {
       // Screen has now come into focus, call your method here 
       await this.fetchUserData();
       console.log("new data!");
-      let timeaway = await getData('@interval_time');
+      let timeaway = await getData('@cooldown');
       this.checkCooldown(timeaway);
     }
   }
@@ -75,7 +78,8 @@ class HomeScreen extends React.Component {
   async fetchUserData() {
     let VOL = parseInt(await getData('@userVolume'));
     let BPR = parseInt(await getData('@userBPR'));
-
+    let plantType = parseInt(await getData('@plant_type'));
+    
 
     if (VOL === -1 || BPR === -1) {
       alert('Please fill out your regimen on the settings page');
@@ -85,7 +89,8 @@ class HomeScreen extends React.Component {
       this.setState({
         showButton: true,
         userVolume: VOL,
-        userBPR: BPR
+        userBPR: BPR,
+        plantType: plantType
       });
     }
   }
@@ -133,7 +138,8 @@ class HomeScreen extends React.Component {
       plantLevel: 4,
       plantprogress: 0,
       goodBreathCount: 0,
-      maxVolume: 0
+      maxVolume: 0,
+      plantType: 1
     });
     await changePlant(-1);
   }
@@ -299,7 +305,8 @@ async playGame() {
       plantSpring: false,
       buttonCooldown: true
     })
-    sendLocalNotification(moment().add(5, 'seconds')); // in 5 secs
+    await storeData('@cooldown',Date.now().toString())
+    sendLocalNotification();
   }
     render() {
       let flow = this.state.quality;
@@ -339,7 +346,7 @@ async playGame() {
           {/*
             Plant Image and CountDowns
           */}
-          <Plant plantState={this.state.plantLevel} plantWaterState={this.state.plantWaterLevel} plantSpring={this.state.plantSpring}/>
+          <Plant plantType={this.state.plantType} plantState={this.state.plantLevel} plantWaterState={this.state.plantWaterLevel} plantSpring={this.state.plantSpring}/>
           <CopilotStep text="Here's where you can check your plant progress! Once the bar is full your plant will grow!" order={3} name="plant">
             <CopilotView>
               <Text style={styles.nextPlantTitle}>Next Plant</Text>
