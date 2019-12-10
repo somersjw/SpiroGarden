@@ -14,6 +14,14 @@ export default StyleSheet.create({
     width: 125,
     margin: 8,
 	},
+  widebutton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#3a5335',
+    height: 36,
+    width: 225,
+    margin: 8,
+  },
   centered: {
     alignItems: 'center',
     alignSelf: 'center',

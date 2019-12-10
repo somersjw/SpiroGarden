@@ -81,13 +81,13 @@ class Settings extends React.Component {
     }
 
     test() {
-      sendLocalNotification();
-        console.log(getDailyRounds());
+      // sendLocalNotification();
+      storeData('@plant_type', '2');
     }
     render (){
         return (
           <View>
-            <MyHeader navigation={this.props.navigation} title="Settings"/>
+            <MyHeader activeIcon={true} navigation={this.props.navigation} title="Settings"/>
             <ScrollView contentContainerStyle={styles.container}>
                     <CopilotStep text="Update your breathing regimen here! Make sure you have doctor approval first" order={2} name="regimen">
                       <CopilotView>

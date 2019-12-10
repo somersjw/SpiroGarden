@@ -1,25 +1,47 @@
 import React from "react";
-import { Text } from "react-native"
+import { Text, View } from "react-native"
 import { Header } from "react-native-elements";
 import styles  from './styles';
 import HamburgerMenu from "./HamburgerMenu";
 
-const MyHeader = props => {
-  return (
-    <Header
-      leftComponent={<HamburgerMenu navigation={props.navigation} />}
-      centerComponent={{
-        text: props.title,
-        style: styles.heading3
-      }}
-      rightComponent={props.money && <Text style={styles.heading2}>${props.money}</Text>}
-      statusBarProps={{ barStyle: "light-content" }}
-      containerStyle={{
-        backgroundColor: '#3a5335',
-        justifyContent: 'space-around',
-      }}
-    />
-  );
-};
+export default class MyHeader extends React.Component {
+  constructor() {
+    super();
+  }
 
-export default MyHeader;
+  render(){
+    return (
+      <View>
+        { this.props.activeIcon === true && 
+          <Header
+            leftComponent={<HamburgerMenu navigation={this.props.navigation} />}
+            centerComponent={{
+              text: this.props.title,
+              style: styles.heading3,
+            }}
+            rightComponent={this.props.money && <Text style={styles.heading2}>${this.props.money}</Text>}
+            statusBarProps={{ barStyle: "light-content" }}
+            containerStyle={{
+              backgroundColor: '#3a5335',
+              justifyContent: 'space-around',
+            }}
+          />
+        }
+        { this.props.activeIcon === false && 
+          <Header
+            centerComponent={{
+              text: this.props.title,
+              style: styles.heading3,
+            }}
+            rightComponent={this.props.money && <Text style={styles.heading2}>${this.props.money}</Text>}
+            statusBarProps={{ barStyle: "light-content" }}
+            containerStyle={{
+              backgroundColor: '#3a5335',
+              justifyContent: 'space-around',
+            }}
+          />
+        }
+      </View>
+    );
+  }
+};

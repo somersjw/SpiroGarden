@@ -11,6 +11,7 @@ import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import progress from './components/progress';
 import Settings from './components/Settings';
+import Help from './components/Help';
 import {initalizeRoundTable} from './components/dbGateway';
 
 
@@ -23,6 +24,9 @@ const AppNavigator = createDrawerNavigator({
   },
   Settings: {
     screen: Settings
+  },
+  Help: {
+    screen: Help
   }
 });
 
