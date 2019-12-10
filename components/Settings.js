@@ -67,7 +67,7 @@ class Settings extends React.Component {
     render (){
         return (
           <View>
-            <MyHeader navigation={this.props.navigation} title="Settings"/>
+            <MyHeader activeIcon={true} navigation={this.props.navigation} title="Settings"/>
             <ScrollView contentContainerStyle={styles.container}>
                     <CopilotStep text="Update your breathing regimen here! Make sure you have doctor approval first" order={2} name="regimen">
                       <CopilotView>

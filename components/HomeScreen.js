@@ -309,7 +309,7 @@ async playGame() {
             Header material
             Everything labeled with Copilot gets shown during the tutorial walkthrough 
           */}
-          <MyHeader navigation={this.props.navigation} title="Home" money={this.state.money.toString()}/>
+          <MyHeader activeIcon={this.state.showButton} navigation={this.props.navigation} title="Home" money={this.state.money.toString()}/>
           <ScrollView contentContainerStyle={styles.container}>
           <CopilotStep text="Welcome to SpiroGarden!" order={1} name="welcome">
             <CopilotView/>

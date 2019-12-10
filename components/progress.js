@@ -88,7 +88,7 @@ class progress extends React.Component {
 
     return (
       <View style={{backgroundColor: '#87a08b'}}>  
-        <MyHeader navigation={this.props.navigation} title="Progress"/>
+        <MyHeader activeIcon={true} navigation={this.props.navigation} title="Progress"/>
         <CopilotStep text="Toggle between Day, Week, and Month Views by pressing the tabs!" order={3} name="hello">
           <CopilotView style={styles.hamburger}/>
         </CopilotStep>
