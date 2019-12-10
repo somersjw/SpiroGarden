@@ -58,7 +58,7 @@ class HomeScreen extends React.Component {
   }
 
   checkCooldown(timeaway) {
-    if (Date.now() - parseFloat(timeaway) > 20 * 1000){
+    if (Date.now() - parseFloat(timeaway) > 20 * 1000 || timeaway === -1){
       this.setState({buttonCooldown: false}); 
     }
     else {
