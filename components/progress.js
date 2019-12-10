@@ -14,7 +14,7 @@ import styles from './styles';
 import { getDailyRounds, getMonthlyRounds, getWeeklyRounds } from './dbGateway';
 import { getData, storeData } from './gameFunctions';
 import moment from "moment";
-import { withNavigationFocus } from 'react-navigation';
+import { withNavigationFocus, ScrollView } from 'react-navigation';
 import RecentRounds from './RecentRounds';
 
 // For the tutorial when the user first loads the page
@@ -87,7 +87,7 @@ class progress extends React.Component {
     ];
 
     return (
-      <View style={{backgroundColor: '#87a08b'}}>  
+      <View style={{backgroundColor: '#87a08b', flex:1}}>  
         <MyHeader navigation={this.props.navigation} title="Progress"/>
         <CopilotStep text="Toggle between Day, Week, and Month Views by pressing the tabs!" order={3} name="hello">
           <CopilotView style={styles.hamburger}/>
@@ -100,6 +100,7 @@ class progress extends React.Component {
           tabStyle={styles.tab}
           tabTextStyle={styles.tabText}
         />
+        <ScrollView>
           {this.state.selectedIndex === 0 && (
             <View style={styles.container}>
                 <ProgressCircle
@@ -170,6 +171,7 @@ class progress extends React.Component {
             <RecentRounds> </RecentRounds>
           </View>
         )}
+        </ScrollView>
       </View>
     );
   }

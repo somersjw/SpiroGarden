@@ -14,7 +14,7 @@ export async function getDailyRounds() {
 }
 
 export async function getDailyRoundInfo(limit) {  
-  let result = await query('SELECT * FROM rounds ORDER BY timeCompleted DESC LIMIT 10', []);
+  let result = await query('SELECT * FROM rounds ORDER BY timeCompleted DESC LIMIT 20', []);
   return result.rows;
 }
 

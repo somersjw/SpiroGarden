@@ -40,7 +40,7 @@ export default class RecentRounds extends React.Component {
         const state = this.state;
         return (
             <View style={styles2.container}>
-                <Text style={styles.titlelarge}> Your Last 10 Excercises</Text>
+                <Text style={styles.titlelarge}> Your Last 20 Excercises</Text>
             <Table borderStyle={{borderWidth: 2, borderColor: '#FFF'}}>
               <Row data={state.tableHead} style={styles2.head} textStyle={styles2.headText}/>
               <Rows data={state.tableData}  style={styles2.row} textStyle={styles2.text}/>
