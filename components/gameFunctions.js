@@ -51,10 +51,15 @@ export async function initializePlant() {
       await storeData('@plant_progress','0');
       await storeData('@interval_time',Date.now().toString())
     }
-    let level = await getData('@plant_level');
+    let level = await getData('@plant_level');    
     if (level === -1) {
         await storeData('@plant_level', '1');
         await storeData('@plant_progress','0');
+    }
+
+    let type = await getData('@plant_type');
+    if (type === -1) {
+      await storeData('@plant_type', '1');
     }
 }
 
