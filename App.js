@@ -29,7 +29,7 @@ const AppNavigator = createDrawerNavigator({
   },
   Help: {
        screen: Help
-  }
+  },
   Tutorial: {
        screen: Tutorial
   }
