@@ -12,7 +12,7 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import progress from './components/progress';
 import Settings from './components/Settings';
 import Help from './components/Help';
-import Tutorial from './components/Tutorial';
+import Shop from './components/Shop';
 import {initalizeRoundTable} from './components/dbGateway';
 import 'react-native-gesture-handler'
 
@@ -27,11 +27,11 @@ const AppNavigator = createDrawerNavigator({
   Settings: {
     screen: Settings
   },
+  Shop: {
+   screen: Shop
+  },
   Help: {
        screen: Help
-  },
-  Tutorial: {
-       screen: Tutorial
   }
 });
 
