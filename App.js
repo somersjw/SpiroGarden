@@ -13,6 +13,7 @@ import progress from './components/progress';
 import Settings from './components/Settings';
 import Help from './components/Help';
 import {initalizeRoundTable} from './components/dbGateway';
+import 'react-native-gesture-handler'
 
 
 const AppNavigator = createDrawerNavigator({
