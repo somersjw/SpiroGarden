@@ -69,7 +69,6 @@ export default StyleSheet.create({
   },
   nextPlantTitle: {
     alignSelf: 'flex-end',
-    paddingRight: 20,
     fontSize: 20,
     color: '#FFFF',
     fontFamily: "LIONELLOLight"
