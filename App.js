@@ -5,6 +5,8 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import progress from './components/progress';
 import Settings from './components/Settings';
 import SplashScreen from './components/SplashScreen.js';
+import Help from './components/Help';
+import Shop from './components/Shop';
 import {initalizeRoundTable} from './components/dbGateway';
 
 
@@ -23,6 +25,12 @@ const AppNavigator = createDrawerNavigator({
   },
   Settings: {
     screen: Settings
+  },
+  Shop: {
+   screen: Shop
+  },
+  Help: {
+    screen: Help
   }
 });
 

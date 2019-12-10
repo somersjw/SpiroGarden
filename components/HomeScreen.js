@@ -357,7 +357,7 @@ async playGame() {
             Titles near top of page
           */}
           { this.state.showPlant && <>
-          <CopilotStep text="Check how well you're breathing here!" order={4} name="spirometer data">
+          <CopilotStep text="Check how well you're breathing here! When breathing keep the flow in the middle of the bar and fill the volume bar!" order={4} name="spirometer data">
             <CopilotView>
               <Text style={[styles.subheading, styles.centered]}> Breath: {this.state.round} / {this.state.userBPR}</Text>
               <Text style={styles.heading2}>Flow: {this.state.quality}</Text>
