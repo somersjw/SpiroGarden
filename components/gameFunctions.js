@@ -58,7 +58,7 @@ export async function initializePlant() {
     }
 
     let type = await getData('@plant_type');
-    if (type === -1) {
+    if (type === -1 || !type) {
       await storeData('@plant_type', '1');
     }
 }
@@ -76,6 +76,12 @@ export async function getdatmoney(newmoney) {
 
 export async function sleep(milliseconds) {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
+export async function harvestFlower() {
+  await storeData('@plant_level', '3');
+  await storeData('@plant_progress','0');
+  await getdatmoney(100);
 }
 
 export async function changePlant(change) {

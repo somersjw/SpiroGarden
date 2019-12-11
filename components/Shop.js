@@ -3,21 +3,45 @@ import { View, Text, Image, Animated, ScrollView } from "react-native";
 import MyHeader from './MyHeader';
 import styles from './styles';
 import { Button } from 'react-native-elements';
+import { withNavigationFocus } from 'react-navigation';
 import { AsyncAlert, fetchSpiroData, getData, storeData, changePlant, initializePlant , saveprogress, round , getdatmoney, sleep, fetchHardwareData} from './gameFunctions';
 
-export default class Shop extends React.Component {
+class Shop extends React.Component {
 
   constructor() {
     super();
-    this.state = {money: 0}
-    this.buyItem
+    this.state = {money: 0, plantType: 1};
+    this.buyitem = this.buyitem.bind(this);
   }
+
   async componentDidMount() {
     let money = await getdatmoney(0);
+    let plantType = parseInt(await getData('@plant_type'));
     this.setState({
-      money: money
+      money: money,
+      plantType: plantType
     });
     }
+
+  async componentDidUpdate(prevProps) {
+    if (this.props.isFocused && !prevProps.isFocused) {
+      // Screen has now come into focus, call your method here
+      let money = await getdatmoney(0);
+      this.setState({
+        money: money
+      });
+    }
+  }
+
+  async buyitem(cost, itemNo){
+    let money = await getdatmoney(0 - cost);
+    storeData('@plant_type', itemNo);
+    after = money;
+    this.setState({
+      money: after,
+      plantType: itemNo
+    });
+  }
 
     render (){
         return (
@@ -35,10 +59,10 @@ export default class Shop extends React.Component {
                 source={require('../assets/plant-medium.gif')}
             />
             <Button
-              title="Buy for $1000"
-              onPress={this.buyitem}
+              title="Buy for $500"
+              onPress={ ()=> this.buyitem(500, '1')}
               buttonStyle={styles.button}
-              disabled={this.state.money < 1000}
+              disabled={this.state.money < 500 || this.state.plantType == 1}
             />
 
             <Animated.Image
@@ -50,12 +74,14 @@ export default class Shop extends React.Component {
             />
             <Button
               title="Buy for $1000"
-              onPress={this.buyitem}
+              onPress={ ()=> this.buyitem(1000, '2')}
               buttonStyle={styles.button}
-              disabled={this.state.money < 1000}
+              disabled={this.state.money < 1000 || this.state.plantType == 2}
             />
             </View>
         </View>
         );
       }
 }
+
+export default withNavigationFocus((Shop));

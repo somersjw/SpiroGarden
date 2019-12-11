@@ -1,9 +1,12 @@
     import {getDailyRounds} from './dbGateway';
     import moment from 'moment';
     import { getData } from './gameFunctions';
-
+    import {Platform} from 'react-native';
 
     export async function sendLocalNotification(time) {
+        if (Platform.OS === 'ios') {
+            return;
+        }
         let completedRounds = await getDailyRounds();
         let timeToSend = await getTimeToSend(completedRounds);
 

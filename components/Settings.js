@@ -81,8 +81,8 @@ class Settings extends React.Component {
     }
 
     test() {
-      // sendLocalNotification();
-      storeData('@plant_type', '2');
+      sendLocalNotification();
+      // storeData('@plant_type', '2');
     }
     render (){
         return (
