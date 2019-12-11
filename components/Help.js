@@ -29,9 +29,10 @@ class Help extends React.Component {
       prompt: true // Optional boolean property. Determines if the user should be prompt prior to the call 
     }
     return (
-      <View>
+      <View style={{flex: 1}}>
         <MyHeader activeIcon={true} navigation={this.props.navigation} title="Help"/>
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView>
+          <View style={styles.container}>
               <Text style={[styles.titlemedium, styles.centered]}>How to use a Spirometer</Text>
               <Text style={[styles.heading2, styles.centered]}></Text>
               <View style={styles.circularView}>
@@ -60,6 +61,8 @@ class Help extends React.Component {
             title="CALL FOR HELP"
             onPress={() => call(args)}
             buttonStyle={styles.widebutton}/>
+          </View>
+
         </ScrollView>
       </View>
     );
