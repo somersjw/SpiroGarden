@@ -34,10 +34,25 @@ class Help extends React.Component {
         <ScrollView contentContainerStyle={styles.container}>
               <Text style={[styles.titlemedium, styles.centered]}>How to use a Spirometer</Text>
               <Text style={[styles.heading2, styles.centered]}></Text>
-              <Text style={[styles.heading2, styles.centered]}>1. Put the mouthpiece in your mouth and close your lips tightly around it. Do not block the mouthpiece with your tongue.</Text>
-              <Text style={[styles.heading2, styles.centered]}>2. Inhale slowly and deeply through the mouthpiece to raise the indicator. Try to make the indicator rise up to the level of the goal marker.</Text>
-              <Text style={[styles.heading2, styles.centered]}>3. When you cannot inhale any longer, remove the mouthpiece and hold your breath for 6 seconds.</Text>
-              <Text style={[styles.heading2, styles.centered]}>4. Exhale normally.</Text>
+              <View style={styles.circularView}>
+                <Text style={{color: '#fff', fontSize: 25}}>1</Text>
+              </View>
+              <Text style={[styles.heading2, styles.centered]}>Put the mouthpiece in your mouth and close your lips tightly around it. Do not block the mouthpiece with your tongue.</Text>
+              <View style={{height: 10}}></View>
+              <View style={styles.circularView}>
+                <Text style={{color: '#fff', fontSize: 25}}>2</Text>
+              </View>
+              <Text style={[styles.heading2, styles.centered]}>Inhale slowly and deeply through the mouthpiece to raise the indicator. Try to make the indicator rise up to the level of the goal marker.</Text>
+              <View style={{height: 10}}></View>
+              <View style={styles.circularView}>
+                <Text style={{color: '#fff', fontSize: 25}}>3</Text>
+              </View>
+              <Text style={[styles.heading2, styles.centered]}>When you cannot inhale any longer, remove the mouthpiece and hold your breath for 6 seconds.</Text>
+              <View style={{height: 10}}></View>
+              <View style={styles.circularView}>
+                <Text style={{color: '#fff', fontSize: 25}}>4</Text>
+              </View>
+              <Text style={[styles.heading2, styles.centered]}>Exhale normally.</Text>
               <Text style={[styles.heading2, styles.centered]}></Text>
               <Text style={[styles.heading2, styles.centered]}></Text>
           <Text style={[styles.subheading, styles.centered]}>Talk to your doctor for more information</Text>

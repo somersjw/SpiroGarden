@@ -10,8 +10,8 @@ export default StyleSheet.create({
 	  alignItems: 'center',
 	  justifyContent: 'center',
 	  backgroundColor: '#3a5335',
-	  height: 36,
-    width: 125,
+	  height: 40,
+    width: 130,
     margin: 8,
 	},
   widebutton: {
@@ -106,5 +106,14 @@ export default StyleSheet.create({
   },
   tabText: {
 		color: '#3a5335'
+  },
+  circularView: {
+    height: 40,
+    width: 40,
+    borderRadius: 40/2,
+    backgroundColor: '#3a5335',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 5
   }
 });

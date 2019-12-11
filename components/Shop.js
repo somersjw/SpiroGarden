@@ -25,7 +25,7 @@ export default class Shop extends React.Component {
          <MyHeader activeIcon={true} navigation={this.props.navigation} title="Shop" />
             <View style={styles.container}>
               <Text style={[styles.titlemedium, styles.centered]}>Welcome to the Shop!</Text>
-              <Text style={[styles.heading3, styles.centered]}>Your money is: ${this.state.money}</Text>
+              <Text style={[styles.heading3, styles.centered]}>You have: ${this.state.money}</Text>
                <Button
                  title="Buy for $1000"
                  onPress={this.buyitem}

@@ -11,8 +11,11 @@ export default class SplashScreen extends React.Component {
 
     render () {
         return (
-            <View style={{flex: 1, backgroundColor: 'red', alignItems: 'center', justifyContent: 'center'}}>
-                <Text> Yo </Text>
+            <View style={{flex: 1, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center'}}>
+                <Image
+                    style={{width: 400, height: 400}}
+                    source={require('../assets/spirogarden-logo.png')}
+                />
             </View>
         );
     }
