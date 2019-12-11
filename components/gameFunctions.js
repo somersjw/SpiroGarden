@@ -58,7 +58,7 @@ export async function initializePlant() {
     }
 
     let type = await getData('@plant_type');
-    if (type === -1) {
+    if (type === -1 || !type) {
       await storeData('@plant_type', '1');
     }
 }

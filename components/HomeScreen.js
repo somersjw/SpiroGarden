@@ -72,6 +72,10 @@ class HomeScreen extends React.Component {
       console.log("new data!");
       let timeaway = await getData('@cooldown');
       this.checkCooldown(timeaway);
+      let money = await getdatmoney(0);
+      this.setState({
+        money: money
+      });
     }
   }
 
@@ -338,7 +342,7 @@ async playGame() {
               <Text style={[styles.subheading, styles.centered]}> Breath: {this.state.round} / {this.state.userBPR}</Text>
               <Text style={styles.heading2}>Flow: {this.state.quality}</Text>
               <Progress.Bar color={flow ? hsl(flow <= 50 ? flow*2 : 100 - (flow - 50)*2, '100%', '50%') : '#3a5335'} progress={flow ? flow/100 : 0} width={300} />
-              <Text style={styles.heading2}>Volume: {this.state.val} / {this.state.userVolume}</Text>
+              <Text style={styles.heading2}>Volume: {this.state.val} / {this.state.userVolume} ml</Text>
               <Progress.Bar color={'#3a5335'} progress={this.state.val ? this.state.val/ this.state.userVolume : 0} width={300} />
             </CopilotView>
           </CopilotStep>
