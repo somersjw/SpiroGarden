@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import MyHeader from './MyHeader';
 import CountDown from 'react-native-countdown-component';
@@ -33,6 +33,9 @@ class HomeScreen extends React.Component {
     this.playGameHardware = this.playGameHardware.bind(this);
   }
 
+  static navigationOptions = ({ navigation }) => ({
+    drawerLockMode: navigation.state.params ? navigation.state.params.drawerLockMode : undefined});
+
   async componentDidMount() {
     await initializePlant();
     let money = await getdatmoney(0);
@@ -40,7 +43,6 @@ class HomeScreen extends React.Component {
     this.checkCooldown(timeaway);
     let plantLevel = parseInt(await getData('@plant_level'));
     let plantType = parseInt(await getData('@plant_type'));
-    console.log(plantType);
     let plantprogress = parseInt(await getData('@plant_progress'));
     this.setState({
       money: money,
@@ -178,6 +180,7 @@ class HomeScreen extends React.Component {
     let fullcount = 0;
     let goodCount = 0;
     let prevQuantity = 0;
+    let volDecreaseCount = 0;
     let json = await fetchHardwareData();
     while (json.values[0] < this.state.userVolume) {
       json = await fetchHardwareData();
@@ -188,9 +191,15 @@ class HomeScreen extends React.Component {
         totalCount: this.state.totalCount + 1
       })
       fullcount += 1
-      // if (json.values[0] < prevQuantity) {
-      //   return false;
-      // }
+      if (json.values[0] < prevQuantity) {
+        volDecreaseCount += 1;
+        if (volDecreaseCount > 3) {
+          return false;
+        }
+      }
+      else {
+        volDecreaseCount = 0;
+      }
       if (json.values[1] > maxFlow) {
         badCount += 1;
       }
@@ -211,7 +220,7 @@ class HomeScreen extends React.Component {
       }
 
       prevQuantity = json.values[0];
-      // await sleep(500);
+      await sleep(200);
     }
 
     await this.progression(goodCount, fullcount);
@@ -257,12 +266,16 @@ async playGame() {
     }
 
     prevQuantity = json.val;
+    // await sleep(200);
+
   }
 
   await this.progression(goodCount, fullcount);
   return true;
 }
   async play10Times() {
+    this.props.navigation.setParams({ 
+      drawerLockMode: 'locked-closed' });
     let roundsPassed = 0;
     this.setState({
       showButton: false, 
@@ -271,16 +284,21 @@ async playGame() {
     })
     while (this.state.round <= this.state.userBPR) {
       await this.resetGame();
-      if(await this.playGameHardware()) {
+      let result = await this.playGame();
+      this.setState({round: this.state.round + 1});
+      if(result) {
         await this.intermission();
-        await AsyncAlert("Success", "Move onto the next breath.");
+        if (this.state.round <= this.state.userBPR) {
+          await AsyncAlert("Success", "Move onto the next breath.");
+        }
         roundsPassed += 1;
         await storeData('@interval_time',Date.now().toString())
       }
       else {
-        await AsyncAlert("Try Again", "Make sure to keep within the good range");
+        if (this.state.round <= this.state.userBPR) {
+          await AsyncAlert("Breath Failed", "Try to meet your Volume goal by inhaling slower and make sure keep an eye on the Flow meter!");
+        }
       }
-      this.setState({round: this.state.round + 1});
       if(this.state.plantprogress >= 200){
         let nextLevel = this.state.plantLevel + 1;
         if (nextLevel >= 4) {
@@ -297,6 +315,8 @@ async playGame() {
         })
       }
     }
+
+    Alert.alert("Round Complete!", "You passed " + roundsPassed + " / " + this.state.userBPR + " breaths!");
     let dateTime = new Date();
     let avgFlow = parseFloat(this.state.sumFlowVals)/parseFloat(this.state.totalCount);
 
@@ -307,9 +327,13 @@ async playGame() {
       maxVolume: 0,
       plantWaterLevel: 0,
       plantSpring: false,
-      buttonCooldown: true
+      buttonCooldown: true,
+      val: 0,
+      quality: 0
     })
     await storeData('@cooldown',Date.now().toString())
+    this.props.navigation.setParams({ 
+      drawerLockMode: 'unlocked' });
     sendLocalNotification();
   }
     render() {

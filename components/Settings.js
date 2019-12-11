@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, View, Text, TextInput } from "react-native";
+import { ScrollView, View, Text, TextInput, Alert } from "react-native";
 import MyHeader from './MyHeader';
 import styles from './styles';
 import { Button } from 'react-native-elements';
@@ -59,11 +59,11 @@ class Settings extends React.Component {
           await storeData('@userRPD', this.state.RPD.toString());
         }
 
-        if (this.state.RPD) {
+        if (this.state.BPR) {
           await storeData('@userBPR', this.state.BPR.toString());
         }
 
-        if (this.state.RPD) {
+        if (this.state.volume) {
           await storeData('@userVolume', this.state.volume.toString());
         }
   
@@ -73,10 +73,10 @@ class Settings extends React.Component {
         volume: "",
         formIsValid: false
         });
-        alert("Your regimen has been updated.");
+        Alert.alert("Success", "Your regimen has been updated.");
       }
       else {
-        alert(status);
+        Alert.alert("Error", status);
       }
     }
 
